@@ -3,7 +3,7 @@ import { db } from '@/lib/db/client';
 import type { AuthenticatedUser } from '@/types/auth';
 import type { CustomerGender } from '@/types/consultation';
 
-const SESSION_EXPIRY_HOURS = parseInt(process.env.SESSION_EXPIRY_HOURS ?? '8', 10);
+const SESSION_EXPIRY_HOURS = parseFloat(process.env.SESSION_EXPIRY_HOURS ?? '8');
 const WS_TOKEN_EXPIRY_MINUTES = 30;
 
 // Read secret lazily at call time (not module load time) so server.ts dotenv loading order doesn't matter
