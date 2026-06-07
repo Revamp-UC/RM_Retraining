@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { PhoneOff, Loader2 } from 'lucide-react';
+import { PhoneOff, Loader2, RefreshCw } from 'lucide-react';
 import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
 } from '@/components/ui/dialog';
@@ -18,10 +18,38 @@ interface EndConsultationButtonProps {
 export function EndConsultationButton({ onConfirm, disabled, isEnding, status }: EndConsultationButtonProps) {
   const [open, setOpen] = useState(false);
   const isConnected = status === 'connected';
+  const isError = status === 'error';
 
   function handleConfirm() {
     setOpen(false);
     onConfirm();
+  }
+
+  // When evaluation failed, show a direct retry button (no dialog needed — session already ended)
+  if (isError) {
+    return (
+      <motion.div whileTap={{ scale: 0.97 }}>
+        <Button
+          variant="outline"
+          size="lg"
+          className="w-full sm:w-auto h-14 px-8 text-base font-bold gap-3 border-indigo-500/40 text-indigo-400 hover:bg-indigo-600/10"
+          onClick={onConfirm}
+          disabled={disabled || isEnding}
+        >
+          {isEnding ? (
+            <>
+              <Loader2 className="h-5 w-5 animate-spin" />
+              Generating Report…
+            </>
+          ) : (
+            <>
+              <RefreshCw className="h-5 w-5" />
+              Retry Report
+            </>
+          )}
+        </Button>
+      </motion.div>
+    );
   }
 
   return (

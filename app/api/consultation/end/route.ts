@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { validateSession } from '@/lib/auth/session';
 import { completeConsultation, getConsultationById } from '@/lib/db/consultations';
-import { saveTranscript } from '@/lib/db/transcripts';
+import { saveTranscript, getTranscriptByConsultationId } from '@/lib/db/transcripts';
 import { evaluateConsultation } from '@/lib/gemini/evaluator';
 import { destroySession, getSession } from '@/lib/gemini/session-store';
 import { endConsultationSchema } from '@/lib/utils/validators';
@@ -41,14 +41,20 @@ export async function POST(req: NextRequest) {
 
   // Grab transcript from memory store
   const session = getSession(consultation_id);
-  const transcript = session?.transcript ?? [];
+  let transcript = session?.transcript ?? [];
   const start_time = session?.start_time ?? new Date();
   const duration_seconds = Math.floor((Date.now() - start_time.getTime()) / 1000);
 
   // Destroy the session (closes Gemini Live connection)
   destroySession(consultation_id);
 
-  // Persist transcript
+  // If session is gone (retry after prior failure), fetch saved transcript from DB
+  if (transcript.length === 0) {
+    const saved = await getTranscriptByConsultationId(consultation_id);
+    transcript = saved?.full_transcript ?? [];
+  }
+
+  // Persist transcript (silently skips on retry if already saved)
   await saveTranscript({
     consultation_id,
     mobile_number: user.mobile_number,
@@ -57,7 +63,7 @@ export async function POST(req: NextRequest) {
     full_transcript: transcript,
   });
 
-  // Run evaluation
+  // Run evaluation (evaluator retries once internally on transient failures)
   let reportCard;
   try {
     reportCard = await evaluateConsultation({

@@ -17,29 +17,40 @@ export async function evaluateConsultation(params: {
   const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
   const prompt = buildEvaluationPrompt(params.transcript, params.customer_name, params.module);
 
-  const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash',   // Confirmed working 2025-06-06
-    contents: [{ role: 'user', parts: [{ text: prompt }] }],
-    config: {
-      responseMimeType: 'application/json',
-      temperature: 0.3,
-    },
-  });
+  let lastError: unknown;
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const response = await ai.models.generateContent({
+        model: 'gemini-2.5-flash',
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        config: {
+          responseMimeType: 'application/json',
+          temperature: 0.3,
+        },
+      });
 
-  const rawText = response.text?.trim() ?? '';
+      const rawText = response.text?.trim() ?? '';
 
-  let parsed: ReportCard;
-  try {
-    // Strip any accidental markdown code fences
-    const cleaned = rawText.replace(/^```json\s*/i, '').replace(/\s*```$/i, '');
-    parsed = JSON.parse(cleaned) as ReportCard;
-  } catch (err) {
-    console.error('[Evaluator] Failed to parse response:', rawText, err);
-    return buildEmptyReport();
+      let parsed: ReportCard;
+      try {
+        const cleaned = rawText.replace(/^```json\s*/i, '').replace(/\s*```$/i, '');
+        parsed = JSON.parse(cleaned) as ReportCard;
+      } catch (err) {
+        console.error('[Evaluator] Failed to parse response:', rawText, err);
+        return buildEmptyReport();
+      }
+
+      return sanitizeReportCard(parsed);
+    } catch (err) {
+      lastError = err;
+      console.error(`[Evaluator] Attempt ${attempt} failed:`, err);
+      if (attempt < 2) {
+        await new Promise((r) => setTimeout(r, 3000));
+      }
+    }
   }
 
-  // Validate and clamp scores
-  return sanitizeReportCard(parsed);
+  throw lastError;
 }
 
 function sanitizeReportCard(card: Partial<ReportCard>): ReportCard {
