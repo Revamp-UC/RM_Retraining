@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { validateSession } from '@/lib/auth/session';
 import { getRMConsultations, getRMName } from '@/lib/db/admin';
 import { TranscriptViewer } from '@/components/admin/TranscriptViewer';
-import { ArrowLeft, Trophy, RotateCcw, Clock, User, ChevronLeft } from 'lucide-react';
+import { ArrowLeft, Trophy, RotateCcw, Clock, User, ChevronLeft, FileBarChart } from 'lucide-react';
 import type { AdminConsultation } from '@/lib/db/admin';
 
 export const dynamic = 'force-dynamic';
@@ -90,6 +90,15 @@ function ConsultationCard({ c, index }: { c: AdminConsultation; index: number })
               Session #{index}
             </span>
             <StatusBadge status={c.status} />
+            {c.status === 'completed' && (
+              <Link
+                href={`/module/${c.module_attempted}/report/${c.id}`}
+                className="flex items-center gap-1 rounded-md border border-indigo-500/30 bg-indigo-600/10 px-2 py-0.5 text-[10px] font-semibold text-indigo-400 hover:bg-indigo-600/20 hover:border-indigo-500/50 transition-colors"
+              >
+                <FileBarChart className="h-3 w-3" />
+                Report
+              </Link>
+            )}
           </div>
           <div className="flex flex-wrap items-center gap-3 text-xs text-[#60607a] mt-1">
             <span className="flex items-center gap-1">
