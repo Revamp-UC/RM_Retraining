@@ -1,0 +1,135 @@
+'use client';
+
+import { useState, useRef, useCallback, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useConsultationSocket } from './useConsultationSocket';
+import { useAudioCapture } from './useAudioCapture';
+import { useAudioPlayback } from './useAudioPlayback';
+import type { ConnectionStatus } from '@/types/gemini';
+
+interface UseConsultationStateOptions {
+  consultationId: string;
+  wsToken: string;
+  moduleId: string;
+}
+
+export function useConsultationState({
+  consultationId,
+  wsToken,
+  moduleId,
+}: UseConsultationStateOptions) {
+  const router = useRouter();
+  const [status, setStatus] = useState<ConnectionStatus>('idle');
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isEnding, setIsEnding] = useState(false);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const startedRef = useRef(false);
+
+  const { initialize, playBinaryChunk, stop: stopPlayback } = useAudioPlayback();
+
+  const { connect, sendAudio, sendEndSignal, disconnect } = useConsultationSocket({
+    consultationId,
+    wsToken,
+    onStatusChange: (s) => {
+      setStatus(s);
+      if (s === 'connected' && !startedRef.current) {
+        startedRef.current = true;
+        startTimer();
+      }
+    },
+    onAudioReceived: (data) => {
+      initialize(); // Ensure AudioContext is resumed after user gesture
+      playBinaryChunk(data);
+    },
+    onEvaluationComplete: () => {
+      // This path is not used — evaluation happens via HTTP after sendEnd
+    },
+    onError: (msg) => setErrorMessage(msg),
+  });
+
+  const { start: startMic, stop: stopMic, isCapturing, error: micError } = useAudioCapture({
+    sampleRate: 16000,
+    onAudioChunk: sendAudio,
+  });
+
+  function startTimer() {
+    timerRef.current = setInterval(() => {
+      setElapsedSeconds((s) => s + 1);
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  }
+
+  // Auto-start: connect → wait for session_ready → start mic
+  const startSession = useCallback(async () => {
+    initialize();  // Must be called on user gesture
+    connect();
+  }, [connect, initialize]);
+
+  // When connected, auto-start mic
+  useEffect(() => {
+    if (status === 'connected' && !isCapturing) {
+      startMic();
+    }
+  }, [status, isCapturing, startMic]);
+
+  const endConsultation = useCallback(async () => {
+    if (isEnding) return;
+    setIsEnding(true);
+    setStatus('ending');
+
+    stopTimer();
+    stopMic();
+    sendEndSignal();
+    disconnect();
+    stopPlayback();
+
+    try {
+      const res = await fetch('/api/consultation/end', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ consultation_id: consultationId }),
+      });
+      const data = await res.json() as { success?: boolean; error?: string };
+
+      if (data.success) {
+        router.push(`/module/${moduleId}/report/${consultationId}`);
+      } else {
+        setErrorMessage(data.error ?? 'Failed to generate report');
+        setIsEnding(false);
+        setStatus('error');
+      }
+    } catch {
+      setErrorMessage('Network error. Please try again.');
+      setIsEnding(false);
+      setStatus('error');
+    }
+  }, [isEnding, stopMic, sendEndSignal, disconnect, stopPlayback, consultationId, moduleId, router]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      stopTimer();
+      stopMic();
+      disconnect();
+      stopPlayback();
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return {
+    status,
+    errorMessage: errorMessage ?? micError,
+    isEnding,
+    isCapturing,
+    elapsedSeconds,
+    startSession,
+    endConsultation,
+  };
+}
