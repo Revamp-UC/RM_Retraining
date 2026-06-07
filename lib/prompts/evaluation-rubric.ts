@@ -27,10 +27,10 @@ ${formattedTranscript}
 Award points based on:
 - Did RM greet warmly and introduce themselves by name? (3 pts)
 - Did RM mention Urban Company clearly? (2 pts)
-- Did RM ask for the customer's name or use it? (2 pts)
-- Did RM build comfort before diving into the product? (4 pts)
-- Did the RM's tone feel natural, warm, and respectful? (4 pts)
+- Did RM build comfort before diving into the product? (5 pts)
+- Did the RM's tone feel natural, warm, and respectful? (5 pts)
 Deduct if: RM was robotic, skipped intro, or immediately went into selling.
+NOTE: Do NOT deduct points if the RM used "sir/ma'am" instead of the customer's name — name usage is not a scored criterion. It is a coaching tip only (see below).
 
 ### Category 2: Technical Knowledge (Max: 5 points)
 Award points based on:
@@ -102,5 +102,8 @@ Return a JSON object matching this exact schema. Do not include markdown, just t
   "performance_tier": "<Excellent|Good|Average|Needs Improvement>"
 }
 
-IMPORTANT: overall_score must equal the sum of all four section scores. Be specific — reference actual things said or not said in the transcript.`;
+IMPORTANT: overall_score must equal the sum of all four section scores. Be specific — reference actual things said or not said in the transcript.
+
+MANDATORY COACHING TIP — always include this naturally within the coaching_feedback paragraph, regardless of the RM's score:
+Using the customer's name during the conversation (e.g., "Rahul ji" instead of "sir") creates stronger personal rapport and makes the customer feel more valued. However, for senior citizens or clearly older customers, "sir" or "ma'am" is still the most respectful choice and may work better on ground. The RM should read the situation — name + "ji" works best for peer-age or younger customers.`;
 }

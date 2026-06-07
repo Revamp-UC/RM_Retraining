@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Mail, X, Copy, Check } from 'lucide-react';
 
-const SUPPORT_EMAIL = 'vaibhavmishra.int@urbancompany.com';
+const SUPPORT_EMAIL = 'walldecorbusinessteam@gmail.com';
 
 export function HelpButton() {
   const [open, setOpen] = useState(false);

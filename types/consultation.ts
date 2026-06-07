@@ -47,6 +47,7 @@ export interface ModuleStats {
   last_score: number | null;
   last_attempt_date: string | null;
   best_score: number | null;
+  avg_score: number | null;
 }
 
 export interface ReportCard {

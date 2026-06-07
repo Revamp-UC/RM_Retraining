@@ -9,12 +9,14 @@ interface StatsStripProps {
 
 export function StatsStrip({ name, stats }: StatsStripProps) {
   const totalAttempts = Object.values(stats).reduce((sum, s) => sum + s.attempt_count, 0);
-  const allScores = Object.values(stats).flatMap((s) =>
-    s.last_score !== null ? [s.last_score] : [],
-  );
-  const bestScore = allScores.length > 0 ? Math.max(...allScores) : null;
-  const avgScore =
-    allScores.length > 0 ? allScores.reduce((a, b) => a + b, 0) / allScores.length : null;
+  const bestScore = Object.values(stats).reduce((best, s) => {
+    if (s.best_score === null) return best;
+    return best === null ? s.best_score : Math.max(best, s.best_score);
+  }, null as number | null);
+  const avgScore = Object.values(stats).reduce((avg, s) => {
+    if (s.avg_score === null) return avg;
+    return avg === null ? s.avg_score : Math.round(((avg + s.avg_score) / 2) * 10) / 10;
+  }, null as number | null);
 
   return (
     <div className="grid grid-cols-3 gap-3 mb-8">

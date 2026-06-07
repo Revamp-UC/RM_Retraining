@@ -165,18 +165,20 @@ export async function getModuleStats(mobile_number: string, module_attempted: st
       .order('created_at', { ascending: false });
 
     if (error || !data || data.length === 0) {
-      return { attempt_count: 0, last_score: null, last_attempt_date: null, best_score: null };
+      return { attempt_count: 0, last_score: null, last_attempt_date: null, best_score: null, avg_score: null };
     }
 
     const scores = data.map((r: { overall_score: number | null }) => r.overall_score).filter((s): s is number => s !== null);
+    const avg = scores.length > 0 ? Math.round((scores.reduce((a, b) => a + b, 0) / scores.length) * 10) / 10 : null;
 
     return {
       attempt_count: data.length,
       last_score: scores[0] ?? null,
       last_attempt_date: data[0]?.attempt_date ?? null,
       best_score: scores.length > 0 ? Math.max(...scores) : null,
+      avg_score: avg,
     };
   } catch {
-    return { attempt_count: 0, last_score: null, last_attempt_date: null, best_score: null };
+    return { attempt_count: 0, last_score: null, last_attempt_date: null, best_score: null, avg_score: null };
   }
 }
