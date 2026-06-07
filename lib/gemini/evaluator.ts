@@ -26,6 +26,7 @@ export async function evaluateConsultation(params: {
         config: {
           responseMimeType: 'application/json',
           temperature: 0.3,
+          thinkingConfig: { thinkingBudget: 0 },
         },
       });
 
