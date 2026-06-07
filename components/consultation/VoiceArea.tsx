@@ -1,11 +1,22 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { User, Clock } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { User, Clock, Sparkles } from 'lucide-react';
 import { ConnectionIndicator } from './ConnectionIndicator';
 import { MicVisualizer } from './MicVisualizer';
 import { EndConsultationButton } from './EndConsultationButton';
 import type { ConnectionStatus } from '@/types/gemini';
+
+const WALL_INSIGHTS = [
+  "Transform your wall, transform your room.",
+  "Luxury begins with the wall you look at every day.",
+  "A beautiful wall creates a beautiful space.",
+  "Give your home a designer touch — without major renovation.",
+  "From plain walls to statement walls.",
+  "Every great room starts with one great wall.",
+  "The wall you choose reflects the home you envision.",
+];
 
 interface VoiceAreaProps {
   customerName: string;
@@ -35,6 +46,15 @@ export function VoiceArea({
   errorMessage,
 }: VoiceAreaProps) {
   const isIdle = status === 'idle';
+  const [quoteIndex, setQuoteIndex] = useState(0);
+
+  useEffect(() => {
+    if (!isEnding) return;
+    const interval = setInterval(() => {
+      setQuoteIndex((i) => (i + 1) % WALL_INSIGHTS.length);
+    }, 1800);
+    return () => clearInterval(interval);
+  }, [isEnding]);
 
   return (
     <div className="flex flex-col h-full min-h-[400px] lg:min-h-0">
@@ -81,9 +101,58 @@ export function VoiceArea({
         </motion.div>
       )}
 
-      {/* Main voice visualizer area */}
+      {/* Main area */}
       <div className="flex-1 flex flex-col items-center justify-center py-8">
-        {isIdle ? (
+        {isEnding ? (
+
+          /* ── Report generating: rotating wall insights ── */
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.35 }}
+            className="flex flex-col items-center w-full"
+          >
+            <div className="mb-4 w-11 h-11 rounded-full bg-indigo-600/15 border border-indigo-500/25 flex items-center justify-center shadow-lg shadow-indigo-900/20">
+              <Sparkles className="h-5 w-5 text-indigo-400" />
+            </div>
+
+            <p className="text-[10px] font-bold text-indigo-400/60 uppercase tracking-[0.18em] mb-5">
+              Wall Design Insight
+            </p>
+
+            <div className="min-h-[72px] flex items-center justify-center px-2">
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={quoteIndex}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.35 }}
+                  className="text-center text-[#e8e8f0] text-[15px] font-semibold leading-relaxed max-w-[260px]"
+                >
+                  &ldquo;{WALL_INSIGHTS[quoteIndex]}&rdquo;
+                </motion.p>
+              </AnimatePresence>
+            </div>
+
+            <div className="flex items-center gap-1.5 mt-5">
+              {WALL_INSIGHTS.map((_, i) => (
+                <motion.span
+                  key={i}
+                  animate={{
+                    width: i === quoteIndex ? 16 : 4,
+                    backgroundColor: i === quoteIndex ? '#818cf8' : '#2a2a38',
+                  }}
+                  transition={{ duration: 0.3 }}
+                  className="h-1 rounded-full block"
+                />
+              ))}
+            </div>
+          </motion.div>
+
+        ) : isIdle ? (
+
+          /* ── Idle: start prompt ── */
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -104,8 +173,12 @@ export function VoiceArea({
             </button>
             <p className="text-xs text-[#60607a] mt-2">Allow microphone access when prompted</p>
           </motion.div>
+
         ) : (
+
+          /* ── Active session: mic visualizer ── */
           <MicVisualizer isActive={isCapturing} status={status} />
+
         )}
       </div>
 
