@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
   }
 
   const token = await createSession(mobile_number, result.user.name);
-  const expiryHours = parseInt(process.env.SESSION_EXPIRY_HOURS ?? '8', 10);
+  const expiryHours = parseFloat(process.env.SESSION_EXPIRY_HOURS ?? '8');
 
   const response = NextResponse.json({ success: true, user: { mobile_number, name: result.user.name } });
   response.cookies.set('rm_session', token, {
