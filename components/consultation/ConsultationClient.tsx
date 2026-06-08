@@ -9,6 +9,7 @@ interface ConsultationClientProps {
   consultationId: string;
   wsToken: string;
   customerName: string;
+  customerGender: 'male' | 'female';
   moduleId: string;
 }
 
@@ -16,6 +17,7 @@ export function ConsultationClient({
   consultationId,
   wsToken,
   customerName,
+  customerGender,
   moduleId,
 }: ConsultationClientProps) {
   const {
@@ -51,6 +53,7 @@ export function ConsultationClient({
         <div className="rounded-xl border border-[#2a2a38] bg-[#13131a] p-5 lg:p-6 flex-1">
           <VoiceArea
             customerName={customerName}
+            customerGender={customerGender}
             status={status}
             isCapturing={isCapturing}
             isEnding={isEnding}

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Clock, Sparkles } from 'lucide-react';
+import { User, Clock, Sparkles, Home } from 'lucide-react';
 import { ConnectionIndicator } from './ConnectionIndicator';
 import { MicVisualizer } from './MicVisualizer';
 import { EndConsultationButton } from './EndConsultationButton';
@@ -20,6 +20,7 @@ const WALL_INSIGHTS = [
 
 interface VoiceAreaProps {
   customerName: string;
+  customerGender: 'male' | 'female';
   status: ConnectionStatus;
   isCapturing: boolean;
   isEnding: boolean;
@@ -37,6 +38,7 @@ function formatTime(seconds: number): string {
 
 export function VoiceArea({
   customerName,
+  customerGender,
   status,
   isCapturing,
   isEnding,
@@ -83,6 +85,21 @@ export function VoiceArea({
             <span className="text-sm font-mono font-medium text-[#f1f1f5]">{formatTime(elapsedSeconds)}</span>
           </motion.div>
         )}
+      </div>
+
+      {/* Customer overview */}
+      <div className="mb-4 rounded-lg border border-indigo-500/25 bg-indigo-500/[0.06] px-3.5 py-2.5">
+        <p className="text-[9px] font-bold text-indigo-400/60 uppercase tracking-[0.16em] mb-2">Customer Profile</p>
+        <div className="flex items-center gap-2 mb-1.5">
+          <User className="h-3 w-3 text-indigo-400 shrink-0" />
+          <span className="text-xs text-[#c8c8e0] font-medium">
+            35 yr old {customerGender === 'female' ? 'Woman' : 'Man'}
+          </span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Home className="h-3 w-3 text-indigo-400 shrink-0" />
+          <span className="text-xs text-[#c8c8e0] font-medium">1 BHK · Owned Flat · Gated Society</span>
+        </div>
       </div>
 
       {/* Connection status */}

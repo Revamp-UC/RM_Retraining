@@ -77,6 +77,7 @@ export default async function ConsultationPage({ params }: ConsultationPageProps
           consultationId={consultation.id}
           wsToken={wsToken}
           customerName={customerName}
+          customerGender={customerGender}
           moduleId={moduleId}
         />
       </main>
