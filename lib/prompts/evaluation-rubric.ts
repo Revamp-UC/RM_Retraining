@@ -29,8 +29,9 @@ Only deduct marks when the RM fails a core module objective. Specifically:
 - The RM quotes only a single price with no alternatives and ignores pushback
 - The RM gives factually wrong information on something the customer explicitly asked about
 - The RM ignores repeated, explicit customer signals (confusion, concern, price pushback) and keeps pushing
-- The RM skips the Project Manager introduction entirely
-- The RM immediately jumps into selling without any attempt to build comfort
+- The RM skips introduction entirely and jumps straight into selling
+- The RM never asks for or uses the customer's name at any point in the entire consultation
+- The RM misses multiple introduction sub-criteria (formal intro, agenda setting, ownership, etc.)
 
 ### When NOT to deduct marks
 Do NOT deduct for:
@@ -38,7 +39,7 @@ Do NOT deduct for:
 - The RM prioritising budget discovery before showing designs — this is the correct behaviour for this module; Budget Discovery is the primary objective
 - The customer asking to see designs before discussing budget — the RM is right to anchor the budget conversation first; this is not a scoring fault
 - Steps where the RM's approach differed from the ideal but still achieved the core objective
-- Building rapport briefly vs at length — any genuine warmth counts, not a checklist of rapport steps
+- Exact wording — if the RM communicates the same intent in their own natural style, award the marks
 
 ### The missed_opportunities field — strict rule
 The "missed_opportunities" array in each section must ONLY contain observations that directly caused a point deduction. If you noticed something the RM could have done better but chose not to deduct for it, do NOT put it in missed_opportunities. Those go in "feedback" instead.
@@ -48,14 +49,45 @@ Every coaching suggestion in "feedback" must include a concrete example — not 
 
 ## SCORING RUBRIC
 
-### Category 1: Introduction & Rapport (Max: 15 points)
-Award points based on:
-- Did RM introduce themselves as the Project Manager? (5 pts) — this is a key trust and ownership signal. Deduct significantly if the RM introduced themselves only by name or not at all, without positioning themselves as the Project Manager. Introducing as Project Manager builds customer confidence that this person is accountable and in charge of the entire project.
-- Did RM build comfort before diving into the product? (5 pts)
-- Did the RM's tone feel natural, warm, and respectful? (5 pts)
-Deduct if: RM was robotic, skipped intro, or immediately went into selling.
-NOTE: Do NOT deduct points if the RM used "sir/ma'am" instead of the customer's name — name usage is not a scored criterion, it is a coaching tip only (see below).
-NOTE: Do NOT deduct points if the RM did not explicitly mention Urban Company — the customer already knows the RM is from Urban Company since the visit was booked through the platform. Mentioning Urban Company is good practice and can be noted as a coaching tip, but it does not affect the score.
+### Category 1: Introduction & Agenda Setting (Max: 15 points)
+
+IMPORTANT: Do NOT check for exact wording. Award marks if the RM communicates the same intent naturally in their own style. The goal is to evaluate whether the RM successfully built trust, ownership, and clarity — not whether they followed a script.
+
+#### Formal Introduction — 2 points
+Did the RM introduce themselves by name and mention Urban Company or Revamp by Urban Company?
+Any professional self-introduction that clearly establishes who they are and which company they represent earns these marks.
+
+#### Customer Name & Personalization — 2 points
+- 1 pt: Did the RM ask for the customer's name at any point?
+- 1 pt: Did the RM address the customer by name during the conversation? Using "ji" after the name (e.g. "Rahul ji") is preferred as it creates warmth and respect.
+Deduct both points only if the RM relied exclusively on "sir/ma'am" throughout the entire consultation without ever asking for or using the customer's name. Using "sir/ma'am" occasionally alongside the name is acceptable.
+
+#### Expert Positioning — 1 point
+Did the RM position themselves as a wall design expert, specialist, or naturally communicate that they have relevant expertise in this area?
+When customers hear words like "expert" or "specialist," it builds credibility and confidence. Any natural communication of this intent earns the mark — exact words are not required.
+
+#### Project Ownership — 2 points
+Did the RM communicate that they will personally manage the project from start to finish and take full ownership of the customer's experience?
+The customer should clearly feel that the RM is accountable for the entire journey, not just the visit. Wording can vary freely — award if the intent is clearly communicated.
+
+#### Single Point of Contact — 1 point
+Did the RM communicate that the customer can reach them directly for any queries, and that they will coordinate everything needed for the project?
+The customer should feel supported and know exactly who to contact. Any natural expression of this intent earns the mark.
+
+#### Agenda Setting — 5 points (1 point each)
+Did the RM give the customer a clear sense of what will happen during the consultation? Award 1 point for each of the following if clearly communicated:
+- Understanding requirements (1 pt): RM mentions they will first understand what the customer needs for the wall.
+- Understanding preferences (1 pt): RM mentions they will explore the customer's style, likes, dislikes, or design expectations.
+- Design discussion (1 pt): RM mentions they will suggest or present suitable design options.
+- Samples & visualization (1 pt): RM mentions they will show samples, designs, or visualizations to help the customer imagine the final result.
+- Next steps / closure setting (1 pt): RM sets expectations about what happens after the discussion — e.g. if everything aligns, the project can move forward.
+Exact sequence and wording are not required. Award if the intent is naturally communicated.
+
+#### Communication Quality — 2 points
+- Natural flow (1 pt): The introduction feels comfortable and conversational, not robotic or heavily scripted.
+- Confidence (1 pt): The RM sounds confident, professional, and in control of the consultation.
+
+Deduct only if: The RM skipped the introduction entirely and went straight into selling OR relied exclusively on "sir/ma'am" throughout without ever using the customer's name.
 
 ### Category 2: Technical Knowledge (Max: 5 points)
 Award points based on:
@@ -94,43 +126,44 @@ Return a JSON object matching this exact schema. Do not include markdown, just t
       "score": <number 0-15>,
       "max_score": 15,
       "label": "<Excellent|Good|Average|Poor>",
-      "strengths": ["<specific strength from transcript>"],
-      "missed_opportunities": ["<ONLY include if this observation directly caused a point deduction — leave array empty if no points were deducted>"],
-      "feedback": "<2-3 sentences: coaching suggestions for this section, each with a concrete example of better phrasing or approach. Non-critical tips that did not affect the score go here, not in missed_opportunities.>"
+      "strengths": ["Write in simple English. For each strength: describe what the RM did well, explain WHY it was effective, and how it helped build customer trust or improve the customer experience. Do not just list completed points — explain the impact so the RM feels genuinely recognized."],
+      "missed_opportunities": ["ONLY include items where marks were actually deducted. For each deduction: state clearly what was missed, why marks were deducted, and what impact this missed behavior could have on the customer's trust or experience. Leave as empty array [] if no points were deducted."],
+      "feedback": "This is the most important part — 'How It Could Have Been Done Better'. For each missed point: explain WHY that behavior matters (what trust or confidence it builds, what business objective it serves). Then give a simple, natural example of how the RM could have covered it in their own words. Write in plain English that any RM can read once and immediately know what to do differently next time. Do not write generic advice — every suggestion must include a concrete example."
     },
     "technical": {
       "score": <number 0-5>,
       "max_score": 5,
       "label": "<Excellent|Good|Average|Poor>",
-      "strengths": ["<specific strength>"],
-      "missed_opportunities": ["<ONLY include if this observation directly caused a point deduction — leave array empty if no points were deducted>"],
-      "feedback": "<2-3 sentences: coaching suggestions with concrete examples. Non-critical omissions (e.g. not proactively mentioning timeline when customer didn't ask) go here as improvement tips, not in missed_opportunities.>"
+      "strengths": ["Describe what the RM did well technically, why it was correct or effective, and how it helped the customer understand the product or feel reassured."],
+      "missed_opportunities": ["ONLY include if marks were deducted. State what was missed, why marks were deducted, and what impact it had. Leave as empty array [] if no points were deducted."],
+      "feedback": "For any missed points: explain why the knowledge matters, and give a simple example of how the RM could have explained it correctly. For non-critical omissions (things the customer did not ask about), mention briefly as an improvement tip with an example — do not treat as a scored miss."
     },
     "budget_discovery": {
       "score": <number 0-20>,
       "max_score": 20,
       "label": "<Excellent|Good|Average|Poor>",
-      "strengths": ["<specific strength>"],
-      "missed_opportunities": ["<ONLY include if this observation directly caused a point deduction — leave array empty if no points were deducted>"],
-      "feedback": "<2-3 sentences: coaching suggestions with concrete examples. Remember: RM prioritising budget before designs is correct behaviour, not a mistake.>"
+      "strengths": ["Describe what the RM did well in budget discovery, why the approach was effective, and how it helped move the conversation forward."],
+      "missed_opportunities": ["ONLY include if marks were deducted. State what was missed and why. Leave as empty array [] if no points were deducted. Remember: RM prioritising budget before designs is correct behaviour — do not list it as a miss."],
+      "feedback": "For any missed points: explain why budget discovery matters, and give a simple example of how the RM could have handled it better. Be specific and concrete."
     },
     "discovery_confidence": {
       "score": <number 0-10>,
       "max_score": 10,
       "label": "<Excellent|Good|Average|Poor>",
-      "strengths": ["<specific strength>"],
-      "missed_opportunities": ["<ONLY include if this observation directly caused a point deduction — leave array empty if no points were deducted>"],
-      "feedback": "<2-3 sentences: coaching suggestions with concrete examples.>"
+      "strengths": ["Describe what the RM did well in discovery and confidence, and how it benefited the consultation."],
+      "missed_opportunities": ["ONLY include if marks were deducted. Leave as empty array [] if no points were deducted."],
+      "feedback": "For any missed points: explain why the behavior matters and give a concrete example of how to do it better."
     }
   },
-  "critical_mistakes": ["<only genuine core-objective failures — max 3. Do not include minor omissions or proactive enhancement opportunities here>"],
-  "coaching_feedback": "<3-5 sentence overall coaching paragraph>",
+  "critical_mistakes": ["Only include genuine core-objective failures — max 3. These are behaviors that significantly hurt the customer experience or directly undermined the consultation's primary objective. Do not include minor omissions or non-critical missed steps here."],
+  "coaching_feedback": "<3-5 sentence overall coaching paragraph in simple English. Start with genuine appreciation for what went well. Then clearly state the one or two most important areas to work on. End with an encouraging, specific action the RM can take in their very next consultation.>",
   "performance_tier": "<Excellent|Good|Average|Needs Improvement>"
 }
 
 IMPORTANT: overall_score must equal the sum of all four section scores. Be specific — reference actual things said or not said in the transcript.
 
-MANDATORY COACHING TIPS — always include these naturally within the coaching_feedback paragraph, regardless of the RM's score:
-1. Using the customer's name during the conversation (e.g., "Rahul ji" instead of "sir") creates stronger personal rapport and makes the customer feel more valued. However, for senior citizens or clearly older customers, "sir" or "ma'am" is still the most respectful choice and may work better on ground. The RM should read the situation — name + "ji" works best for peer-age or younger customers.
-2. Even though the customer already knows the RM is from Urban Company (the visit was booked through the platform), mentioning Urban Company during the introduction adds an extra layer of trust and brand credibility in a face-to-face interaction. This is a good habit to build.`;
+IMPORTANT REMINDERS FOR WRITING THE REPORT:
+- Write everything in simple, easy-to-understand English. The RM reading this report should immediately understand what they did well, what they missed, and exactly how to improve — without needing to ask anyone for clarification.
+- The "feedback" field in each section is the most valuable part of the report. Do not write vague statements. Every coaching suggestion must include a concrete, natural example of what the RM could have said or done differently.
+- The overall goal of this report is learning and improvement, not just scoring. An RM should read this report and feel motivated and clear about their next steps — not confused or discouraged.`;
 }
