@@ -29,14 +29,14 @@ export function ConsultationClient({
   } = useConsultationState({ consultationId, wsToken, moduleId });
 
   return (
-    <div className="flex flex-col lg:flex-row h-full gap-4 lg:gap-6 p-4 lg:p-6">
+    <div className="flex flex-col lg:flex-row lg:h-full gap-4 lg:gap-6 p-4 lg:p-6">
 
       {/* Wall panel — container appears quickly, internal elements animate at 1s via WallDisplay */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3, delay: 0.05, ease: 'easeOut' }}
-        className="w-full lg:w-1/2 h-[42vh] lg:h-full"
+        className="w-full lg:w-1/2 h-[38vh] lg:h-full shrink-0"
       >
         <WallDisplay className="h-full" />
       </motion.div>

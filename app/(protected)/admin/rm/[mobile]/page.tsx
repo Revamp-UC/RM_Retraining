@@ -77,6 +77,14 @@ function SubScoreRow({ label, score, max }: { label: string; score: number | nul
   );
 }
 
+const MODULE_ID_MAP: Record<string, string> = {
+  module_1_seepage: 'module_1',
+};
+
+function toModuleId(moduleAttempted: string): string {
+  return MODULE_ID_MAP[moduleAttempted] ?? moduleAttempted;
+}
+
 function ConsultationCard({ c, index }: { c: AdminConsultation; index: number }) {
   const gender = c.customer_gender === 'female' ? 'F' : 'M';
 
@@ -92,7 +100,7 @@ function ConsultationCard({ c, index }: { c: AdminConsultation; index: number })
             <StatusBadge status={c.status} />
             {c.status === 'completed' && (
               <Link
-                href={`/module/${c.module_attempted}/report/${c.id}`}
+                href={`/module/${toModuleId(c.module_attempted)}/report/${c.id}`}
                 className="flex items-center gap-1 rounded-md border border-indigo-500/30 bg-indigo-600/10 px-2 py-0.5 text-[10px] font-semibold text-indigo-400 hover:bg-indigo-600/20 hover:border-indigo-500/50 transition-colors"
               >
                 <FileBarChart className="h-3 w-3" />

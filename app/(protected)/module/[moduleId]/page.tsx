@@ -71,8 +71,8 @@ export default async function ConsultationPage({ params }: ConsultationPageProps
         </div>
       </header>
 
-      {/* Main content — fills remaining height */}
-      <main className="flex-1 overflow-hidden">
+      {/* Main content — scrollable on mobile, fixed on desktop */}
+      <main className="flex-1 overflow-y-auto lg:overflow-hidden">
         <ConsultationClient
           consultationId={consultation.id}
           wsToken={wsToken}
