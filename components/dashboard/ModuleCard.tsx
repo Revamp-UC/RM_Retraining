@@ -9,7 +9,7 @@ import type { ModuleStats } from '@/types/consultation';
 interface ModuleCardProps {
   id: string;
   number: number;
-  name: string;
+  name?: string;
   task?: string;
   isActive: boolean;
   stats?: ModuleStats;
@@ -90,7 +90,7 @@ export function ModuleCard({ id, number, task, isActive, stats, index }: ModuleC
               <div className="flex items-center gap-1.5">
                 <Trophy className="h-3.5 w-3.5 text-amber-400" />
                 <span className="text-xs text-[#9090a8]">
-                  Last: <span className="text-amber-400 font-semibold">{formatScore(stats.last_score)}/50</span>
+                  Last: <span className="text-amber-400 font-semibold">{formatScore(stats.last_score)}</span>
                 </span>
               </div>
             )}

@@ -14,10 +14,8 @@ const MODULES = [
   {
     id: 'module_1',
     number: 1,
-    name: 'Seepage Wall Consultation',
     task: 'Know the budget of your customer',
     isActive: true,
-    moduleKey: 'module_1_seepage',
   },
   { id: 'module_2', number: 2, name: 'Lighting Solutions', isActive: false },
   { id: 'module_3', number: 3, name: 'Ceiling Design', isActive: false },
@@ -34,8 +32,25 @@ export default async function DashboardPage() {
   const user = await validateSession(token);
   if (!user) redirect('/login');
 
-  const module1Stats = await getModuleStats(user.mobile_number, 'module_1_seepage');
-  const statsMap = { module_1_seepage: module1Stats };
+  const task1Stats = await getModuleStats(user.mobile_number, 'module_1_seepage');
+  const task2Stats = await getModuleStats(user.mobile_number, 'module_1_task2');
+
+  // Full map — StatsStrip aggregates over all values, so all tasks must be included
+  const statsMap = { module_1_seepage: task1Stats, module_1_task2: task2Stats };
+
+  // Combined per-module for the module card (attempt count across all tasks)
+  const task2BestScores = [task1Stats.best_score, task2Stats.best_score].filter((s): s is number => s !== null);
+  const moduleCardStatsMap: Record<string, typeof task1Stats> = {
+    module_1: {
+      attempt_count: task1Stats.attempt_count + task2Stats.attempt_count,
+      last_score: task1Stats.last_score ?? task2Stats.last_score,
+      last_attempt_date: [task1Stats.last_attempt_date, task2Stats.last_attempt_date]
+        .filter((d): d is string => d !== null)
+        .sort().at(-1) ?? null,
+      best_score: task2BestScores.length > 0 ? Math.max(...task2BestScores) : null,
+      avg_score: null,
+    },
+  };
 
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
@@ -84,7 +99,7 @@ export default async function DashboardPage() {
               name={mod.name}
               task={'task' in mod ? mod.task : undefined}
               isActive={mod.isActive}
-              stats={mod.isActive ? (statsMap as Record<string, typeof module1Stats>)[(mod as { moduleKey?: string }).moduleKey ?? ''] : undefined}
+              stats={mod.isActive ? moduleCardStatsMap[mod.id] : undefined}
               index={index}
             />
           ))}

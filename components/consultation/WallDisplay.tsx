@@ -24,7 +24,7 @@ export function WallDisplay({ className = '' }: WallDisplayProps) {
         onClick={() => setExpanded(true)}
       >
         <Image
-          src="/images/module-1-wall.png"
+          src="/images/module1-task1-wall.png"
           alt="Wall — Task 1 Module 1"
           fill
           className="object-cover"
@@ -109,7 +109,7 @@ export function WallDisplay({ className = '' }: WallDisplayProps) {
             {/* Image */}
             <div className="relative flex-1 min-h-0">
               <Image
-                src="/images/module-1-wall.png"
+                src="/images/module1-task1-wall.png"
                 alt="Wall — Task 1 Module 1"
                 fill
                 className="object-contain"

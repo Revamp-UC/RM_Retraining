@@ -57,6 +57,7 @@ export interface ReportCard {
     technical: SectionResult;
     budget_discovery: SectionResult;
     discovery_confidence: SectionResult;
+    market_comparison?: SectionResult; // Task 2+
   };
   critical_mistakes: string[];
   coaching_feedback: string;

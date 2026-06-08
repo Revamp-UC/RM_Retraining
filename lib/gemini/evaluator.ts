@@ -1,5 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
-import { getEvaluationPrompt } from '@/lib/prompts/registry';
+import { getEvaluationPrompt, sanitizeReportCard } from '@/lib/prompts/registry';
 import type { TranscriptEntry } from '@/types/transcript';
 import type { ReportCard } from '@/types/consultation';
 
@@ -41,7 +41,7 @@ export async function evaluateConsultation(params: {
         return buildEmptyReport();
       }
 
-      return sanitizeReportCard(parsed);
+      return sanitizeReportCard(params.module, parsed);
     } catch (err) {
       lastError = err;
       console.error(`[Evaluator] Attempt ${attempt} failed:`, err);
@@ -54,74 +54,13 @@ export async function evaluateConsultation(params: {
   throw lastError;
 }
 
-function sanitizeReportCard(card: Partial<ReportCard>): ReportCard {
-  const clamp = (v: unknown, max: number): number => {
-    const n = typeof v === 'number' ? v : 0;
-    return Math.min(Math.max(0, Math.round(n * 10) / 10), max);
-  };
-
-  const intro_score = clamp(card.sections?.introduction?.score, 15);
-  const tech_score = clamp(card.sections?.technical?.score, 5);
-  const budget_score = clamp(card.sections?.budget_discovery?.score, 15);
-  const discovery_score = clamp(card.sections?.discovery_confidence?.score, 10);
-  const overall = intro_score + tech_score + budget_score + discovery_score;
-
-  const tier = (() => {
-    if (overall >= 42) return 'Excellent' as const;
-    if (overall >= 32) return 'Good' as const;
-    if (overall >= 20) return 'Average' as const;
-    return 'Needs Improvement' as const;
-  })();
-
-  return {
-    overall_score: overall,
-    sections: {
-      introduction: {
-        score: intro_score,
-        max_score: 15,
-        label: card.sections?.introduction?.label ?? 'Average',
-        strengths: card.sections?.introduction?.strengths ?? [],
-        missed_opportunities: card.sections?.introduction?.missed_opportunities ?? [],
-        feedback: card.sections?.introduction?.feedback ?? '',
-      },
-      technical: {
-        score: tech_score,
-        max_score: 5,
-        label: card.sections?.technical?.label ?? 'Average',
-        strengths: card.sections?.technical?.strengths ?? [],
-        missed_opportunities: card.sections?.technical?.missed_opportunities ?? [],
-        feedback: card.sections?.technical?.feedback ?? '',
-      },
-      budget_discovery: {
-        score: budget_score,
-        max_score: 15,
-        label: card.sections?.budget_discovery?.label ?? 'Average',
-        strengths: card.sections?.budget_discovery?.strengths ?? [],
-        missed_opportunities: card.sections?.budget_discovery?.missed_opportunities ?? [],
-        feedback: card.sections?.budget_discovery?.feedback ?? '',
-      },
-      discovery_confidence: {
-        score: discovery_score,
-        max_score: 10,
-        label: card.sections?.discovery_confidence?.label ?? 'Average',
-        strengths: card.sections?.discovery_confidence?.strengths ?? [],
-        missed_opportunities: card.sections?.discovery_confidence?.missed_opportunities ?? [],
-        feedback: card.sections?.discovery_confidence?.feedback ?? '',
-      },
-    },
-    critical_mistakes: card.critical_mistakes ?? [],
-    coaching_feedback: card.coaching_feedback ?? 'No coaching feedback generated.',
-    performance_tier: tier,
-  };
-}
-
 function buildEmptyReport(): ReportCard {
   return {
     overall_score: 0,
     sections: {
-      introduction: { score: 0, max_score: 15, label: 'Poor', strengths: [], missed_opportunities: ['No consultation recorded'], feedback: 'No consultation data available for evaluation.' },
-      technical: { score: 0, max_score: 5, label: 'Poor', strengths: [], missed_opportunities: [], feedback: '' },
-      budget_discovery: { score: 0, max_score: 15, label: 'Poor', strengths: [], missed_opportunities: [], feedback: '' },
+      introduction:        { score: 0, max_score: 15, label: 'Poor', strengths: [], missed_opportunities: ['No consultation recorded'], feedback: 'No consultation data available.' },
+      technical:           { score: 0, max_score: 5,  label: 'Poor', strengths: [], missed_opportunities: [], feedback: '' },
+      budget_discovery:    { score: 0, max_score: 15, label: 'Poor', strengths: [], missed_opportunities: [], feedback: '' },
       discovery_confidence: { score: 0, max_score: 10, label: 'Poor', strengths: [], missed_opportunities: [], feedback: '' },
     },
     critical_mistakes: ['Consultation was too short or no data captured'],
