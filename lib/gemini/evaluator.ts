@@ -62,7 +62,7 @@ function sanitizeReportCard(card: Partial<ReportCard>): ReportCard {
 
   const intro_score = clamp(card.sections?.introduction?.score, 15);
   const tech_score = clamp(card.sections?.technical?.score, 5);
-  const budget_score = clamp(card.sections?.budget_discovery?.score, 20);
+  const budget_score = clamp(card.sections?.budget_discovery?.score, 15);
   const discovery_score = clamp(card.sections?.discovery_confidence?.score, 10);
   const overall = intro_score + tech_score + budget_score + discovery_score;
 
@@ -94,7 +94,7 @@ function sanitizeReportCard(card: Partial<ReportCard>): ReportCard {
       },
       budget_discovery: {
         score: budget_score,
-        max_score: 20,
+        max_score: 15,
         label: card.sections?.budget_discovery?.label ?? 'Average',
         strengths: card.sections?.budget_discovery?.strengths ?? [],
         missed_opportunities: card.sections?.budget_discovery?.missed_opportunities ?? [],
@@ -121,7 +121,7 @@ function buildEmptyReport(): ReportCard {
     sections: {
       introduction: { score: 0, max_score: 15, label: 'Poor', strengths: [], missed_opportunities: ['No consultation recorded'], feedback: 'No consultation data available for evaluation.' },
       technical: { score: 0, max_score: 5, label: 'Poor', strengths: [], missed_opportunities: [], feedback: '' },
-      budget_discovery: { score: 0, max_score: 20, label: 'Poor', strengths: [], missed_opportunities: [], feedback: '' },
+      budget_discovery: { score: 0, max_score: 15, label: 'Poor', strengths: [], missed_opportunities: [], feedback: '' },
       discovery_confidence: { score: 0, max_score: 10, label: 'Poor', strengths: [], missed_opportunities: [], feedback: '' },
     },
     critical_mistakes: ['Consultation was too short or no data captured'],
