@@ -1,5 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
-import { buildEvaluationPrompt } from '@/lib/prompts/evaluation-rubric';
+import { getEvaluationPrompt } from '@/lib/prompts/registry';
 import type { TranscriptEntry } from '@/types/transcript';
 import type { ReportCard } from '@/types/consultation';
 
@@ -15,7 +15,7 @@ export async function evaluateConsultation(params: {
   }
 
   const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
-  const prompt = buildEvaluationPrompt(params.transcript, params.customer_name, params.module);
+  const prompt = getEvaluationPrompt(params.module, params.transcript, params.customer_name);
 
   let lastError: unknown;
   for (let attempt = 1; attempt <= 2; attempt++) {

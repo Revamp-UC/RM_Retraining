@@ -1,3 +1,4 @@
+// Module 1 · Task 1 — Seepage Wall Consultation (module_attempted: 'module_1_seepage')
 import type { CustomerGender } from '@/types/consultation';
 
 export function generateCustomerPersonaPrompt(name: string, gender: CustomerGender): string {

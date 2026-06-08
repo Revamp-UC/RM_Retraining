@@ -10,6 +10,7 @@ import { CriticalMistakes } from '@/components/report/CriticalMistakes';
 import { ArrowLeft, RotateCcw, LayoutDashboard, ShieldCheck } from 'lucide-react';
 import Link from 'next/link';
 import type { ReportCard } from '@/types/consultation';
+import { resolveTaskPath } from '@/lib/config/modules';
 
 interface ReportPageProps {
   params: Promise<{ moduleId: string; consultationId: string }>;
@@ -54,6 +55,12 @@ export default async function ReportPage({ params }: ReportPageProps) {
 
   const report = consultation.report_card_json as ReportCard;
 
+  // Resolve the task-level URL for "Try Again" — falls back to module list if not found
+  const taskRef = resolveTaskPath(consultation.module_attempted ?? '');
+  const tryAgainHref = taskRef
+    ? `/module/${taskRef.moduleId}/${taskRef.taskId}`
+    : `/module/${moduleId}`;
+
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
       {/* Background */}
@@ -80,7 +87,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
         </div>
         {isOwnReport ? (
           <Link
-            href={`/module/${moduleId}`}
+            href={tryAgainHref}
             className="flex items-center gap-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 transition-colors px-3 py-2 text-white text-xs font-semibold"
           >
             <RotateCcw className="h-3.5 w-3.5" />
@@ -139,7 +146,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
           {isOwnReport ? (
             <>
               <Link
-                href={`/module/${moduleId}`}
+                href={tryAgainHref}
                 className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-[0.98] text-white font-semibold text-sm py-3.5 transition-all shadow-lg shadow-indigo-900/30"
               >
                 <RotateCcw className="h-4 w-4" />

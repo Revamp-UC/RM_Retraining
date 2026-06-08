@@ -3,7 +3,7 @@ import type { LiveServerMessage, Session } from '@google/genai';
 import type { IncomingMessage } from 'http';
 import type WebSocket from 'ws';
 import { validateWsToken } from '@/lib/auth/session';
-import { generateCustomerPersonaPrompt } from '@/lib/prompts/customer-persona';
+import { getPersonaPrompt } from '@/lib/prompts/registry';
 import {
   createSession,
   getSession,
@@ -113,7 +113,8 @@ export async function handleConsultationStream(
   });
 
   const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
-  const systemPrompt = generateCustomerPersonaPrompt(
+  const systemPrompt = getPersonaPrompt(
+    module_attempted,
     customer_name ?? 'Rahul',
     (customer_gender ?? 'male') as CustomerGender,
   );

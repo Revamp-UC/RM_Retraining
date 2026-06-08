@@ -1,3 +1,4 @@
+// Module 1 · Task 1 — Seepage Wall Consultation (module_attempted: 'module_1_seepage')
 import type { TranscriptEntry } from '@/types/transcript';
 
 export function buildEvaluationPrompt(
@@ -100,9 +101,15 @@ IMPORTANT: If the RM mentions "PVC panels" — do NOT deduct marks. PVC is techn
 Correct answer for reference: Wall panels (NIO Panels) are made from a high-quality engineered material. They are installed directly on the wall surface to improve aesthetics and cover damage.
 
 #### How do Panels help in Seepage Cases? — 1 point
-Did the RM explain how panels address seepage situations?
-Correct explanation: Panels help conceal the damaged wall surface and improve the appearance of the wall. They hide the visual impact of seepage. They do NOT permanently fix the root cause of seepage — the underlying seepage issue remains.
-Deduct if: RM made a false claim such as "seepage will be completely fixed" or "panels solve seepage permanently." This is factually incorrect and creates wrong customer expectations.
+Evaluate only if the customer specifically asked whether panels hide seepage or permanently fix it.
+
+Correct explanation: Panels conceal the visual impact of seepage. They do NOT permanently fix the root cause — the underlying seepage issue remains and may need separate treatment.
+
+Deduct ONLY if: The customer directly asked "will this permanently solve the seepage?" or "will this hide it or actually fix it?" AND the RM incorrectly said panels completely/permanently solve seepage.
+
+Do NOT deduct if: The customer asked a general question like "kuch solution hai iska?" and the RM gave a general positive answer without the customer probing further into whether it hides vs. fixes. In that case, add a brief coaching tip in feedback only: "When a customer asks about seepage, it's good practice to clarify that panels effectively conceal the seepage and improve the wall's appearance, but the root cause may need separate treatment. This sets correct customer expectations."
+
+If the customer never raised seepage at all → skip this criterion entirely, do not mention in feedback.
 
 #### Warranty Knowledge — 1 point (0.5 + 0.5)
 This section is FULLY conditional on what the customer actually asked.
@@ -125,13 +132,17 @@ This is expected to be volunteered by the RM without the customer asking — it 
 Any reasonable range is acceptable: 8–10 years, 10–12 years, 15+ years, etc.
 Deduct if: RM never mentioned longevity at any point in the consultation.
 
-ALWAYS INCLUDE IN FEEDBACK — Correct Answers for Learning:
-Regardless of what the customer asked or what marks were deducted, always include a "Correct Answers" section in the technical feedback field covering:
-1. What are NIO Panels and what material are they made of?
-2. How do panels help in seepage situations? (conceal, not cure)
-3. Warranty: Panels — 1 year | Woodwork — 2 years | Lighting — 2 years
-4. How long do panels generally last? (8–12+ years)
-This is purely for RM learning and coaching. Providing these correct answers in feedback does NOT automatically mean marks were deducted.
+CONDITIONAL — Correct Answers for Learning:
+Only include correct answers in feedback for topics the customer actually raised or asked about during the consultation. Do NOT include correct answers for topics the customer never mentioned — it creates unnecessary noise in the report.
+
+- Customer asked about panel material → include the correct NIO Panels explanation
+- Customer asked about seepage solution → include the conceal-not-cure explanation as a coaching note (not a deduction unless they asked specifically about hide vs. fix)
+- Customer asked about warranty → include the warranty breakdown
+- Customer asked about longevity → include the expected lifespan range
+
+If a topic was not raised by the customer at all → skip it in feedback entirely.
+
+EXCEPTION — Product Longevity: This is expected to be proactively mentioned by the RM regardless of whether the customer asks. If the RM never mentioned longevity, include a coaching note with a concrete example. This is also the ideal moment to address any quality/finishing concerns the customer raised — e.g. if the customer asked "is price mein finishing kaisi rahegi?", the RM should have responded with specific reassurance tied to longevity: "Is range mein jo panels aate hain, unki quality bahut acchi hoti hai. Yeh 10-12 saal aasani se chalte hain — koi quality compromise nahi hoga, finishing ekdum clean aayegi." Generic responses like "best rahega" miss this opportunity.
 
 ### Category 3: Budget Discovery (Max: 15 points)
 
@@ -196,7 +207,7 @@ Return a JSON object matching this exact schema. Do not include markdown, just t
       "label": "<Excellent|Good|Average|Poor>",
       "strengths": ["Describe what the RM explained correctly, why it was accurate or effective, and how it helped the customer understand the product or feel reassured. If the RM proactively mentioned longevity, appreciate it specifically."],
       "missed_opportunities": ["ONLY include if marks were actually deducted. State clearly what was missed, why marks were deducted, and what impact the gap could have on customer trust or expectations. Leave as empty array [] if no points were deducted. Do NOT include topics the customer never asked about."],
-      "feedback": "Structure this field in two clear parts:\n\nPart 1 — Coaching on missed points (if any): For each deducted point, explain why that knowledge matters, what customer concern it addresses, and how the RM could have explained it naturally. If RM said 'PVC panels' instead of 'NIO Panels', note: 'The panel material explanation was correct. However, please use NIO Panels in customer conversations going forward — PVC panels have been discontinued.'\n\nPart 2 — Correct Answers for Learning (always include, regardless of score): Provide the ideal answer for each technical topic so the RM can study and improve:\n• What are NIO Panels and what are they made of? [ideal explanation]\n• How do panels help in seepage situations? [conceal, not cure — what this means for the customer]\n• Warranty: Panels — 1 Year | Woodwork — 2 Years | Lighting — 2 Years\n• How long do panels last? [8–10 years, 10–12 years, or 15+ years are all acceptable]\nNote clearly that this section is for learning — marks are only deducted for questions the customer actually asked."
+      "feedback": "Structure this field in two parts:\n\nPart 1 — Coaching on missed points (if any marks were deducted): Explain why the missed behavior matters and give a concrete natural example. If RM said 'PVC panels' instead of 'NIO Panels', note: 'The explanation was correct — please use NIO Panels in customer conversations going forward as PVC panels have been discontinued.' If RM never mentioned longevity and the customer also asked about quality/finishing at a price point, combine the coaching: explain that longevity was the right moment to address the quality concern specifically, with an example like: 'Is range mein jo panels aate hain, unki quality bahut acchi hoti hai — yeh 10-12 saal aasani se chalte hain, toh finishing ka koi compromise nahi hoga.'\n\nPart 2 — Correct Answers for Learning (ONLY for topics the customer raised): Include the ideal answer only for questions the customer actually asked during the consultation. Do not include answers for topics the customer never raised. If the customer asked about panel material → include it. If they asked about warranty → include it. If they never asked → skip it entirely. Label this section clearly as 'For your learning' so the RM understands these are not deductions."
     },
     "budget_discovery": {
       "score": <number 0-15>,

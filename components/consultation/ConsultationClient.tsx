@@ -11,6 +11,7 @@ interface ConsultationClientProps {
   customerName: string;
   customerGender: 'male' | 'female';
   moduleId: string;
+  taskId: string;
 }
 
 export function ConsultationClient({
@@ -19,6 +20,7 @@ export function ConsultationClient({
   customerName,
   customerGender,
   moduleId,
+  taskId,
 }: ConsultationClientProps) {
   const {
     status,
