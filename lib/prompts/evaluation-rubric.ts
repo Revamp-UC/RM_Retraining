@@ -25,20 +25,20 @@ ${formattedTranscript}
 
 ### Category 1: Introduction & Rapport (Max: 15 points)
 Award points based on:
-- Did RM greet warmly and introduce themselves by name? (3 pts)
-- Did RM mention Urban Company clearly? (2 pts)
+- Did RM introduce themselves as the Project Manager? (5 pts) — this is a key trust and ownership signal. Deduct significantly if the RM introduced themselves only by name or not at all, without positioning themselves as the Project Manager. Introducing as Project Manager builds customer confidence that this person is accountable and in charge of the entire project.
 - Did RM build comfort before diving into the product? (5 pts)
 - Did the RM's tone feel natural, warm, and respectful? (5 pts)
 Deduct if: RM was robotic, skipped intro, or immediately went into selling.
-NOTE: Do NOT deduct points if the RM used "sir/ma'am" instead of the customer's name — name usage is not a scored criterion. It is a coaching tip only (see below).
+NOTE: Do NOT deduct points if the RM used "sir/ma'am" instead of the customer's name — name usage is not a scored criterion, it is a coaching tip only (see below).
+NOTE: Do NOT deduct points if the RM did not explicitly mention Urban Company — the customer already knows the RM is from Urban Company since the visit was booked through the platform. Mentioning Urban Company is good practice and can be noted as a coaching tip, but it does not affect the score.
 
 ### Category 2: Technical Knowledge (Max: 5 points)
 Award points based on:
 - Did RM accurately explain what wall panels are? (2 pts)
 - Did RM explain how panels address seepage? (1 pt)
-- Did RM mention installation process or timeline? (1 pt)
+- Did RM accurately answer installation or delivery timeline questions IF the customer raised this topic? (1 pt) — ONLY evaluate this point if the customer explicitly asked about installation or delivery. If the customer did not ask, do not deduct for omission — it can be mentioned as an improvement tip in coaching feedback. Expected correct answer if asked: material is generally delivered within 24–48 hours.
 - Did RM address durability/longevity questions? (1 pt)
-Deduct if: RM gave wrong information or couldn't answer basic product questions.
+Deduct if: RM gave wrong information or couldn't answer basic product questions the customer raised.
 
 ### Category 3: Budget Discovery (Max: 20 points)
 Award points based on:
@@ -46,12 +46,13 @@ Award points based on:
 - Did RM propose options at multiple price points? (5 pts)
 - Did RM correctly read customer's reactions to price? (5 pts)
 - Did RM avoid pushing far outside the customer's comfort zone? (5 pts)
-Deduct heavily if: RM never discussed budget, only quoted one price, or quoted ₹40k+ without reading pushback signals.
+Deduct heavily if: RM never discussed budget at all, only quoted a single price with no alternatives, or quoted ₹40k+ without adjusting after reading clear pushback signals.
+NOTE: Do NOT deduct if the RM proactively introduced a specific price range (e.g. ₹15k–₹20k) even when the customer had not shared any budget indication. Starting the budget conversation with an anchored range is a valid RM approach — whether the RM mentions a range upfront or after showing designs are both acceptable. Deduct only when the RM ignores clear negative signals and keeps pushing well beyond the customer's comfort zone.
 
 ### Category 4: Discovery & Confidence (Max: 10 points)
 Award points based on:
 - Did RM ask about room/wall dimensions? (2 pts)
-- Did RM explore design/aesthetic preferences (leading to lighting discovery)? (3 pts)
+- Did RM explore basic design/aesthetic preferences such as color, theme, or style? (3 pts) — basic preference discovery is sufficient; asking about color preferences, design style, or theme qualifies. Do not penalise for not going deep into design if basic exploration was done.
 - Did RM handle customer questions confidently and accurately? (3 pts)
 - Did RM sound credible and professional throughout? (2 pts)
 Deduct if: RM was defensive, unsure, or skipped discovery entirely.
@@ -104,6 +105,7 @@ Return a JSON object matching this exact schema. Do not include markdown, just t
 
 IMPORTANT: overall_score must equal the sum of all four section scores. Be specific — reference actual things said or not said in the transcript.
 
-MANDATORY COACHING TIP — always include this naturally within the coaching_feedback paragraph, regardless of the RM's score:
-Using the customer's name during the conversation (e.g., "Rahul ji" instead of "sir") creates stronger personal rapport and makes the customer feel more valued. However, for senior citizens or clearly older customers, "sir" or "ma'am" is still the most respectful choice and may work better on ground. The RM should read the situation — name + "ji" works best for peer-age or younger customers.`;
+MANDATORY COACHING TIPS — always include these naturally within the coaching_feedback paragraph, regardless of the RM's score:
+1. Using the customer's name during the conversation (e.g., "Rahul ji" instead of "sir") creates stronger personal rapport and makes the customer feel more valued. However, for senior citizens or clearly older customers, "sir" or "ma'am" is still the most respectful choice and may work better on ground. The RM should read the situation — name + "ji" works best for peer-age or younger customers.
+2. Even though the customer already knows the RM is from Urban Company (the visit was booked through the platform), mentioning Urban Company during the introduction adds an extra layer of trust and brand credibility in a face-to-face interaction. This is a good habit to build.`;
 }
