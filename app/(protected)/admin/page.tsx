@@ -129,7 +129,7 @@ export default async function AdminPage() {
           </div>
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 rounded-lg border border-[#2a2a38] bg-[#13131a] hover:border-indigo-500/50 hover:text-indigo-400 hover:bg-indigo-500/[0.07] px-3.5 py-2 text-sm font-semibold text-[#c8c8e0] transition-all"
+            className="flex items-center gap-2 rounded-lg border border-indigo-500/50 bg-indigo-600/15 hover:border-indigo-500/80 hover:bg-indigo-600/25 px-3.5 py-2 text-sm font-semibold text-indigo-300 hover:text-indigo-200 transition-all"
           >
             <ArrowLeft className="h-4 w-4" />
             My Dashboard
