@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Clock, Sparkles, Home } from 'lucide-react';
+import { User, Clock, Sparkles, Home, Layers } from 'lucide-react';
 import { ConnectionIndicator } from './ConnectionIndicator';
 import { MicVisualizer } from './MicVisualizer';
 import { EndConsultationButton } from './EndConsultationButton';
@@ -31,9 +31,9 @@ interface VoiceAreaProps {
   errorMessage: string | null;
 }
 
-const CUSTOMER_PROFILE: Record<string, { age: string; home: string }> = {
+const CUSTOMER_PROFILE: Record<string, { age: string; home: string; scope?: string }> = {
   task_1: { age: 'Homeowner', home: '2 BHK · Tier-1 City' },
-  task_2: { age: '45 yr old', home: '3 BHK · Newly Built Flat' },
+  task_2: { age: '45 yr old', home: '3 BHK · Newly Built Flat', scope: '4 Wall Requirement' },
 };
 
 function formatTime(seconds: number): string {
@@ -108,6 +108,12 @@ export function VoiceArea({
           <Home className="h-3 w-3 text-indigo-400 shrink-0" />
           <span className="text-xs text-[#c8c8e0] font-medium">{profile.home}</span>
         </div>
+        {profile.scope && (
+          <div className="flex items-center gap-2 mt-1.5">
+            <Layers className="h-3 w-3 text-indigo-400 shrink-0" />
+            <span className="text-xs text-[#c8c8e0] font-medium">{profile.scope}</span>
+          </div>
+        )}
       </div>
 
       {/* Connection status */}

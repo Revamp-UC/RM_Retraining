@@ -27,8 +27,8 @@ const TASK_CONFIG: Record<string, {
   task_2: {
     label: 'Task 2 · Module 1',
     image: null, // photo to be added later
-    dimPrimary: '9 Ft × 9 Ft',
-    dimSub: '8 Ft × 9 Ft',
+    dimPrimary: '2 Walls · 9 Ft × 9 Ft',
+    dimSub: '2 Walls · 8 Ft × 9 Ft',
     sqft: null,
   },
 };
@@ -113,10 +113,9 @@ export function WallDisplay({ className = '', taskId = 'task_1' }: WallDisplayPr
               </span>
             </>
           ) : (
-            <div className="text-right">
-              <span className="text-base font-bold text-[#f1f1f5] tracking-wide">{cfg.dimPrimary}</span>
-              <span className="text-[#60607a] mx-2 text-sm">/</span>
-              <span className="text-base font-bold text-[#f1f1f5] tracking-wide">{cfg.dimSub}</span>
+            <div className="text-right leading-tight">
+              <p className="text-sm font-bold text-[#f1f1f5] tracking-wide">{cfg.dimPrimary}</p>
+              <p className="text-sm font-bold text-[#f1f1f5] tracking-wide">{cfg.dimSub}</p>
             </div>
           )}
         </div>
