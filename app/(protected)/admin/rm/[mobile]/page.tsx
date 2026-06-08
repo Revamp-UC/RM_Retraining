@@ -33,7 +33,8 @@ function getSessionMax(c: AdminConsultation): number {
     (s.introduction?.max_score ?? 15) +
     (s.technical?.max_score ?? 5) +
     (s.budget_discovery?.max_score ?? 15) +
-    (s.discovery_confidence?.max_score ?? 10)
+    (s.discovery_confidence?.max_score ?? 10) +
+    (s.market_comparison?.max_score ?? 0)
   );
 }
 
@@ -91,6 +92,7 @@ function SubScoreRow({ label, score, max }: { label: string; score: number | nul
 
 const MODULE_ID_MAP: Record<string, string> = {
   module_1_seepage: 'module_1',
+  module_1_task2: 'module_1',
 };
 
 function toModuleId(moduleAttempted: string): string {
@@ -144,6 +146,9 @@ function ConsultationCard({ c, index }: { c: AdminConsultation; index: number })
           <SubScoreRow label="Technical Knowledge" score={c.technical_score} max={s?.technical?.max_score ?? 5} />
           <SubScoreRow label="Budget Discovery" score={c.budget_score} max={Math.min(s?.budget_discovery?.max_score ?? 15, 15)} />
           <SubScoreRow label="Discovery Confidence" score={c.discovery_score} max={s?.discovery_confidence?.max_score ?? 10} />
+          {s?.market_comparison && (
+            <SubScoreRow label="Market Comparison" score={s.market_comparison.score} max={s.market_comparison.max_score} />
+          )}
         </div>
       )}
 

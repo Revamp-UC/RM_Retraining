@@ -21,13 +21,15 @@ const SECTION_ICONS: Record<string, React.ReactNode> = {
   technical: <span className="text-sm">🔧</span>,
   budget_discovery: <span className="text-sm">💰</span>,
   discovery_confidence: <span className="text-sm">🎯</span>,
+  market_comparison: <span className="text-sm">⚡</span>,
 };
 
 const SECTION_TITLES: Record<string, string> = {
-  introduction: 'Introduction & Rapport',
+  introduction: 'Introduction & Agenda Setting',
   technical: 'Technical Knowledge',
   budget_discovery: 'Budget Discovery',
   discovery_confidence: 'Discovery & Confidence',
+  market_comparison: 'Market Comparison & Value Defense',
 };
 
 export default async function ReportPage({ params }: ReportPageProps) {
@@ -54,6 +56,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
   }
 
   const report = consultation.report_card_json as ReportCard;
+  const maxScore = Object.values(report.sections).reduce((sum, s) => sum + (s?.max_score ?? 0), 0);
 
   // Resolve the task-level URL for "Try Again" — falls back to module list if not found
   const taskRef = resolveTaskPath(consultation.module_attempted ?? '');
@@ -110,6 +113,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
         <div className="rounded-xl border border-[#2a2a38] bg-[#13131a] overflow-hidden">
           <OverallScore
             score={report.overall_score}
+            maxScore={maxScore}
             tier={report.performance_tier}
             customerName={consultation.customer_name ?? 'Customer'}
             duration={consultation.duration_seconds}
