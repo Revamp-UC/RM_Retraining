@@ -26,18 +26,30 @@ function formatDate(dateStr: string): string {
   });
 }
 
-function ScoreChip({ score }: { score: number | null }) {
+function getSessionMax(c: AdminConsultation): number {
+  const s = c.report_card_json?.sections;
+  if (!s) return 45;
+  return (
+    (s.introduction?.max_score ?? 15) +
+    (s.technical?.max_score ?? 5) +
+    (s.budget_discovery?.max_score ?? 15) +
+    (s.discovery_confidence?.max_score ?? 10)
+  );
+}
+
+function ScoreChip({ score, max }: { score: number | null; max: number }) {
   if (score === null)
     return <span className="text-xs text-[#60607a]">Not scored</span>;
+  const pct = (score / max) * 100;
   const cls =
-    score >= 36
+    pct >= 80
       ? 'bg-green-500/12 border-green-500/30 text-green-400'
-      : score >= 27
+      : pct >= 60
         ? 'bg-amber-500/12 border-amber-500/30 text-amber-400'
         : 'bg-red-500/12 border-red-500/30 text-red-400';
   return (
     <span className={`inline-block rounded-lg border px-3 py-1 text-base font-bold ${cls}`}>
-      {score}/45
+      {score}/{max}
     </span>
   );
 }
@@ -87,6 +99,8 @@ function toModuleId(moduleAttempted: string): string {
 
 function ConsultationCard({ c, index }: { c: AdminConsultation; index: number }) {
   const gender = c.customer_gender === 'female' ? 'F' : 'M';
+  const sessionMax = getSessionMax(c);
+  const s = c.report_card_json?.sections;
 
   return (
     <div className="rounded-xl border border-[#1e1e28] bg-[#13131a] p-5">
@@ -120,16 +134,16 @@ function ConsultationCard({ c, index }: { c: AdminConsultation; index: number })
             <span>{formatDate(c.attempt_date)} · {c.attempt_time?.slice(0, 5)}</span>
           </div>
         </div>
-        <ScoreChip score={c.overall_score} />
+        <ScoreChip score={c.overall_score} max={sessionMax} />
       </div>
 
       {/* Sub-scores */}
       {c.status === 'completed' && (
         <div className="space-y-1.5 mb-3 border-t border-[#1a1a24] pt-3">
-          <SubScoreRow label="Introduction" score={c.introduction_score} max={15} />
-          <SubScoreRow label="Technical Knowledge" score={c.technical_score} max={5} />
-          <SubScoreRow label="Budget Discovery" score={c.budget_score} max={20} />
-          <SubScoreRow label="Discovery Confidence" score={c.discovery_score} max={10} />
+          <SubScoreRow label="Introduction" score={c.introduction_score} max={s?.introduction?.max_score ?? 15} />
+          <SubScoreRow label="Technical Knowledge" score={c.technical_score} max={s?.technical?.max_score ?? 5} />
+          <SubScoreRow label="Budget Discovery" score={c.budget_score} max={s?.budget_discovery?.max_score ?? 15} />
+          <SubScoreRow label="Discovery Confidence" score={c.discovery_score} max={s?.discovery_confidence?.max_score ?? 10} />
         </div>
       )}
 
@@ -212,8 +226,8 @@ export default async function RMDetailPage({
               <Trophy className="h-3.5 w-3.5 text-amber-400" />
               <p className="text-[10px] font-bold text-[#60607a] uppercase tracking-wider">Best Score</p>
             </div>
-            <p className={`text-2xl font-bold ${bestScore !== null && bestScore >= 40 ? 'text-green-400' : bestScore !== null && bestScore >= 30 ? 'text-amber-400' : bestScore !== null ? 'text-red-400' : 'text-[#60607a]'}`}>
-              {bestScore !== null ? `${bestScore}/45` : '—'}
+            <p className={`text-2xl font-bold ${bestScore !== null && bestScore >= 36 ? 'text-green-400' : bestScore !== null && bestScore >= 27 ? 'text-amber-400' : bestScore !== null ? 'text-red-400' : 'text-[#60607a]'}`}>
+              {bestScore !== null ? bestScore : '—'}
             </p>
           </div>
           <div className="rounded-xl border border-[#1e1e28] bg-[#13131a] px-4 py-3 text-center">
@@ -221,8 +235,8 @@ export default async function RMDetailPage({
               <RotateCcw className="h-3.5 w-3.5 text-[#9090a8]" />
               <p className="text-[10px] font-bold text-[#60607a] uppercase tracking-wider">Avg Score</p>
             </div>
-            <p className={`text-2xl font-bold ${avgScore !== null && avgScore >= 40 ? 'text-green-400' : avgScore !== null && avgScore >= 30 ? 'text-amber-400' : avgScore !== null ? 'text-red-400' : 'text-[#60607a]'}`}>
-              {avgScore !== null ? `${avgScore}/45` : '—'}
+            <p className={`text-2xl font-bold ${avgScore !== null && avgScore >= 36 ? 'text-green-400' : avgScore !== null && avgScore >= 27 ? 'text-amber-400' : avgScore !== null ? 'text-red-400' : 'text-[#60607a]'}`}>
+              {avgScore !== null ? avgScore : '—'}
             </p>
           </div>
         </div>

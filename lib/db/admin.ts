@@ -1,4 +1,5 @@
 import { db } from './client';
+import type { ReportCard } from '@/types/consultation';
 
 export interface RMPerformance {
   mobile_number: string;
@@ -25,6 +26,7 @@ export interface AdminConsultation {
   budget_score: number | null;
   discovery_score: number | null;
   duration_seconds: number | null;
+  report_card_json: ReportCard | null;
   created_at: string;
 }
 
@@ -66,7 +68,7 @@ export async function getRMConsultations(mobile_number: string): Promise<AdminCo
   const { data, error } = await db
     .from('consultation_history')
     .select(
-      'id, mobile_number, module_attempted, customer_name, customer_gender, attempt_date, attempt_time, status, overall_score, introduction_score, technical_score, budget_score, discovery_score, duration_seconds, created_at',
+      'id, mobile_number, module_attempted, customer_name, customer_gender, attempt_date, attempt_time, status, overall_score, introduction_score, technical_score, budget_score, discovery_score, duration_seconds, report_card_json, created_at',
     )
     .eq('mobile_number', mobile_number)
     .order('created_at', { ascending: false });

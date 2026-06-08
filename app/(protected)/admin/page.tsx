@@ -14,14 +14,14 @@ function ScoreChip({ score }: { score: number | null }) {
   if (score === null)
     return <span className="text-xs font-medium text-[#60607a]">—</span>;
   const cls =
-    score >= 40
+    score >= 36
       ? 'bg-green-500/12 border-green-500/30 text-green-400'
-      : score >= 30
+      : score >= 27
         ? 'bg-amber-500/12 border-amber-500/30 text-amber-400'
         : 'bg-red-500/12 border-red-500/30 text-red-400';
   return (
     <span className={`inline-block rounded-lg border px-2 py-0.5 text-xs font-bold ${cls}`}>
-      {score}/50
+      {score}
     </span>
   );
 }
@@ -99,7 +99,7 @@ export default async function AdminPage() {
 
   const notAttempted = allRM.filter(rm => rm.attempt_count === 0);
   const topPerformers = attempted.slice(0, 5);
-  const needsAttention = attempted.filter(rm => (rm.best_score ?? 100) < 30);
+  const needsAttention = attempted.filter(rm => (rm.best_score ?? 100) < 27);
 
   const totalAttempts = allRM.reduce((sum, rm) => sum + rm.attempt_count, 0);
   const avgScores = attempted
@@ -155,14 +155,14 @@ export default async function AdminPage() {
           />
           <StatCard
             label="Overall Avg"
-            value={overallAvg !== null ? `${overallAvg}/50` : '—'}
+            value={overallAvg !== null ? overallAvg : '—'}
             sub="across all RMs"
             accent={
               overallAvg === null
                 ? 'text-[#f1f1f5]'
-                : overallAvg >= 40
+                : overallAvg >= 36
                   ? 'text-green-400'
-                  : overallAvg >= 30
+                  : overallAvg >= 27
                     ? 'text-amber-400'
                     : 'text-red-400'
             }
@@ -200,7 +200,7 @@ export default async function AdminPage() {
                         <p className="text-sm font-semibold text-[#f1f1f5] truncate">{rm.name}</p>
                         <p className="text-xs text-[#60607a]">
                           {rm.attempt_count} attempt{rm.attempt_count !== 1 ? 's' : ''}
-                          {rm.avg_score !== null ? ` · avg ${rm.avg_score}/50` : ''}
+                          {rm.avg_score !== null ? ` · avg ${rm.avg_score}` : ''}
                         </p>
                       </div>
                       <ScoreChip score={rm.best_score} />
@@ -218,7 +218,7 @@ export default async function AdminPage() {
               <AlertTriangle className="h-4 w-4 text-red-400" />
               <h2 className="text-sm font-bold text-[#f1f1f5]">Needs Practice</h2>
               {needsAttention.length > 0 && (
-                <span className="ml-auto text-xs text-red-400/60">best score &lt; 30</span>
+                <span className="ml-auto text-xs text-red-400/60">best score &lt; 27</span>
               )}
             </div>
             {needsAttention.length === 0 ? (
