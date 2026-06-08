@@ -11,7 +11,7 @@ interface OverallScoreProps {
   duration: number | null;
 }
 
-export function OverallScore({ score, maxScore = 50, tier, customerName, duration }: OverallScoreProps) {
+export function OverallScore({ score, maxScore = 45, tier, customerName, duration }: OverallScoreProps) {
   const pct = Math.round((score / maxScore) * 100);
   const radius = 54;
   const circumference = 2 * Math.PI * radius;

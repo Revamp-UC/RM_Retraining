@@ -30,14 +30,14 @@ function ScoreChip({ score }: { score: number | null }) {
   if (score === null)
     return <span className="text-xs text-[#60607a]">Not scored</span>;
   const cls =
-    score >= 40
+    score >= 36
       ? 'bg-green-500/12 border-green-500/30 text-green-400'
-      : score >= 30
+      : score >= 27
         ? 'bg-amber-500/12 border-amber-500/30 text-amber-400'
         : 'bg-red-500/12 border-red-500/30 text-red-400';
   return (
     <span className={`inline-block rounded-lg border px-3 py-1 text-base font-bold ${cls}`}>
-      {score}/50
+      {score}/45
     </span>
   );
 }
@@ -101,7 +101,7 @@ function ConsultationCard({ c, index }: { c: AdminConsultation; index: number })
             {c.status === 'completed' && (
               <Link
                 href={`/module/${toModuleId(c.module_attempted)}/report/${c.id}`}
-                className="flex items-center gap-1 rounded-md border border-indigo-500/30 bg-indigo-600/10 px-2 py-0.5 text-[10px] font-semibold text-indigo-400 hover:bg-indigo-600/20 hover:border-indigo-500/50 transition-colors"
+                className="flex items-center gap-1 rounded-md border border-indigo-500/30 bg-indigo-600/10 px-2 py-0.5 text-[10px] font-semibold text-indigo-400 hover:bg-indigo-600/20 hover:border-indigo-500/45 transition-colors"
               >
                 <FileBarChart className="h-3 w-3" />
                 Report
@@ -213,7 +213,7 @@ export default async function RMDetailPage({
               <p className="text-[10px] font-bold text-[#60607a] uppercase tracking-wider">Best Score</p>
             </div>
             <p className={`text-2xl font-bold ${bestScore !== null && bestScore >= 40 ? 'text-green-400' : bestScore !== null && bestScore >= 30 ? 'text-amber-400' : bestScore !== null ? 'text-red-400' : 'text-[#60607a]'}`}>
-              {bestScore !== null ? `${bestScore}/50` : '—'}
+              {bestScore !== null ? `${bestScore}/45` : '—'}
             </p>
           </div>
           <div className="rounded-xl border border-[#1e1e28] bg-[#13131a] px-4 py-3 text-center">
@@ -222,7 +222,7 @@ export default async function RMDetailPage({
               <p className="text-[10px] font-bold text-[#60607a] uppercase tracking-wider">Avg Score</p>
             </div>
             <p className={`text-2xl font-bold ${avgScore !== null && avgScore >= 40 ? 'text-green-400' : avgScore !== null && avgScore >= 30 ? 'text-amber-400' : avgScore !== null ? 'text-red-400' : 'text-[#60607a]'}`}>
-              {avgScore !== null ? `${avgScore}/50` : '—'}
+              {avgScore !== null ? `${avgScore}/45` : '—'}
             </p>
           </div>
         </div>

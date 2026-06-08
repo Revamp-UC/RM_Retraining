@@ -133,14 +133,38 @@ Regardless of what the customer asked or what marks were deducted, always includ
 4. How long do panels generally last? (8–12+ years)
 This is purely for RM learning and coaching. Providing these correct answers in feedback does NOT automatically mean marks were deducted.
 
-### Category 3: Budget Discovery (Max: 20 points)
-Award points based on:
-- Did RM attempt to discover budget (directly or indirectly)? (5 pts)
-- Did RM propose options at multiple price points? (5 pts)
-- Did RM correctly read customer's reactions to price? (5 pts)
-- Did RM avoid pushing far outside the customer's comfort zone? (5 pts)
-Deduct heavily if: RM never discussed budget at all, only quoted a single price with no alternatives, or quoted ₹40k+ without adjusting after reading clear pushback signals.
-NOTE: Do NOT deduct if the RM proactively introduced a specific price range (e.g. ₹15k–₹20k) even when the customer had not shared any budget indication. Starting the budget conversation with an anchored range is a valid RM approach — whether the RM mentions a range upfront or after showing designs are both acceptable. Deduct only when the RM ignores clear negative signals and keeps pushing well beyond the customer's comfort zone.
+### Category 3: Budget Discovery (Max: 15 points)
+
+IMPORTANT: Do NOT hardcode scripts. If the RM communicates the same intent in their own natural style and successfully discovers the customer's budget range, award full marks. Focus on consultation outcome and quality — not exact wording.
+
+#### Explicitly Asking for Budget — 3 points
+Did the RM make a genuine attempt to understand the customer's budget by asking directly?
+Any natural budget question earns these marks — e.g. asking roughly how much they want to spend, whether they have a range in mind, or what investment they are comfortable with for this wall.
+Award if the intent is clear, regardless of exact phrasing.
+
+#### Giving a Relevant Budget Range Based on Wall Size — 4 points
+Did the RM proactively suggest a practical budget range to help guide the conversation?
+This is a critical step — giving the customer a reference range (e.g. below ₹15k / ₹15k–₹25k / above ₹25k) makes it easier for the customer to respond and move forward.
+The exact range may vary by wall size, design preference, or product category. Award marks if the RM makes a genuine effort to anchor the budget conversation with a relevant range rather than leaving it completely open-ended.
+
+#### Handling Budget Resistance — 3 points
+If the customer redirected to designs first or said they haven't thought about budget: did the RM make an effort to explain WHY understanding the budget is helpful?
+The RM should communicate — in their own words — that the budget range helps them show the most relevant options, not that it limits the customer.
+Award if the RM made any genuine attempt to re-engage the customer on budget with a clear reason, even if not fully successful.
+Do NOT deduct if the customer never showed resistance (i.e. the situation never arose).
+
+#### Indirect Budget Discovery — 5 points
+If the customer still avoided sharing a budget after direct asking: did the RM continue exploring the customer's spending intent through other effective methods?
+Award full marks if the RM used any of the following (or any similarly effective approach):
+- Offering comparison options and reading reactions
+- Narrowing down through preference-based questions
+- Using analogies, stories, or real-life examples to make the customer comfortable
+- Revisiting budget after showing a few designs
+- Any creative technique that successfully helped arrive at a reasonable budget range
+Award marks based on outcome — if the RM understood the customer's likely spending range by the end, they earn these marks. The method does not matter; the result does.
+NOTE: If the customer shared budget willingly without resistance, the RM earns these marks by default — the discovery was successful.
+
+Deduct only if: The RM never discussed budget at all, accepted the first resistance and completely dropped the topic, or recommended designs with no attempt to understand affordability.
 
 ### Category 4: Discovery & Confidence (Max: 10 points)
 Award points based on:
@@ -175,12 +199,12 @@ Return a JSON object matching this exact schema. Do not include markdown, just t
       "feedback": "Structure this field in two clear parts:\n\nPart 1 — Coaching on missed points (if any): For each deducted point, explain why that knowledge matters, what customer concern it addresses, and how the RM could have explained it naturally. If RM said 'PVC panels' instead of 'NIO Panels', note: 'The panel material explanation was correct. However, please use NIO Panels in customer conversations going forward — PVC panels have been discontinued.'\n\nPart 2 — Correct Answers for Learning (always include, regardless of score): Provide the ideal answer for each technical topic so the RM can study and improve:\n• What are NIO Panels and what are they made of? [ideal explanation]\n• How do panels help in seepage situations? [conceal, not cure — what this means for the customer]\n• Warranty: Panels — 1 Year | Woodwork — 2 Years | Lighting — 2 Years\n• How long do panels last? [8–10 years, 10–12 years, or 15+ years are all acceptable]\nNote clearly that this section is for learning — marks are only deducted for questions the customer actually asked."
     },
     "budget_discovery": {
-      "score": <number 0-20>,
-      "max_score": 20,
+      "score": <number 0-15>,
+      "max_score": 15,
       "label": "<Excellent|Good|Average|Poor>",
-      "strengths": ["Describe what the RM did well in budget discovery, why the approach was effective, and how it helped move the conversation forward."],
-      "missed_opportunities": ["ONLY include if marks were deducted. State what was missed and why. Leave as empty array [] if no points were deducted. Remember: RM prioritising budget before designs is correct behaviour — do not list it as a miss."],
-      "feedback": "For any missed points: explain why budget discovery matters, and give a simple example of how the RM could have handled it better. Be specific and concrete."
+      "strengths": ["Describe what the RM did well — e.g. asked for budget naturally, gave a relevant range, handled resistance well, used an analogy or indirect technique effectively. Explain WHY each approach was good and how it helped the consultation move forward. If the RM used an analogy or creative technique, appreciate it specifically."],
+      "missed_opportunities": ["ONLY include if marks were actually deducted. State what was missed, why marks were deducted, and the impact on the consultation. Leave as empty array [] if no points were deducted. Remember: RM prioritising budget before designs is correct behaviour — do not list it as a miss."],
+      "feedback": "Structure this field in two clear parts:\n\nPart 1 — Coaching on missed points (if any): Explain why each missed behavior matters, what it achieves in the consultation, and give a specific natural example of how the RM could have done it. If the RM gave up after one resistance, show them how to persist with an example.\n\nPart 2 — Pro Tips (always include): Share 1-2 advanced budget discovery techniques the RM can use in future consultations — analogies, comparisons, narrowing techniques, or customer-centric reasoning. Provide a concrete example of each. Note clearly that these are coaching suggestions and not marks-affecting criteria."
     },
     "discovery_confidence": {
       "score": <number 0-10>,
@@ -196,7 +220,7 @@ Return a JSON object matching this exact schema. Do not include markdown, just t
   "performance_tier": "<Excellent|Good|Average|Needs Improvement>"
 }
 
-IMPORTANT: overall_score must equal the sum of all four section scores. Be specific — reference actual things said or not said in the transcript.
+IMPORTANT: overall_score must equal the sum of all four section scores (max total = 45: Introduction 15 + Technical 5 + Budget Discovery 15 + Discovery & Confidence 10). Be specific — reference actual things said or not said in the transcript.
 
 IMPORTANT REMINDERS FOR WRITING THE REPORT:
 - Write everything in simple, easy-to-understand English. The RM reading this report should immediately understand what they did well, what they missed, and exactly how to improve — without needing to ask anyone for clarification.
