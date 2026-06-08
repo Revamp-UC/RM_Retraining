@@ -90,12 +90,48 @@ Exact sequence and wording are not required. Award if the intent is naturally co
 Deduct only if: The RM skipped the introduction entirely and went straight into selling OR relied exclusively on "sir/ma'am" throughout without ever using the customer's name.
 
 ### Category 2: Technical Knowledge (Max: 5 points)
-Award points based on:
-- Did RM accurately explain what wall panels are? (2 pts)
-- Did RM explain how panels address seepage? (1 pt)
-- Did RM accurately answer installation or delivery timeline questions IF the customer raised this topic? (1 pt) — ONLY evaluate this point if the customer explicitly asked about installation or delivery. If the customer did not ask, do not deduct for omission — it can be mentioned as an improvement tip in coaching feedback. Expected correct answer if asked: material is generally delivered within 24–48 hours.
-- Did RM address durability/longevity questions? (1 pt)
-Deduct if: RM gave wrong information or couldn't answer basic product questions the customer raised.
+
+CRITICAL RULE: Only deduct marks for questions the customer actually asked. Do not deduct for topics the customer never raised. The feedback section may still educate the RM on correct answers for learning purposes even when no marks are deducted.
+
+#### What are Panels and what material are they made of? — 1 point
+Did the RM explain what wall panels are and mention the material correctly?
+The explanation should be natural, simple, and confident.
+IMPORTANT: If the RM mentions "PVC panels" — do NOT deduct marks. PVC is technically acceptable knowledge. However, always add a coaching note in feedback: "NIO Panels is the correct product name to use in customer conversations — PVC panels have been discontinued."
+Correct answer for reference: Wall panels (NIO Panels) are made from a high-quality engineered material. They are installed directly on the wall surface to improve aesthetics and cover damage.
+
+#### How do Panels help in Seepage Cases? — 1 point
+Did the RM explain how panels address seepage situations?
+Correct explanation: Panels help conceal the damaged wall surface and improve the appearance of the wall. They hide the visual impact of seepage. They do NOT permanently fix the root cause of seepage — the underlying seepage issue remains.
+Deduct if: RM made a false claim such as "seepage will be completely fixed" or "panels solve seepage permanently." This is factually incorrect and creates wrong customer expectations.
+
+#### Warranty Knowledge — 1 point (0.5 + 0.5)
+This section is FULLY conditional on what the customer actually asked.
+
+First warranty question — 0.5 points (only if customer asked about warranty):
+Did the RM correctly state that panels come with a 1-year warranty?
+Correct answer: Panels have a 1-year warranty.
+
+Follow-up warranty question — 0.5 points (only if customer specifically asked about warranties across all products):
+Did the RM correctly explain the warranty for all product types?
+Correct answer: Panels — 1 year | Woodwork — 2 years | Lighting — 2 years.
+
+If the customer never asked about warranty → award full 1 point for this sub-section (no deduction).
+If the customer asked only the first warranty question and not the follow-up → award 0.5 points if answered correctly, do not deduct the remaining 0.5.
+Always mention the complete warranty structure in the feedback's "Correct Answers" section for RM learning — even if no marks were deducted.
+
+#### Product Longevity — 2 points
+Did the RM proactively mention how long panels generally last?
+This is expected to be volunteered by the RM without the customer asking — it is an important product knowledge point that builds customer confidence.
+Any reasonable range is acceptable: 8–10 years, 10–12 years, 15+ years, etc.
+Deduct if: RM never mentioned longevity at any point in the consultation.
+
+ALWAYS INCLUDE IN FEEDBACK — Correct Answers for Learning:
+Regardless of what the customer asked or what marks were deducted, always include a "Correct Answers" section in the technical feedback field covering:
+1. What are NIO Panels and what material are they made of?
+2. How do panels help in seepage situations? (conceal, not cure)
+3. Warranty: Panels — 1 year | Woodwork — 2 years | Lighting — 2 years
+4. How long do panels generally last? (8–12+ years)
+This is purely for RM learning and coaching. Providing these correct answers in feedback does NOT automatically mean marks were deducted.
 
 ### Category 3: Budget Discovery (Max: 20 points)
 Award points based on:
@@ -134,9 +170,9 @@ Return a JSON object matching this exact schema. Do not include markdown, just t
       "score": <number 0-5>,
       "max_score": 5,
       "label": "<Excellent|Good|Average|Poor>",
-      "strengths": ["Describe what the RM did well technically, why it was correct or effective, and how it helped the customer understand the product or feel reassured."],
-      "missed_opportunities": ["ONLY include if marks were deducted. State what was missed, why marks were deducted, and what impact it had. Leave as empty array [] if no points were deducted."],
-      "feedback": "For any missed points: explain why the knowledge matters, and give a simple example of how the RM could have explained it correctly. For non-critical omissions (things the customer did not ask about), mention briefly as an improvement tip with an example — do not treat as a scored miss."
+      "strengths": ["Describe what the RM explained correctly, why it was accurate or effective, and how it helped the customer understand the product or feel reassured. If the RM proactively mentioned longevity, appreciate it specifically."],
+      "missed_opportunities": ["ONLY include if marks were actually deducted. State clearly what was missed, why marks were deducted, and what impact the gap could have on customer trust or expectations. Leave as empty array [] if no points were deducted. Do NOT include topics the customer never asked about."],
+      "feedback": "Structure this field in two clear parts:\n\nPart 1 — Coaching on missed points (if any): For each deducted point, explain why that knowledge matters, what customer concern it addresses, and how the RM could have explained it naturally. If RM said 'PVC panels' instead of 'NIO Panels', note: 'The panel material explanation was correct. However, please use NIO Panels in customer conversations going forward — PVC panels have been discontinued.'\n\nPart 2 — Correct Answers for Learning (always include, regardless of score): Provide the ideal answer for each technical topic so the RM can study and improve:\n• What are NIO Panels and what are they made of? [ideal explanation]\n• How do panels help in seepage situations? [conceal, not cure — what this means for the customer]\n• Warranty: Panels — 1 Year | Woodwork — 2 Years | Lighting — 2 Years\n• How long do panels last? [8–10 years, 10–12 years, or 15+ years are all acceptable]\nNote clearly that this section is for learning — marks are only deducted for questions the customer actually asked."
     },
     "budget_discovery": {
       "score": <number 0-20>,
