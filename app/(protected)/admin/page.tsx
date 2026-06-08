@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { validateSession } from '@/lib/auth/session';
 import { getAllRMPerformance } from '@/lib/db/admin';
-import { LayoutDashboard, Trophy, AlertTriangle, Users, BarChart3, ChevronRight, Medal } from 'lucide-react';
+import { ArrowLeft, Trophy, AlertTriangle, Users, BarChart3, ChevronRight, Medal } from 'lucide-react';
 import type { RMPerformance } from '@/lib/db/admin';
 
 export const dynamic = 'force-dynamic';
@@ -129,10 +129,10 @@ export default async function AdminPage() {
           </div>
           <Link
             href="/dashboard"
-            className="flex items-center gap-1.5 text-xs text-[#60607a] hover:text-[#9090a8] transition-colors"
+            className="flex items-center gap-2 rounded-lg border border-[#2a2a38] bg-[#13131a] hover:border-indigo-500/50 hover:text-indigo-400 hover:bg-indigo-500/[0.07] px-3.5 py-2 text-sm font-semibold text-[#c8c8e0] transition-all"
           >
-            <LayoutDashboard className="h-3.5 w-3.5" />
-            Dashboard
+            <ArrowLeft className="h-4 w-4" />
+            My Dashboard
           </Link>
         </div>
       </div>
@@ -309,8 +309,8 @@ export default async function AdminPage() {
         href="/dashboard"
         className="fixed bottom-6 left-6 z-50 flex items-center gap-2 rounded-full border border-[#2a2a38] bg-[#13131a]/90 backdrop-blur px-4 py-2.5 text-xs font-semibold text-[#9090a8] shadow-lg hover:border-indigo-500/40 hover:text-indigo-400 transition-all"
       >
-        <LayoutDashboard className="h-3.5 w-3.5" />
-        Dashboard
+        <ArrowLeft className="h-3.5 w-3.5" />
+        My Dashboard
       </Link>
     </div>
   );
