@@ -81,9 +81,9 @@ export default async function ReportPage({ params }: ReportPageProps) {
         </Link>
         <div className="text-center">
           <p className="text-xs text-indigo-400 font-medium">
-            {isAdmin && !isOwnReport ? 'Admin View · Report Card' : 'Module 1 · Report Card'}
+            {isAdmin && !isOwnReport ? 'Admin View' : `Module ${moduleId.replace('module_', '')}`}
           </p>
-          <h1 className="text-sm font-semibold text-[#f1f1f5]">Seepage Wall Consultation</h1>
+          <h1 className="text-sm font-semibold text-[#f1f1f5]">Report Card</h1>
         </div>
         {isOwnReport ? (
           <Link

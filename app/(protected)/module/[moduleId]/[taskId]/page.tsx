@@ -59,10 +59,8 @@ export default async function ConsultationPage({ params }: TaskPageProps) {
             <ArrowLeft className="h-4 w-4" />
           </Link>
           <div>
-            <p className="text-xs text-indigo-400 font-medium">
-              Module {moduleNumber} · Task {taskNumber}
-            </p>
-            <h1 className="text-sm font-semibold text-[#f1f1f5]">{taskConfig.title}</h1>
+            <p className="text-xs text-indigo-400 font-medium">Module {moduleNumber}</p>
+            <h1 className="text-sm font-semibold text-[#f1f1f5]">Task {taskNumber} of Module {moduleNumber}</h1>
           </div>
         </div>
         <div className="text-right">

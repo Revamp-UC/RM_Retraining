@@ -27,7 +27,7 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
         id: 'task_1',
         title: 'Seepage Wall Consultation',
         description:
-          'Conduct a home visit, assess a seepage wall, and discover the customer\'s budget through natural conversation',
+          'Conduct a home visit, understand the customer\'s problem and requirements, and discover their budget through natural conversation',
         moduleAttempted: 'module_1_seepage', // ← persona: customer-persona.ts | rubric: evaluation-rubric.ts
         status: 'active',
       },

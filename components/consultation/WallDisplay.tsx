@@ -25,7 +25,7 @@ export function WallDisplay({ className = '' }: WallDisplayProps) {
       >
         <Image
           src="/images/module-1-wall.png"
-          alt="Seepage wall — Module 1"
+          alt="Wall — Task 1 Module 1"
           fill
           className="object-cover"
           priority
@@ -45,7 +45,7 @@ export function WallDisplay({ className = '' }: WallDisplayProps) {
         <div className="absolute top-3 left-3 z-10">
           <div className="inline-flex items-center gap-1.5 rounded-lg bg-[#0a0a0f]/75 backdrop-blur-sm border border-[#2a2a38] px-2.5 py-1">
             <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
-            <span className="text-[11px] font-semibold text-[#f1f1f5]">Module 1 — Seepage Wall</span>
+            <span className="text-[11px] font-semibold text-[#f1f1f5]">Task 1 · Module 1</span>
           </div>
         </div>
 
@@ -96,7 +96,7 @@ export function WallDisplay({ className = '' }: WallDisplayProps) {
             >
               <div className="flex items-center gap-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
-                <span className="text-sm font-semibold text-[#f1f1f5]">Module 1 — Seepage Wall</span>
+                <span className="text-sm font-semibold text-[#f1f1f5]">Task 1 · Module 1</span>
               </div>
               <button
                 className="rounded-full bg-white/10 p-2 active:bg-white/20"
@@ -110,7 +110,7 @@ export function WallDisplay({ className = '' }: WallDisplayProps) {
             <div className="relative flex-1 min-h-0">
               <Image
                 src="/images/module-1-wall.png"
-                alt="Seepage wall — Module 1"
+                alt="Wall — Task 1 Module 1"
                 fill
                 className="object-contain"
                 priority
