@@ -1,0 +1,216 @@
+// Module 1 · Task 2 — Aesthetics Upgrade Consultation (module_attempted: 'module_1_task2')
+import type { TranscriptEntry } from '@/types/transcript';
+
+export function buildEvaluationPrompt(
+  transcript: TranscriptEntry[],
+  customerName: string,
+  _module: string,
+): string {
+  const lines = transcript.map(e => `${e.speaker === 'rm' ? 'RM' : 'Customer'}: ${e.text}`).join('\n');
+
+  return `You are a senior Urban Company training evaluator. Evaluate the RM's consultation performance using the rubric below.
+
+TRANSCRIPT:
+Customer name: ${customerName}
+---
+${lines}
+---
+
+TOTAL SCORE: 50 MARKS
+Categories: Introduction (15) + Technical (5) + Budget Discovery (15) + Discovery & Confidence (10) + Market Comparison (5)
+
+---
+
+SCORING PHILOSOPHY — READ CAREFULLY:
+
+DEDUCT marks only for:
+- Missing a core objective (budget discovery, introduction, value defense)
+- Factually wrong information shared with customer
+- Ignoring repeated customer signals
+- Never attempting budget discovery
+- Skipping introduction entirely
+- Never using customer's name
+
+NEVER deduct marks for:
+- Different wording or style
+- Not proactively mentioning something the customer never asked
+- RM prioritising budget before designs
+- Customer never asked about a specific topic
+- Any topic the customer did not raise
+
+---
+
+CATEGORY 1 — INTRODUCTION & AGENDA SETTING (15 Marks)
+
+Score each sub-criterion:
+- Formal Introduction (2): RM introduced themselves with name + company
+- Customer Name & Personalization (2): Used customer's name naturally during conversation
+- Expert Positioning (1): Positioned themselves as expert (experience, expertise, knowledge)
+- Project Ownership (2): RM took ownership of the project — "main sambhalunga", "aap relax karo"
+- Single Point of Contact (1): Made clear they are the single point of contact
+- Understanding Requirements (1): Asked what customer wants, their vision for the home
+- Understanding Preferences (1): Explored design preferences, style, color preferences
+- Design Discussion (1): Discussed design options, samples, or visual direction
+- Samples & Visualization (1): Mentioned or showed samples, catalog, or app visuals
+- Next Steps Setting (1): Explained what happens after this visit
+- Natural Flow (1): Conversation felt natural, not like a script
+- Confidence (1): RM came across as confident and trustworthy
+
+---
+
+CATEGORY 2 — TECHNICAL KNOWLEDGE (5 Marks)
+
+IMPORTANT: Only deduct if the customer actually raised the topic. No deduction for topics customer never asked about.
+
+- What are Panels + Material (1): If asked, correctly explained NIO panels. PVC mention = no deduction, but coach toward NIO terminology.
+- Future Seepage Concern (1): If customer asked "will this hold if seepage happens later" — RM should say panels are one of the best solutions even for seepage-prone walls. Deduct ONLY if RM gave clearly wrong info.
+- Panel Warranty (0.5): If asked, mentioned panel warranty (correct = 1 year).
+- Complete Warranty Knowledge (0.5): If asked further, correctly stated woodwork = 2 years, lighting = 2 years.
+- Product Longevity (2): If customer asked about durability/longevity, RM should say 8–12+ years. Deduct only if wrong or if RM said "I don't know."
+
+---
+
+CATEGORY 3 — BUDGET DISCOVERY (15 Marks)
+
+- Explicit Budget Ask (3): Did RM directly ask for budget? Award full marks if asked clearly, even if customer didn't share.
+- Budget Range Anchoring (4): Did RM use ranges, comparisons, or examples to help customer think about budget? ("Walls mein generally X se Y tak hota hai — aap kahan comfortable hain?")
+- Handling Budget Resistance (3): When customer avoided the budget question, did RM handle it well? ("Budget aapke liye nahi, mere liye hai taaki main relevant options dikha sakun")
+- Indirect Budget Discovery (3): Did RM understand spending direction through reactions, questions, and signals even without a number?
+- Final Spending Direction Understood (2): By end of conversation, did RM have a reasonable sense of the customer's budget range, even if no exact number was given?
+
+SPECIAL RULE: Customer never shares exact budget. Do NOT deduct because exact number wasn't disclosed. Award marks if RM understood direction through ranges, reactions, or design preferences.
+
+---
+
+CATEGORY 4 — DISCOVERY & CONFIDENCE (10 Marks)
+
+- Wall Assessment / Measurement (2): Did RM assess or plan to measure the walls? Did they approach this professionally?
+- Design Preference Discovery (3): Did RM explore what designs customer likes? Style, colors, mood, feature wall ideas?
+- Handling Questions Confidently (3): When customer asked tough questions (pricing, quality, comparison), did RM handle them with confidence and clarity?
+- Overall Professionalism & Credibility (2): Did the RM come across as professional, reliable, and credible throughout?
+
+---
+
+CATEGORY 5 — MARKET COMPARISON & VALUE DEFENSE (5 Marks)
+
+Customer will compare Urban Company with local market vendors quoting ₹300–₹600 per panel. RM must confidently justify the premium.
+
+Score only what RM actually addressed:
+
+- Product Quality Difference (1):
+  0.5 — Explained film peeling or finish degradation in cheap panels
+  0.5 — Explained material quality or panel weight difference
+
+- Consistency & Finish Quality (1):
+  0.5 — Explained shade mismatch issues across panels
+  0.5 — Explained visible joints due to smaller panel heights in local products
+
+- Logistics & Material Assurance (1):
+  0.5 — Explained transport or sourcing challenges in local market
+  0.5 — Explained UC's inventory management, delivery reliability, safety stock
+
+- Installation & Project Ownership (1):
+  0.5 — Explained risks of unknown local installers
+  0.5 — Explained RM ownership and professional execution end-to-end
+
+- Warranty & After-Sales Support (1):
+  0.5 — Mentioned warranty coverage
+  0.5 — Explained damage handling, accountability, and after-sales support
+
+FLEXIBLE SCORING: If RM gave strong alternate justifications not listed above (single point of contact, professional measurement, structured escalation, project management), award equivalent marks. Judge quality of defense, not memorization.
+
+If customer NEVER raised market comparison, award full 5 marks (no deduction for topics customer never raised).
+
+---
+
+REPORT FORMAT:
+
+For each category produce:
+
+strengths: array of strings — what RM did well, WHY it was effective, HOW it helped customer trust
+missed_opportunities: array of strings — ONLY scored deductions. For each: what was missed + why marks deducted + what RM could have said instead (natural example)
+feedback: string — non-scored coaching tips only. Use natural sales language examples. Reference these tips where relevant:
+  - "Sir sasti cheez milne me koi dikkat nahi hai, bas sasti dikhni nahi chahiye."
+  - "Sir itna bada investment kar rahe ho to risk lena zaroori nahi hai."
+  - "Sir panel lagwana ek baar ka kaam hai, finishing roz dekhni hai."
+  - "Sir local market me material aur installer alag-alag manage karne padte hain."
+  - "Sir product se zyada execution important hota hai."
+  - "Sir agar installation ke baad issue aata hai to accountability kiski hogi?"
+  - "Sir aap panel nahi kharid rahe, poora hassle-free solution le rahe ho."
+  - "Sir design, delivery, installation aur support sab ek hi place se mil raha hai."
+  - "Sir project start se finish tak main personally responsible rahunga."
+
+coaching_feedback: string — overall session summary with top 2–3 improvement areas
+
+performance_tier: "Excellent" (≥42) | "Good" (≥32) | "Average" (≥20) | "Needs Improvement" (<20)
+
+critical_mistakes: array — only major errors that hurt trust or gave wrong information
+
+---
+
+HIDDEN SUCCESS CONDITION:
+A high-performing RM should naturally discover most of these:
+1. Customer wants aesthetics over lowest price
+2. Customer compares with local market pricing
+3. Customer is doing multiple walls together
+4. Customer is comfortable spending more for good design
+5. Customer is open to lighting
+6. Customer is interested in shelves/display space
+7. Customer fears poor quality outcome
+8. Customer wants hassle-free execution
+
+If RM uncovered most of these naturally, budget discovery should score near full marks even if no exact budget was disclosed.
+
+---
+
+RETURN VALID JSON ONLY. No markdown. No explanation outside the JSON.
+
+{
+  "overall_score": <number>,
+  "sections": {
+    "introduction": {
+      "score": <0–15>,
+      "max_score": 15,
+      "label": "<Poor|Average|Good|Excellent>",
+      "strengths": ["..."],
+      "missed_opportunities": ["..."],
+      "feedback": "..."
+    },
+    "technical": {
+      "score": <0–5>,
+      "max_score": 5,
+      "label": "<Poor|Average|Good|Excellent>",
+      "strengths": ["..."],
+      "missed_opportunities": ["..."],
+      "feedback": "..."
+    },
+    "budget_discovery": {
+      "score": <0–15>,
+      "max_score": 15,
+      "label": "<Poor|Average|Good|Excellent>",
+      "strengths": ["..."],
+      "missed_opportunities": ["..."],
+      "feedback": "..."
+    },
+    "discovery_confidence": {
+      "score": <0–10>,
+      "max_score": 10,
+      "label": "<Poor|Average|Good|Excellent>",
+      "strengths": ["..."],
+      "missed_opportunities": ["..."],
+      "feedback": "..."
+    },
+    "market_comparison": {
+      "score": <0–5>,
+      "max_score": 5,
+      "label": "<Poor|Average|Good|Excellent>",
+      "strengths": ["..."],
+      "missed_opportunities": ["..."],
+      "feedback": "..."
+    }
+  },
+  "critical_mistakes": ["..."],
+  "coaching_feedback": "...",
+  "performance_tier": "<Excellent|Good|Average|Needs Improvement>"
+}`;
+}

@@ -28,10 +28,16 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
         title: 'Task 1 of Module 1',
         description:
           'Conduct a home visit, understand the customer\'s problem and requirements, and discover their budget through natural conversation',
-        moduleAttempted: 'module_1_seepage', // ← persona: customer-persona.ts | rubric: evaluation-rubric.ts
+        moduleAttempted: 'module_1_seepage', // ← persona: module1-task1-persona.ts | rubric: module1-task1-rubric.ts
         status: 'active',
       },
-      { id: 'task_2', title: 'Coming Soon', description: '', moduleAttempted: '', status: 'coming_soon' },
+      {
+        id: 'task_2',
+        title: 'Task 2 of Module 1',
+        description: 'Conduct a home visit for a newly constructed flat, understand aesthetic requirements, handle market comparisons, and discover budget',
+        moduleAttempted: 'module_1_task2',
+        status: 'active',
+      },
       { id: 'task_3', title: 'Coming Soon', description: '', moduleAttempted: '', status: 'coming_soon' },
       { id: 'task_4', title: 'Coming Soon', description: '', moduleAttempted: '', status: 'coming_soon' },
       { id: 'task_5', title: 'Coming Soon', description: '', moduleAttempted: '', status: 'coming_soon' },
