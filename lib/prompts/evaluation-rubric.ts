@@ -21,6 +21,31 @@ export function buildEvaluationPrompt(
 ## TRANSCRIPT
 ${formattedTranscript}
 
+## SCORING PHILOSOPHY — READ THIS BEFORE SCORING
+
+### When to deduct marks
+Only deduct marks when the RM fails a core module objective. Specifically:
+- The RM never attempts budget discovery despite clear opportunities or customer signals
+- The RM quotes only a single price with no alternatives and ignores pushback
+- The RM gives factually wrong information on something the customer explicitly asked about
+- The RM ignores repeated, explicit customer signals (confusion, concern, price pushback) and keeps pushing
+- The RM skips the Project Manager introduction entirely
+- The RM immediately jumps into selling without any attempt to build comfort
+
+### When NOT to deduct marks
+Do NOT deduct for:
+- Things the RM did not proactively mention, unless the customer specifically asked about them — omitting something unprompted is not a mistake, it is at most a missed enhancement
+- The RM prioritising budget discovery before showing designs — this is the correct behaviour for this module; Budget Discovery is the primary objective
+- The customer asking to see designs before discussing budget — the RM is right to anchor the budget conversation first; this is not a scoring fault
+- Steps where the RM's approach differed from the ideal but still achieved the core objective
+- Building rapport briefly vs at length — any genuine warmth counts, not a checklist of rapport steps
+
+### The missed_opportunities field — strict rule
+The "missed_opportunities" array in each section must ONLY contain observations that directly caused a point deduction. If you noticed something the RM could have done better but chose not to deduct for it, do NOT put it in missed_opportunities. Those go in "feedback" instead.
+
+### The feedback field — make it actionable
+Every coaching suggestion in "feedback" must include a concrete example — not a generic statement. Instead of "RM could build more rapport", write something like: "Before moving to the wall, a line like 'aapka ghar bahut accha hai — kaafi time se wall change karne ka socha hai kya?' would have warmed up the conversation naturally." Suggestions without examples are not useful to the RM.
+
 ## SCORING RUBRIC
 
 ### Category 1: Introduction & Rapport (Max: 15 points)
@@ -70,35 +95,35 @@ Return a JSON object matching this exact schema. Do not include markdown, just t
       "max_score": 15,
       "label": "<Excellent|Good|Average|Poor>",
       "strengths": ["<specific strength from transcript>"],
-      "missed_opportunities": ["<specific miss from transcript>"],
-      "feedback": "<2-3 sentence coaching feedback>"
+      "missed_opportunities": ["<ONLY include if this observation directly caused a point deduction — leave array empty if no points were deducted>"],
+      "feedback": "<2-3 sentences: coaching suggestions for this section, each with a concrete example of better phrasing or approach. Non-critical tips that did not affect the score go here, not in missed_opportunities.>"
     },
     "technical": {
       "score": <number 0-5>,
       "max_score": 5,
       "label": "<Excellent|Good|Average|Poor>",
       "strengths": ["<specific strength>"],
-      "missed_opportunities": ["<specific miss>"],
-      "feedback": "<2-3 sentence coaching feedback>"
+      "missed_opportunities": ["<ONLY include if this observation directly caused a point deduction — leave array empty if no points were deducted>"],
+      "feedback": "<2-3 sentences: coaching suggestions with concrete examples. Non-critical omissions (e.g. not proactively mentioning timeline when customer didn't ask) go here as improvement tips, not in missed_opportunities.>"
     },
     "budget_discovery": {
       "score": <number 0-20>,
       "max_score": 20,
       "label": "<Excellent|Good|Average|Poor>",
       "strengths": ["<specific strength>"],
-      "missed_opportunities": ["<specific miss>"],
-      "feedback": "<2-3 sentence coaching feedback>"
+      "missed_opportunities": ["<ONLY include if this observation directly caused a point deduction — leave array empty if no points were deducted>"],
+      "feedback": "<2-3 sentences: coaching suggestions with concrete examples. Remember: RM prioritising budget before designs is correct behaviour, not a mistake.>"
     },
     "discovery_confidence": {
       "score": <number 0-10>,
       "max_score": 10,
       "label": "<Excellent|Good|Average|Poor>",
       "strengths": ["<specific strength>"],
-      "missed_opportunities": ["<specific miss>"],
-      "feedback": "<2-3 sentence coaching feedback>"
+      "missed_opportunities": ["<ONLY include if this observation directly caused a point deduction — leave array empty if no points were deducted>"],
+      "feedback": "<2-3 sentences: coaching suggestions with concrete examples.>"
     }
   },
-  "critical_mistakes": ["<critical mistake if any, max 3>"],
+  "critical_mistakes": ["<only genuine core-objective failures — max 3. Do not include minor omissions or proactive enhancement opportunities here>"],
   "coaching_feedback": "<3-5 sentence overall coaching paragraph>",
   "performance_tier": "<Excellent|Good|Average|Needs Improvement>"
 }
