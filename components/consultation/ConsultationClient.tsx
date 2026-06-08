@@ -42,7 +42,7 @@ export function ConsultationClient({
         transition={{ duration: 0.3, delay: 0.05, ease: 'easeOut' }}
         className="w-full lg:w-1/2 h-[38vh] lg:h-full shrink-0"
       >
-        <WallDisplay className="h-full" />
+        <WallDisplay className="h-full" taskId={taskId} />
       </motion.div>
 
       {/* Customer info — appears first */}
@@ -56,6 +56,7 @@ export function ConsultationClient({
           <VoiceArea
             customerName={customerName}
             customerGender={customerGender}
+            taskId={taskId}
             status={status}
             isCapturing={isCapturing}
             isEnding={isEnding}

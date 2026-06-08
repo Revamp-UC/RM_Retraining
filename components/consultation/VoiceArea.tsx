@@ -21,6 +21,7 @@ const WALL_INSIGHTS = [
 interface VoiceAreaProps {
   customerName: string;
   customerGender: 'male' | 'female';
+  taskId?: string;
   status: ConnectionStatus;
   isCapturing: boolean;
   isEnding: boolean;
@@ -29,6 +30,11 @@ interface VoiceAreaProps {
   onEnd: () => void;
   errorMessage: string | null;
 }
+
+const CUSTOMER_PROFILE: Record<string, { age: string; home: string }> = {
+  task_1: { age: 'Homeowner', home: '2 BHK · Tier-1 City' },
+  task_2: { age: '45 yr old', home: '3 BHK · Newly Built Flat' },
+};
 
 function formatTime(seconds: number): string {
   const m = Math.floor(seconds / 60);
@@ -39,6 +45,7 @@ function formatTime(seconds: number): string {
 export function VoiceArea({
   customerName,
   customerGender,
+  taskId = 'task_1',
   status,
   isCapturing,
   isEnding,
@@ -49,6 +56,7 @@ export function VoiceArea({
 }: VoiceAreaProps) {
   const isIdle = status === 'idle';
   const [quoteIndex, setQuoteIndex] = useState(0);
+  const profile = CUSTOMER_PROFILE[taskId] ?? CUSTOMER_PROFILE['task_1'];
 
   useEffect(() => {
     if (!isEnding) return;
@@ -93,12 +101,12 @@ export function VoiceArea({
         <div className="flex items-center gap-2 mb-1.5">
           <User className="h-3 w-3 text-indigo-400 shrink-0" />
           <span className="text-xs text-[#c8c8e0] font-medium">
-            35 yr old {customerGender === 'female' ? 'Woman' : 'Man'}
+            {profile.age} {customerGender === 'female' ? 'Woman' : 'Man'}
           </span>
         </div>
         <div className="flex items-center gap-2">
           <Home className="h-3 w-3 text-indigo-400 shrink-0" />
-          <span className="text-xs text-[#c8c8e0] font-medium">1 BHK · Owned Flat · Gated Society</span>
+          <span className="text-xs text-[#c8c8e0] font-medium">{profile.home}</span>
         </div>
       </div>
 
