@@ -90,7 +90,13 @@ export function ModuleCard({ id, number, task, isActive, stats, index }: ModuleC
               <div className="flex items-center gap-1.5">
                 <Trophy className="h-3.5 w-3.5 text-amber-400" />
                 <span className="text-xs text-[#9090a8]">
-                  Last: <span className="text-amber-400 font-semibold">{formatScore(stats.last_score)}</span>
+                  Last:{' '}
+                  <span className="text-amber-400 font-semibold">
+                    {formatScore(stats.last_score)}
+                    {stats.last_max_score !== null && (
+                      <span className="text-[#60607a] font-normal">/{stats.last_max_score}</span>
+                    )}
+                  </span>
                 </span>
               </div>
             )}

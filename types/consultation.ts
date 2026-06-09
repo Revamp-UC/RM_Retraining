@@ -45,8 +45,10 @@ export interface ConsultationHistoryItem {
 export interface ModuleStats {
   attempt_count: number;
   last_score: number | null;
+  last_max_score: number | null;
   last_attempt_date: string | null;
   best_score: number | null;
+  best_max_score: number | null;
   avg_score: number | null;
 }
 

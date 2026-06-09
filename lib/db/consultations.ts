@@ -154,31 +154,65 @@ export async function getConsultationHistory(mobile_number: string): Promise<Con
   } catch { return []; }
 }
 
+function computeMaxFromReport(reportJson: unknown): number | null {
+  const sections = (reportJson as ReportCard | null)?.sections;
+  if (!sections) return null;
+  return Object.values(sections).reduce((sum, s) => sum + (s?.max_score ?? 0), 0);
+}
+
 export async function getModuleStats(mobile_number: string, module_attempted: string): Promise<ModuleStats> {
+  const empty: ModuleStats = {
+    attempt_count: 0,
+    last_score: null,
+    last_max_score: null,
+    last_attempt_date: null,
+    best_score: null,
+    best_max_score: null,
+    avg_score: null,
+  };
+
   try {
     const { data, error } = await db
       .from('consultation_history')
-      .select('overall_score, attempt_date, status')
+      .select('overall_score, attempt_date, status, report_card_json')
       .eq('mobile_number', mobile_number)
       .eq('module_attempted', module_attempted)
       .eq('status', 'completed')
       .order('created_at', { ascending: false });
 
-    if (error || !data || data.length === 0) {
-      return { attempt_count: 0, last_score: null, last_attempt_date: null, best_score: null, avg_score: null };
-    }
+    if (error || !data || data.length === 0) return empty;
 
-    const scores = data.map((r: { overall_score: number | null }) => r.overall_score).filter((s): s is number => s !== null);
-    const avg = scores.length > 0 ? Math.round((scores.reduce((a, b) => a + b, 0) / scores.length) * 10) / 10 : null;
+    const scores = data
+      .map((r: { overall_score: number | null }) => r.overall_score)
+      .filter((s): s is number => s !== null);
+
+    const avg = scores.length > 0
+      ? Math.round((scores.reduce((a, b) => a + b, 0) / scores.length) * 10) / 10
+      : null;
+
+    // Max of the most recent session
+    const lastMax = computeMaxFromReport((data[0] as { report_card_json: unknown }).report_card_json);
+
+    // Max of the session that had the best score
+    let bestScore: number | null = null;
+    let bestMax: number | null = null;
+    for (const row of data as { overall_score: number | null; report_card_json: unknown }[]) {
+      if (row.overall_score !== null && (bestScore === null || row.overall_score > bestScore)) {
+        bestScore = row.overall_score;
+        bestMax = computeMaxFromReport(row.report_card_json);
+      }
+    }
 
     return {
       attempt_count: data.length,
       last_score: scores[0] ?? null,
+      last_max_score: lastMax,
       last_attempt_date: data[0]?.attempt_date ?? null,
-      best_score: scores.length > 0 ? Math.max(...scores) : null,
+      best_score: bestScore,
+      best_max_score: bestMax,
       avg_score: avg,
     };
   } catch {
-    return { attempt_count: 0, last_score: null, last_attempt_date: null, best_score: null, avg_score: null };
+    return empty;
   }
 }

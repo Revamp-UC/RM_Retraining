@@ -46,16 +46,25 @@ export default async function DashboardPage() {
   };
 
   // Combined per-module for the module card (attempt count across all tasks)
-  const allBestScores = [task1Stats.best_score, task2Stats.best_score, task3Stats.best_score]
-    .filter((s): s is number => s !== null);
+  // Pick whichever task had the most recent session (for last_score + last_max)
+  const allTasks = [task1Stats, task2Stats, task3Stats];
+  const latestTask = allTasks
+    .filter(t => t.last_attempt_date !== null)
+    .sort((a, b) => (b.last_attempt_date! > a.last_attempt_date! ? 1 : -1))[0] ?? null;
+
+  // Pick whichever task had the best score (for best_score + best_max)
+  const bestTask = allTasks
+    .filter(t => t.best_score !== null)
+    .sort((a, b) => b.best_score! - a.best_score!)[0] ?? null;
+
   const moduleCardStatsMap: Record<string, typeof task1Stats> = {
     module_1: {
-      attempt_count: task1Stats.attempt_count + task2Stats.attempt_count + task3Stats.attempt_count,
-      last_score: task1Stats.last_score ?? task2Stats.last_score ?? task3Stats.last_score,
-      last_attempt_date: [task1Stats.last_attempt_date, task2Stats.last_attempt_date, task3Stats.last_attempt_date]
-        .filter((d): d is string => d !== null)
-        .sort().at(-1) ?? null,
-      best_score: allBestScores.length > 0 ? Math.max(...allBestScores) : null,
+      attempt_count: allTasks.reduce((s, t) => s + t.attempt_count, 0),
+      last_score: latestTask?.last_score ?? null,
+      last_max_score: latestTask?.last_max_score ?? null,
+      last_attempt_date: latestTask?.last_attempt_date ?? null,
+      best_score: bestTask?.best_score ?? null,
+      best_max_score: bestTask?.best_max_score ?? null,
       avg_score: null,
     },
   };

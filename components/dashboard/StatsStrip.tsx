@@ -7,12 +7,19 @@ interface StatsStripProps {
   stats: Record<string, ModuleStats>;
 }
 
+function getBestWithMax(stats: Record<string, ModuleStats>): { score: number; max: number | null } | null {
+  let best: { score: number; max: number | null } | null = null;
+  for (const s of Object.values(stats)) {
+    if (s.best_score !== null && (best === null || s.best_score > best.score)) {
+      best = { score: s.best_score, max: s.best_max_score };
+    }
+  }
+  return best;
+}
+
 export function StatsStrip({ name, stats }: StatsStripProps) {
   const totalAttempts = Object.values(stats).reduce((sum, s) => sum + s.attempt_count, 0);
-  const bestScore = Object.values(stats).reduce((best, s) => {
-    if (s.best_score === null) return best;
-    return best === null ? s.best_score : Math.max(best, s.best_score);
-  }, null as number | null);
+  const best = getBestWithMax(stats);
   const avgScore = Object.values(stats).reduce((avg, s) => {
     if (s.avg_score === null) return avg;
     return avg === null ? s.avg_score : Math.round(((avg + s.avg_score) / 2) * 10) / 10;
@@ -32,7 +39,14 @@ export function StatsStrip({ name, stats }: StatsStripProps) {
           <Trophy className="h-5 w-5 text-amber-400" />
         </div>
         <p className="text-2xl font-bold text-[#f1f1f5]">
-          {bestScore !== null ? `${formatScore(bestScore)}` : '—'}
+          {best !== null ? (
+            <>
+              {formatScore(best.score)}
+              {best.max !== null && (
+                <span className="text-sm font-normal text-[#60607a]">/{best.max}</span>
+              )}
+            </>
+          ) : '—'}
         </p>
         <p className="text-xs text-[#60607a] mt-0.5">Best Score</p>
       </div>
