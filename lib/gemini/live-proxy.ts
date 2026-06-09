@@ -136,7 +136,7 @@ export async function handleConsultationStream(
         thinkingConfig: { thinkingBudget: 0 },
         realtimeInputConfig: {
           automaticActivityDetection: {
-            silenceDurationMs: 1500,
+            silenceDurationMs: 1000,
           },
         },
       },
