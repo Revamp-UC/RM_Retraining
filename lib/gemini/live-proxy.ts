@@ -112,7 +112,7 @@ export async function handleConsultationStream(
     }
   });
 
-  const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
+  const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY, httpOptions: { apiVersion: 'v1alpha' } });
   const systemPrompt = getPersonaPrompt(
     module_attempted,
     customer_name ?? 'Rahul',
