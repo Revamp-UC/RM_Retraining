@@ -158,7 +158,7 @@ export async function handleConsultationStream(
 
           const sc = message.serverContent;
           if (sc) {
-            if (sc.inputTranscription?.text) {
+            if (sc.inputTranscription?.text && isHindiOrEnglish(sc.inputTranscription.text)) {
               appendTranscript(consultationId, {
                 speaker: 'rm',
                 text: sc.inputTranscription.text,
@@ -215,6 +215,18 @@ export async function handleConsultationStream(
     clientWs.close(1011, 'AI connection failed');
     destroySession(consultationId);
   }
+}
+
+// Rejects text where >10% of characters are outside ASCII + Devanagari (Hindi).
+// Catches foreign-language transcription noise (Spanish, Arabic, CJK, etc.).
+function isHindiOrEnglish(text: string): boolean {
+  if (!text.trim()) return false;
+  let foreign = 0;
+  for (const char of text) {
+    const cp = char.codePointAt(0) ?? 0;
+    if (cp > 0x007F && !(cp >= 0x0900 && cp <= 0x097F)) foreign++;
+  }
+  return foreign / text.length < 0.1;
 }
 
 function kickOffConversation(session: Session) {

@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Volume2, X } from 'lucide-react';
 import { WallDisplay } from './WallDisplay';
 import { VoiceArea } from './VoiceArea';
 import { useConsultationState } from '@/hooks/useConsultationState';
@@ -28,12 +29,14 @@ export function ConsultationClient({
     isEnding,
     isCapturing,
     elapsedSeconds,
+    noiseWarning,
+    dismissNoiseWarning,
     startSession,
     endConsultation,
   } = useConsultationState({ consultationId, wsToken, moduleId });
 
   return (
-    <div className="flex flex-col lg:flex-row lg:h-full gap-4 lg:gap-6 p-4 lg:p-6">
+    <div className="flex flex-col lg:flex-row lg:h-full gap-4 lg:gap-6 p-4 lg:p-6 relative">
 
       {/* Wall panel — container appears quickly, internal elements animate at 1s via WallDisplay */}
       <motion.div
@@ -68,6 +71,30 @@ export function ConsultationClient({
         </div>
       </motion.div>
 
+      {/* Background noise warning toast */}
+      <AnimatePresence>
+        {noiseWarning && (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 16 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-[#1a1a2e] border border-amber-500/30 rounded-xl px-4 py-3 shadow-2xl max-w-sm w-[calc(100%-2rem)]"
+          >
+            <Volume2 className="h-4 w-4 text-amber-400 shrink-0" />
+            <p className="text-sm text-amber-200/90 flex-1 leading-snug">
+              Background noise detected — please move to a quieter environment
+            </p>
+            <button
+              onClick={dismissNoiseWarning}
+              className="text-[#60607a] hover:text-[#9090a8] transition-colors shrink-0"
+              aria-label="Dismiss"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

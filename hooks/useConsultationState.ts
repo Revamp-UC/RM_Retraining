@@ -23,6 +23,7 @@ export function useConsultationState({
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isEnding, setIsEnding] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
+  const [noiseWarning, setNoiseWarning] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startedRef = useRef(false);
 
@@ -48,9 +49,13 @@ export function useConsultationState({
     onError: (msg) => setErrorMessage(msg),
   });
 
+  const handleHighNoise = useCallback(() => setNoiseWarning(true), []);
+  const dismissNoiseWarning = useCallback(() => setNoiseWarning(false), []);
+
   const { start: startMic, stop: stopMic, isCapturing, error: micError } = useAudioCapture({
     sampleRate: 16000,
     onAudioChunk: sendAudio,
+    onHighNoise: handleHighNoise,
   });
 
   function startTimer() {
@@ -129,6 +134,8 @@ export function useConsultationState({
     isEnding,
     isCapturing,
     elapsedSeconds,
+    noiseWarning,
+    dismissNoiseWarning,
     startSession,
     endConsultation,
   };

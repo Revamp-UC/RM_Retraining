@@ -5,9 +5,10 @@ import { useRef, useState, useCallback } from 'react';
 interface UseAudioCaptureOptions {
   sampleRate?: number;
   onAudioChunk: (pcmData: ArrayBuffer) => void;
+  onHighNoise?: () => void;
 }
 
-export function useAudioCapture({ sampleRate = 16000, onAudioChunk }: UseAudioCaptureOptions) {
+export function useAudioCapture({ sampleRate = 16000, onAudioChunk, onHighNoise }: UseAudioCaptureOptions) {
   const [isCapturing, setIsCapturing] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -15,6 +16,10 @@ export function useAudioCapture({ sampleRate = 16000, onAudioChunk }: UseAudioCa
   const processorRef = useRef<ScriptProcessorNode | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const sourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
+  const noisyCountRef = useRef(0);
+  const noiseFiredRef = useRef(false);
+  const noiseWindowRef = useRef(false);
+  const noiseWindowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const start = useCallback(async () => {
     if (isCapturing) return;
@@ -51,17 +56,39 @@ export function useAudioCapture({ sampleRate = 16000, onAudioChunk }: UseAudioCa
         // Convert float32 to int16 PCM
         const pcm16 = floatTo16BitPCM(channelData);
         onAudioChunk(pcm16.buffer as ArrayBuffer);
+
+        // Background noise detection: fire once if sustained RMS > threshold within first 10s
+        if (!noiseFiredRef.current && noiseWindowRef.current) {
+          let sum = 0;
+          for (let i = 0; i < channelData.length; i++) sum += channelData[i] * channelData[i];
+          const rms = Math.sqrt(sum / channelData.length);
+          if (rms > 0.02) {
+            noisyCountRef.current++;
+          } else {
+            noisyCountRef.current = Math.max(0, noisyCountRef.current - 2);
+          }
+          if (noisyCountRef.current >= 15) {
+            noiseFiredRef.current = true;
+            onHighNoise?.();
+          }
+        }
       };
 
       source.connect(processor);
       processor.connect(audioContext.destination);
+
+      // Only monitor for background noise in the first 10 seconds
+      noiseWindowRef.current = true;
+      noiseWindowTimerRef.current = setTimeout(() => {
+        noiseWindowRef.current = false;
+      }, 10000);
 
       setIsCapturing(true);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Microphone access denied';
       setError(message);
     }
-  }, [isCapturing, sampleRate, onAudioChunk]);
+  }, [isCapturing, sampleRate, onAudioChunk, onHighNoise]);
 
   const stop = useCallback(() => {
     if (processorRef.current) {
@@ -79,6 +106,12 @@ export function useAudioCapture({ sampleRate = 16000, onAudioChunk }: UseAudioCa
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((t) => t.stop());
       streamRef.current = null;
+    }
+    noisyCountRef.current = 0;
+    noiseWindowRef.current = false;
+    if (noiseWindowTimerRef.current) {
+      clearTimeout(noiseWindowTimerRef.current);
+      noiseWindowTimerRef.current = null;
     }
     setIsCapturing(false);
   }, []);
