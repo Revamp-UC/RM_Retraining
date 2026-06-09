@@ -44,7 +44,12 @@ CATEGORY 1 — INTRODUCTION & AGENDA SETTING (15 Marks)
 
 Score each sub-criterion:
 - Formal Introduction (2): RM introduced themselves with name + company
-- Customer Name & Personalization (2): Used customer's name naturally during conversation
+- Customer Name & Personalization (2): Asked customer's name (1pt) + addressed by name during conversation (1pt)
+  Deduction rules — apply strictly:
+  · RM never asked name AND used only Sir/Ma'am throughout → 0/2
+  · RM asked name BUT kept using only Sir/Ma'am without ever using the name → 1/2 (deduct second point)
+  · RM asked name AND used it at least once → 2/2
+  When deducting: add coaching note — "Naam poocha — achha tha. Lekin use bhi karo: 'Rahul ji, yeh design aapke liye perfect rahega.' Naam lene se consultation personal aur trust-building ban jaata hai."
 - Expert Positioning (1): Positioned themselves as expert (experience, expertise, knowledge)
 - Project Ownership (2): RM took ownership of the project — "main sambhalunga", "aap relax karo"
 - Single Point of Contact (1): Made clear they are the single point of contact
@@ -127,9 +132,9 @@ REPORT FORMAT:
 
 For each category produce:
 
-strengths: array of strings — what RM did well, WHY it was effective, HOW it helped customer trust
-missed_opportunities: array of strings — ONLY scored deductions. For each: what was missed + why marks deducted + what RM could have said instead (natural example)
-feedback: string — non-scored coaching tips only. Use natural sales language examples. Reference these tips where relevant:
+strengths: array — max 2 items. What RM did well and why it worked. 1–2 sentences each.
+missed_opportunities: array — ONLY scored deductions, max 2. What was missed + impact. Empty [] if none.
+feedback: string — Write as 2–3 short bullet points using EXACTLY this format: " - **[Short Label]**: [coaching note + concrete example]". No prose. Example: " - **Use customer's name**: 'Rahul ji, yeh aapke liye best hai' — builds rapport instantly. - **Defend value clearly**: When customer compares market, say 'Sir sasti cheez milne mein dikkat nahi, bas sasti dikhni nahi chahiye.'" Non-scored coaching only. Reference these tips where relevant:
   - "Sir sasti cheez milne me koi dikkat nahi hai, bas sasti dikhni nahi chahiye."
   - "Sir itna bada investment kar rahe ho to risk lena zaroori nahi hai."
   - "Sir panel lagwana ek baar ka kaam hai, finishing roz dekhni hai."
@@ -162,6 +167,18 @@ A high-performing RM should naturally discover most of these:
 If RM uncovered most of these naturally, budget discovery should score near full marks even if no exact budget was disclosed.
 
 ---
+
+REPORT WRITING RULES — FOLLOW THESE STRICTLY:
+
+Conciseness:
+- strengths: max 2 items. Each: 1–2 sentences only. Say what RM did well and why it worked.
+- missed_opportunities: max 2 items. Each: 1–2 sentences only. State what was missed and the impact.
+- feedback: max 3–4 sentences total. Include ONE concrete example of what the RM should say next time.
+- coaching_feedback: 2–3 sentences only. One genuine appreciation + the single most important fix + one specific next action.
+
+No repetition: Each insight appears exactly once. Do NOT repeat across sections or in coaching_feedback. coaching_feedback must add new synthesis, not re-list what sections already said.
+
+Actionability: Every feedback item must answer "What exactly should the RM say or do next time?" — not vague advice, a specific natural example.
 
 RETURN VALID JSON ONLY. No markdown. No explanation outside the JSON.
 

@@ -10,6 +10,17 @@ export const dynamic = 'force-dynamic';
 
 const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965']);
 
+const MODULE_TASK_LABEL: Record<string, string> = {
+  module_1_seepage: 'M1 · T1',
+  module_1_task2:   'M1 · T2',
+  module_1_task3:   'M1 · T3',
+};
+
+function toTaskLabel(m: string | null): string {
+  if (!m) return '—';
+  return MODULE_TASK_LABEL[m] ?? m;
+}
+
 function ScoreChip({ score }: { score: number | null }) {
   if (score === null)
     return <span className="text-xs font-medium text-[#60607a]">—</span>;
@@ -66,6 +77,11 @@ function RMTableRow({ rm, rank }: { rm: RMPerformance; rank: number }) {
       </td>
       <td className="px-4 py-3">
         <ScoreChip score={rm.avg_score} />
+      </td>
+      <td className="px-4 py-3">
+        <span className="text-[10px] font-semibold text-[#9090a8] bg-[#1c1c26] border border-[#2a2a38] rounded px-1.5 py-0.5 whitespace-nowrap">
+          {toTaskLabel(rm.last_module_attempted)}
+        </span>
       </td>
       <td className="px-4 py-3 text-xs text-[#60607a]">{formattedDate}</td>
       <td className="px-4 py-3">
@@ -201,6 +217,7 @@ export default async function AdminPage() {
                         <p className="text-xs text-[#60607a]">
                           {rm.attempt_count} attempt{rm.attempt_count !== 1 ? 's' : ''}
                           {rm.avg_score !== null ? ` · avg ${rm.avg_score}` : ''}
+                          {rm.last_module_attempted ? ` · ${toTaskLabel(rm.last_module_attempted)}` : ''}
                         </p>
                       </div>
                       <ScoreChip score={rm.best_score} />
@@ -239,6 +256,7 @@ export default async function AdminPage() {
                         <p className="text-sm font-semibold text-[#f1f1f5] truncate">{rm.name}</p>
                         <p className="text-xs text-[#60607a]">
                           {rm.attempt_count} attempt{rm.attempt_count !== 1 ? 's' : ''}
+                          {rm.last_module_attempted ? ` · ${toTaskLabel(rm.last_module_attempted)}` : ''}
                         </p>
                       </div>
                       <ScoreChip score={rm.best_score} />
@@ -283,7 +301,7 @@ export default async function AdminPage() {
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-[#1a1a24]">
-                  {['#', 'Name', 'Attempts', 'Best', 'Avg', 'Last Session', ''].map(h => (
+                  {['#', 'Name', 'Attempts', 'Best', 'Avg', 'Last Task', 'Last Session', ''].map(h => (
                     <th
                       key={h}
                       className="px-4 py-3 text-[10px] font-bold text-[#60607a] uppercase tracking-wider"

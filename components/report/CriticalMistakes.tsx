@@ -24,7 +24,7 @@ export function CriticalMistakes({ mistakes, coachingFeedback }: CriticalMistake
           </div>
           <ul className="space-y-2">
             {mistakes.map((m, i) => (
-              <li key={i} className="flex items-start gap-2.5 text-sm text-[#f1f1f5]">
+              <li key={i} className="flex items-start gap-2.5 text-base text-[#f1f1f5]">
                 <span className="text-red-500 font-bold shrink-0 mt-0.5">{i + 1}.</span>
                 <span className="text-[#9090a8]">{m}</span>
               </li>
@@ -43,7 +43,7 @@ export function CriticalMistakes({ mistakes, coachingFeedback }: CriticalMistake
           <MessageSquare className="h-4 w-4 text-indigo-400" />
           <h3 className="text-sm font-semibold text-indigo-400 uppercase tracking-wide">Coach&apos;s Feedback</h3>
         </div>
-        <p className="text-sm text-[#9090a8] leading-relaxed">{coachingFeedback}</p>
+        <p className="text-base text-[#9090a8] leading-relaxed">{coachingFeedback}</p>
       </motion.div>
     </div>
   );

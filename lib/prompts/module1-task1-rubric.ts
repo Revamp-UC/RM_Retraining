@@ -60,8 +60,14 @@ Any professional self-introduction that clearly establishes who they are and whi
 
 #### Customer Name & Personalization — 2 points
 - 1 pt: Did the RM ask for the customer's name at any point?
-- 1 pt: Did the RM address the customer by name during the conversation? Using "ji" after the name (e.g. "Rahul ji") is preferred as it creates warmth and respect.
-Deduct both points only if the RM relied exclusively on "sir/ma'am" throughout the entire consultation without ever asking for or using the customer's name. Using "sir/ma'am" occasionally alongside the name is acceptable.
+- 1 pt: Did the RM address the customer by name naturally during the conversation?
+
+Deduction rules — apply strictly:
+- RM never asked the name AND addressed customer only as Sir/Ma'am throughout → 0/2
+- RM asked the name BUT continued using only Sir/Ma'am without using the name even once → 1/2 (deduct the second point)
+- RM asked the name AND used it at least once during the conversation → 2/2
+
+When deducting the second point: add a coaching note in feedback explaining that asking for the name is only half the job — using it during the conversation is what builds trust and makes the consultation feel personal. Example coaching line: "Aapne naam poocha — achha step tha. Lekin ek baar bhi use karo conversation mein: 'Rahul ji, yeh option aapke liye best rahega.' Yeh chhota sa change rapport aur comfort bahut badha deta hai."
 
 #### Expert Positioning — 1 point
 Did the RM communicate — in any way — that they have relevant experience, knowledge, or expertise in wall design, panels, or home interiors?
@@ -199,6 +205,22 @@ Deduct if: RM was defensive, unsure, or skipped discovery entirely.
 ## YOUR TASK
 Evaluate the RM's performance STRICTLY based on the transcript. Be honest and critical. Do not inflate scores.
 
+## REPORT WRITING RULES — FOLLOW THESE STRICTLY
+
+### Conciseness
+- strengths: max 2 items. Each item: 1–2 sentences only. Explain what they did well and WHY it worked.
+- missed_opportunities: max 2 items. Each item: 1–2 sentences only. State what was missed and the impact.
+- feedback: Write as 2–3 short bullet points using EXACTLY this format: " - **[Short Label]**: [coaching note + concrete example of what RM should say]". No prose paragraphs. Example: " - **Use the customer's name**: After asking for the name, say 'Rahul ji, yeh aapke liye best option hai' — this builds instant rapport. - **Anchor budget early**: Before showing designs, ask 'Roughly kitna invest soch rahe ho? Main relevant options dikhata hoon.'"
+- coaching_feedback: 2–3 sentences only. One genuine appreciation + the single most important fix + one specific next action.
+
+### No repetition across sections
+Each insight appears exactly once in the entire report. If mentioned in section A, do NOT repeat in section B or coaching_feedback. The coaching_feedback must NOT re-summarize what sections already said.
+
+### Actionability
+Every feedback item must answer: "What exactly should the RM say next time?"
+Bad: "RM should position themselves as an expert."
+Good: "Next time, a line like 'Main wall panels mein specialist hoon — aapko sab kuch main personally handle karunga' takes 5 seconds and sets the right tone immediately."
+
 Return a JSON object matching this exact schema. Do not include markdown, just the JSON:
 
 {
@@ -208,33 +230,33 @@ Return a JSON object matching this exact schema. Do not include markdown, just t
       "score": <number 0-15>,
       "max_score": 15,
       "label": "<Excellent|Good|Average|Poor>",
-      "strengths": ["Write in simple English. For each strength: describe what the RM did well, explain WHY it was effective, and how it helped build customer trust or improve the customer experience. Do not just list completed points — explain the impact so the RM feels genuinely recognized."],
-      "missed_opportunities": ["ONLY include items where marks were actually deducted. For each deduction: state clearly what was missed, why marks were deducted, and what impact this missed behavior could have on the customer's trust or experience. Leave as empty array [] if no points were deducted."],
-      "feedback": "This is the most important part — 'How It Could Have Been Done Better'. For each missed point: explain WHY that behavior matters (what trust or confidence it builds, what business objective it serves). Then give a simple, natural example of how the RM could have covered it in their own words. Write in plain English that any RM can read once and immediately know what to do differently next time. Do not write generic advice — every suggestion must include a concrete example."
+      "strengths": ["max 2 items — what RM did well and why it built customer trust"],
+      "missed_opportunities": ["ONLY scored deductions, max 2 — what was missed and its impact. Empty array [] if no deductions."],
+      "feedback": "Max 3–4 sentences. The single most impactful thing to improve, with one concrete natural example of what to say next time."
     },
     "technical": {
       "score": <number 0-5>,
       "max_score": 5,
       "label": "<Excellent|Good|Average|Poor>",
-      "strengths": ["Describe what the RM explained correctly, why it was accurate or effective, and how it helped the customer understand the product or feel reassured. If the RM proactively mentioned longevity, appreciate it specifically."],
-      "missed_opportunities": ["ONLY include if marks were actually deducted. State clearly what was missed, why marks were deducted, and what impact the gap could have on customer trust or expectations. Leave as empty array [] if no points were deducted. Do NOT include topics the customer never asked about."],
-      "feedback": "Structure this field in two parts:\n\nPart 1 — Coaching on missed points (if any marks were deducted): Explain why the missed behavior matters and give a concrete natural example. If RM said 'PVC panels' instead of 'NIO Panels', note: 'The explanation was correct — please use NIO Panels in customer conversations going forward as PVC panels have been discontinued.' If RM never mentioned longevity and the customer also asked about quality/finishing at a price point, combine the coaching: explain that longevity was the right moment to address the quality concern specifically, with an example like: 'Is range mein jo panels aate hain, unki quality bahut acchi hoti hai — yeh 10-12 saal aasani se chalte hain, toh finishing ka koi compromise nahi hoga.'\n\nPart 2 — Correct Answers for Learning (ONLY for topics the customer raised): Include the ideal answer only for questions the customer actually asked during the consultation. Do not include answers for topics the customer never raised. If the customer asked about panel material → include it. If they asked about warranty → include it. If they never asked → skip it entirely. Label this section clearly as 'For your learning' so the RM understands these are not deductions."
+      "strengths": ["max 2 items — what RM explained correctly and how it helped the customer"],
+      "missed_opportunities": ["ONLY scored deductions, max 2. Empty array [] if no deductions. Do NOT include topics customer never raised."],
+      "feedback": "Max 3–4 sentences. If marks deducted: one concrete coaching example. If longevity was missed: give a specific line. For topics customer raised: one 'For your learning' correction only if wrong info was given."
     },
     "budget_discovery": {
       "score": <number 0-15>,
       "max_score": 15,
       "label": "<Excellent|Good|Average|Poor>",
-      "strengths": ["Describe what the RM did well — e.g. asked for budget naturally, gave a relevant range, handled resistance well, used an analogy or indirect technique effectively. Explain WHY each approach was good and how it helped the consultation move forward. If the RM used an analogy or creative technique, appreciate it specifically."],
-      "missed_opportunities": ["ONLY include if marks were actually deducted. State what was missed, why marks were deducted, and the impact on the consultation. Leave as empty array [] if no points were deducted. Remember: RM prioritising budget before designs is correct behaviour — do not list it as a miss."],
-      "feedback": "Structure this field in two clear parts:\n\nPart 1 — Coaching on missed points (if any): Explain why each missed behavior matters, what it achieves in the consultation, and give a specific natural example of how the RM could have done it. If the RM gave up after one resistance, show them how to persist with an example.\n\nPart 2 — Pro Tips (always include): Share 1-2 advanced budget discovery techniques the RM can use in future consultations — analogies, comparisons, narrowing techniques, or customer-centric reasoning. Provide a concrete example of each. Note clearly that these are coaching suggestions and not marks-affecting criteria."
+      "strengths": ["max 2 items — what RM did well in budget discovery and why it worked"],
+      "missed_opportunities": ["ONLY scored deductions, max 2. Empty array [] if no deductions."],
+      "feedback": "Max 3–4 sentences. One missed behavior explained with a concrete example. Plus one pro tip the RM can use next time."
     },
     "discovery_confidence": {
       "score": <number 0-10>,
       "max_score": 10,
       "label": "<Excellent|Good|Average|Poor>",
-      "strengths": ["Describe what the RM did well in discovery and confidence, and how it benefited the consultation."],
-      "missed_opportunities": ["ONLY include if marks were deducted. Leave as empty array [] if no points were deducted."],
-      "feedback": "For any missed points: explain why the behavior matters and give a concrete example of how to do it better."
+      "strengths": ["max 2 items — what RM did well in discovery and confidence"],
+      "missed_opportunities": ["ONLY scored deductions, max 2. Empty array [] if no deductions."],
+      "feedback": "Max 2–3 sentences. One concrete improvement with an example."
     }
   },
   "critical_mistakes": ["Only include genuine core-objective failures — max 3. These are behaviors that significantly hurt the customer experience or directly undermined the consultation's primary objective. Do not include minor omissions or non-critical missed steps here."],

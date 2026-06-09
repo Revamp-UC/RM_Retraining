@@ -53,7 +53,7 @@ function BulletContent({ text }: { text: string }) {
         if (!trimmed) return null;
         if (i === 0) {
           return (
-            <p key={i} className="text-xs text-[#9090a8] leading-relaxed">
+            <p key={i} className="text-base text-[#9090a8] leading-relaxed">
               {renderInlineBold(trimmed)}
             </p>
           );
@@ -61,7 +61,7 @@ function BulletContent({ text }: { text: string }) {
         return (
           <div key={i} className="flex items-start gap-2 pl-1">
             <span className="text-indigo-400/60 mt-1.5 shrink-0 text-[8px]">◆</span>
-            <p className="text-xs text-[#9090a8] leading-relaxed">
+            <p className="text-sm text-[#9090a8] leading-relaxed">
               {renderInlineBold(trimmed)}
             </p>
           </div>
@@ -88,7 +88,7 @@ function FeedbackContent({ text }: { text: string }) {
           const body = colonIdx > 0 && colonIdx < 60 ? rest.slice(colonIdx + 1).trim() : rest.trim();
           return (
             <div key={si} className="space-y-2">
-              <p className="text-[10px] font-bold text-indigo-300 uppercase tracking-widest pb-1 border-b border-indigo-500/20">
+              <p className="text-xs font-bold text-indigo-300 uppercase tracking-widest pb-1 border-b border-indigo-500/20">
                 {header}
               </p>
               <BulletContent text={body} />
@@ -123,8 +123,8 @@ export function SectionScore({ title, result, index, icon }: SectionScoreProps) 
             {icon}
           </div>
           <div className="min-w-0">
-            <h3 className="font-semibold text-[#f1f1f5] text-sm">{title}</h3>
-            <span className={cn('inline-flex items-center rounded border px-1.5 py-px text-[10px] font-medium mt-0.5', getLabelColor(result.label))}>
+            <h3 className="font-semibold text-[#f1f1f5] text-lg">{title}</h3>
+            <span className={cn('inline-flex items-center rounded border px-1.5 py-px text-xs font-medium mt-0.5', getLabelColor(result.label))}>
               {result.label}
             </span>
           </div>
@@ -168,7 +168,7 @@ export function SectionScore({ title, result, index, icon }: SectionScoreProps) 
               {/* Strengths — green cards */}
               {result.strengths.length > 0 && (
                 <div>
-                  <p className="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-2.5">
+                  <p className="text-sm font-bold text-emerald-400 uppercase tracking-widest mb-2.5">
                     What You Did Well
                   </p>
                   <div className="space-y-2">
@@ -177,8 +177,8 @@ export function SectionScore({ title, result, index, icon }: SectionScoreProps) 
                         key={i}
                         className="flex items-start gap-2.5 rounded-lg bg-emerald-500/5 border border-emerald-500/15 px-3 py-2.5"
                       >
-                        <CheckCircle2 className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
-                        <p className="text-xs text-emerald-200/80 leading-relaxed">{s}</p>
+                        <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0 mt-0.5" />
+                        <p className="text-base text-emerald-200/80 leading-relaxed">{s}</p>
                       </div>
                     ))}
                   </div>
@@ -188,7 +188,7 @@ export function SectionScore({ title, result, index, icon }: SectionScoreProps) 
               {/* Missed opportunities — amber cards */}
               {result.missed_opportunities.length > 0 && (
                 <div>
-                  <p className="text-[10px] font-bold text-amber-400 uppercase tracking-widest mb-2.5">
+                  <p className="text-sm font-bold text-amber-400 uppercase tracking-widest mb-2.5">
                     Missed Opportunities
                   </p>
                   <div className="space-y-2">
@@ -197,8 +197,8 @@ export function SectionScore({ title, result, index, icon }: SectionScoreProps) 
                         key={i}
                         className="flex items-start gap-2.5 rounded-lg bg-amber-500/5 border border-amber-500/15 px-3 py-2.5"
                       >
-                        <AlertCircle className="h-3.5 w-3.5 text-amber-400 shrink-0 mt-0.5" />
-                        <p className="text-xs text-amber-200/80 leading-relaxed">{m}</p>
+                        <AlertCircle className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
+                        <p className="text-base text-amber-200/80 leading-relaxed">{m}</p>
                       </div>
                     ))}
                   </div>
@@ -208,7 +208,7 @@ export function SectionScore({ title, result, index, icon }: SectionScoreProps) 
               {/* Coach's feedback — structured, point-wise */}
               {result.feedback && (
                 <div>
-                  <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-2.5">
+                  <p className="text-sm font-bold text-indigo-400 uppercase tracking-widest mb-2.5">
                     Coach&apos;s Guidance
                   </p>
                   <div className="rounded-lg bg-[#15152a] border border-indigo-500/20 px-4 py-3.5">

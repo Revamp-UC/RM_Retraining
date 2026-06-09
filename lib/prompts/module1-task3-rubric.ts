@@ -58,7 +58,12 @@ CATEGORY 1 — INTRODUCTION & AGENDA SETTING (15 Marks)
 
 Score each sub-criterion:
 - Formal Introduction (2): RM introduced themselves by name + mentioned Urban Company or Revamp by Urban Company
-- Customer Name & Personalization (2): Asked customer's name (1pt) + addressed by name with "ji" during conversation (1pt). Deduct only if relied exclusively on sir/ma'am throughout.
+- Customer Name & Personalization (2): Asked customer's name (1pt) + addressed by name during conversation (1pt).
+  Deduction rules — apply strictly:
+  · RM never asked name AND used only Sir/Ma'am throughout → 0/2
+  · RM asked name BUT kept addressing as Sir/Ma'am without using the name even once → 1/2 (deduct second point)
+  · RM asked name AND used it at least once → 2/2
+  When deducting: add coaching note — "Naam poocha — achha step. Lekin consultation mein ek baar bhi use karo: 'Rahul ji, panels ka yeh advantage hai...' Isse conversation personal aur comfortable ban jaata hai."
 - Expert Positioning (1): Positioned as wall design expert or specialist naturally
 - Project Ownership (2): Communicated they will manage the project start to finish — "main sambhalunga", "aap relax karo", or similar
 - Single Point of Contact (1): Customer can reach RM directly for anything
@@ -137,7 +142,7 @@ REPORT WRITING RULES — FOLLOW THESE STRICTLY:
 Conciseness:
 - strengths: max 2 items. Each: 1–2 sentences only. Say what RM did well and why it worked.
 - missed_opportunities: max 2 items. Each: 1–2 sentences only. State what was missed and the impact.
-- feedback: max 3–4 sentences total. ONE concrete example of what the RM should say next time.
+- feedback: Write as 2–3 short bullet points using EXACTLY this format: " - **[Short Label]**: [coaching note + concrete example of what RM should say]". No prose paragraphs. Example: " - **Connect longevity to value**: Say 'Aap baar baar paint karwate ho — yeh panels ek baar lagao, 10 saal tension free.' - **Use customer's name**: 'Rahul ji, yeh option aapke budget mein fit bhi hoga' builds trust."
 - coaching_feedback: 2–3 sentences only. One genuine appreciation + the single most important fix + one specific next action.
 
 No repetition: Each insight appears exactly once. Do NOT repeat across sections or in coaching_feedback. coaching_feedback must add new synthesis, not re-list what sections already said.

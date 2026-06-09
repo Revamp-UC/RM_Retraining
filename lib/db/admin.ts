@@ -9,6 +9,7 @@ export interface RMPerformance {
   avg_score: number | null;
   last_attempt_date: string | null;
   last_score: number | null;
+  last_module_attempted: string | null;
 }
 
 export interface AdminConsultation {
@@ -35,7 +36,7 @@ export async function getAllRMPerformance(): Promise<RMPerformance[]> {
     db.from('users').select('mobile_number, name').eq('is_active', true).order('name'),
     db
       .from('consultation_history')
-      .select('mobile_number, overall_score, attempt_date, created_at')
+      .select('mobile_number, overall_score, attempt_date, created_at, module_attempted')
       .eq('status', 'completed')
       .order('created_at', { ascending: false }),
   ]);
@@ -60,6 +61,7 @@ export async function getAllRMPerformance(): Promise<RMPerformance[]> {
           : null,
       last_attempt_date: userConsults[0]?.attempt_date ?? null,
       last_score: scores[0] ?? null,
+      last_module_attempted: (userConsults[0] as { module_attempted?: string } | undefined)?.module_attempted ?? null,
     };
   });
 }
