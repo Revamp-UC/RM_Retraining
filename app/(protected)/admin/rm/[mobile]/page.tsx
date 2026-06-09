@@ -93,6 +93,7 @@ function SubScoreRow({ label, score, max }: { label: string; score: number | nul
 const MODULE_ID_MAP: Record<string, string> = {
   module_1_seepage: 'module_1',
   module_1_task2: 'module_1',
+  module_1_task3: 'module_1',
 };
 
 function toModuleId(moduleAttempted: string): string {

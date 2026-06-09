@@ -34,6 +34,7 @@ interface VoiceAreaProps {
 const CUSTOMER_PROFILE: Record<string, { age: string; home: string; scope?: string }> = {
   task_1: { age: 'Homeowner', home: '2 BHK · Tier-1 City' },
   task_2: { age: '45 yr old', home: '3 BHK · Newly Built Flat', scope: '4 Wall Requirement' },
+  task_3: { age: '40 yr old', home: '3 BHK · Gated Society, West Delhi', scope: 'Seepage Wall · Bedroom' },
 };
 
 function formatTime(seconds: number): string {

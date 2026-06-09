@@ -32,22 +32,30 @@ export default async function DashboardPage() {
   const user = await validateSession(token);
   if (!user) redirect('/login');
 
-  const task1Stats = await getModuleStats(user.mobile_number, 'module_1_seepage');
-  const task2Stats = await getModuleStats(user.mobile_number, 'module_1_task2');
+  const [task1Stats, task2Stats, task3Stats] = await Promise.all([
+    getModuleStats(user.mobile_number, 'module_1_seepage'),
+    getModuleStats(user.mobile_number, 'module_1_task2'),
+    getModuleStats(user.mobile_number, 'module_1_task3'),
+  ]);
 
   // Full map — StatsStrip aggregates over all values, so all tasks must be included
-  const statsMap = { module_1_seepage: task1Stats, module_1_task2: task2Stats };
+  const statsMap = {
+    module_1_seepage: task1Stats,
+    module_1_task2: task2Stats,
+    module_1_task3: task3Stats,
+  };
 
   // Combined per-module for the module card (attempt count across all tasks)
-  const task2BestScores = [task1Stats.best_score, task2Stats.best_score].filter((s): s is number => s !== null);
+  const allBestScores = [task1Stats.best_score, task2Stats.best_score, task3Stats.best_score]
+    .filter((s): s is number => s !== null);
   const moduleCardStatsMap: Record<string, typeof task1Stats> = {
     module_1: {
-      attempt_count: task1Stats.attempt_count + task2Stats.attempt_count,
-      last_score: task1Stats.last_score ?? task2Stats.last_score,
-      last_attempt_date: [task1Stats.last_attempt_date, task2Stats.last_attempt_date]
+      attempt_count: task1Stats.attempt_count + task2Stats.attempt_count + task3Stats.attempt_count,
+      last_score: task1Stats.last_score ?? task2Stats.last_score ?? task3Stats.last_score,
+      last_attempt_date: [task1Stats.last_attempt_date, task2Stats.last_attempt_date, task3Stats.last_attempt_date]
         .filter((d): d is string => d !== null)
         .sort().at(-1) ?? null,
-      best_score: task2BestScores.length > 0 ? Math.max(...task2BestScores) : null,
+      best_score: allBestScores.length > 0 ? Math.max(...allBestScores) : null,
       avg_score: null,
     },
   };

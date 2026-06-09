@@ -17,6 +17,10 @@ import { buildEvaluationPrompt as m1t1Rubric } from './module1-task1-rubric';
 import { generateCustomerPersonaPrompt as m1t2Persona } from './module1-task2-persona';
 import { buildEvaluationPrompt as m1t2Rubric } from './module1-task2-rubric';
 
+// Module 1 · Task 3
+import { generateCustomerPersonaPrompt as m1t3Persona } from './module1-task3-persona';
+import { buildEvaluationPrompt as m1t3Rubric } from './module1-task3-rubric';
+
 // ─── Sanitizer helpers ────────────────────────────────────────────────────────
 
 function clamp(v: unknown, max: number): number {
@@ -68,6 +72,28 @@ function sanitizeTask1(raw: unknown): ReportCard {
   };
 }
 
+// Task 3 sanitizer — 4 sections, max 45 (same structure as Task 1)
+function sanitizeTask3(raw: unknown): ReportCard {
+  const c = raw as Partial<ReportCard>;
+  const intro    = clamp(c.sections?.introduction?.score, 15);
+  const tech     = clamp(c.sections?.technical?.score, 5);
+  const budget   = clamp(c.sections?.budget_discovery?.score, 15);
+  const disc     = clamp(c.sections?.discovery_confidence?.score, 10);
+  const overall  = intro + tech + budget + disc;
+  return {
+    overall_score: overall,
+    sections: {
+      introduction:         section(c.sections?.introduction, intro, 15),
+      technical:            section(c.sections?.technical, tech, 5),
+      budget_discovery:     section(c.sections?.budget_discovery, budget, 15),
+      discovery_confidence: section(c.sections?.discovery_confidence, disc, 10),
+    },
+    critical_mistakes: c.critical_mistakes ?? [],
+    coaching_feedback: c.coaching_feedback ?? '',
+    performance_tier: tier(overall),
+  };
+}
+
 // Task 2 sanitizer — 5 sections, max 50
 function sanitizeTask2(raw: unknown): ReportCard {
   const c = raw as Partial<ReportCard>;
@@ -111,7 +137,11 @@ const PROMPT_REGISTRY: Record<string, PromptHandlers> = {
     rubric:   m1t2Rubric,
     sanitize: sanitizeTask2,
   },
-  // 'module_1_task3': { persona: m1t3Persona, rubric: m1t3Rubric, sanitize: sanitizeTask3 },
+  'module_1_task3': {
+    persona:  m1t3Persona,
+    rubric:   m1t3Rubric,
+    sanitize: sanitizeTask3,
+  },
 };
 
 const FALLBACK = PROMPT_REGISTRY['module_1_seepage'];

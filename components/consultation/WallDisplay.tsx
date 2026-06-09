@@ -31,6 +31,13 @@ const TASK_CONFIG: Record<string, {
     dimSub: '2 Walls · 8 Ft × 9 Ft',
     sqft: null,
   },
+  task_3: {
+    label: 'Task 3 · Module 1',
+    image: '/images/module1-task3-wall.png',
+    dimPrimary: '9 Ft × 11 Ft',
+    dimSub: '99 sq ft',
+    sqft: '99 sq ft',
+  },
 };
 
 export function WallDisplay({ className = '', taskId = 'task_1' }: WallDisplayProps) {
