@@ -122,7 +122,7 @@ If customer resisted or deflected — did RM explain WHY knowing budget helps? e
 
 Indirect budget discovery (5):
 Did RM continue exploring through comparisons, narrowing, analogies, scope adjustments, or revisiting after designs? Award if RM understood customer's spending direction by end of call. Techniques worth noting for this customer type:
-- Scope reduction (half-wall, around bed only) — directly reduces cost and earns positive reaction
+- Scope reduction (half-wall, around bed only) — reduces cost and earns a positive reaction once RM addresses the customer's aesthetic concern about half-wall looking incomplete. Credit RM for suggesting it AND for confidently explaining why it looks intentional.
 - Long-term value argument (panels 10yr vs paint every 4–5yr) — moves customer from ₹10K to ₹15K ceiling
 - Narrowing with two options and asking which direction feels right
 - Acknowledging the budget constraint honestly rather than deflecting
@@ -135,10 +135,31 @@ Deduct only if: RM never discussed budget, accepted first resistance and dropped
 CATEGORY 4 — DISCOVERY & CONFIDENCE (10 Marks)
 
 Sub-criteria:
-- Asked about wall/room dimensions (2): Did RM ask about wall size or plan to measure? This customer will NEVER volunteer dimensions — RM must ask.
-- Design/aesthetic preference discovery (3): Basic preference questions — color, theme, style. For this value-focused customer, design preference is secondary to budget, but RM should still explore at least basic preferences once budget is understood.
-- Handled customer questions confidently (3): Accurate, confident answers to whatever customer asked. This customer is watchful — vague or deflecting answers reduce trust.
-- Overall credibility & professionalism (2): Did RM sound credible throughout? With a suspicious, value-focused customer, credibility is built through honesty and logical reasoning — not through premium framing.
+
+- Asked about wall/room dimensions (2): Did RM ask about wall size or plan to measure? This customer will NEVER volunteer dimensions — RM must ask. Full 2 if asked. 0 if never attempted.
+
+- Design/aesthetic preference discovery (3): Did RM ask about preferences — color, theme, finish, style — AND give a specific recommendation based on those answers?
+  3: Asked at least 2 meaningful preference questions AND gave a specific design recommendation.
+  2: Asked basic preference questions but recommendation was generic or absent.
+  1: One surface-level question only, or jumped straight to price with minimal preference exploration.
+  0: No preference discovery at all.
+  Note: For this value-focused customer, preference discovery is secondary to budget — but RM should still explore once budget direction is understood. Do not penalise for prioritising budget first.
+
+- Handled customer questions confidently (3): Did RM give specific, honest, well-reasoned answers — or fall back on vague reassurances?
+  3: All direct questions answered with specific facts and logic. When pushed on price or value, responded with clear reasoning — not "bahut accha hai" or "best quality" without backing.
+  2: Mostly confident but gave one vague or deflecting answer to a direct question.
+  1: Repeatedly used empty reassurances ("best quality", "top product") without specifics, OR deflected a key direct question without a real answer.
+  0: Could not answer basic questions, gave contradictory information, or resorted to pressure rather than logic.
+
+  Key moments to check (evaluate only those that came up in the session):
+  · "Yeh seepage permanently theek hoga ya sirf cover hoga?" — requires honest answer: panels conceal, not cure.
+  · "Itna kyun — market mein sasta mila tha?" — requires specific differentiation, not vague claims.
+  · "Is price mein quality acchi rahegi?" — requires specific product knowledge, not "bilkul best rahega."
+  · Half-wall suggestion — did RM clearly explain why it looks good and intentional, not incomplete?
+
+- Overall credibility & professionalism (2): For this suspicious, value-focused customer, credibility is earned through honesty and logic — not through confident tone or premium framing alone.
+  Deduct 1 if: RM used empty premium framing ("number 1 product", "best in market") more than once without any specific backing, OR repeatedly avoided directly acknowledging the customer's budget signals.
+  Deduct both points if: RM made factually wrong or misleading statements (e.g., "panels permanently fix seepage"), OR contradicted themselves during the session, OR relied on charm/pressure instead of logic with this watchful customer.
 
 ---
 
