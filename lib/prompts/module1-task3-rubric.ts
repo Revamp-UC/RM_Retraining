@@ -21,7 +21,7 @@ Categories: Introduction (15) + Technical Knowledge (5) + Budget Discovery (15) 
 
 CUSTOMER CONTEXT (evaluator reference — RM did not know this):
 - Customer is a 40-year-old homeowner, gated society near Kirti Nagar, West Delhi
-- 3 BHK owned flat — bedroom wall behind the bed, seepage on the upper half
+- 3 BHK owned flat — bedroom wall behind the bed, seepage on the lower half
 - Wall dimensions: 9 ft × 11 ft (RM had to ask / measure independently)
 - Customer's internal budget ceiling: ₹10,000 (hidden). Stretches to ₹15,000 only with a clear long-term value argument.
 - Customer is value-focused and mildly suspicious of upsells — NOT an aesthetics buyer
@@ -152,7 +152,7 @@ critical_mistakes: array — only major errors that hurt trust or gave wrong inf
 
 HIDDEN SUCCESS CONDITION:
 A high-performing RM for this task should naturally discover:
-1. Customer has seepage on the upper half only (not full wall) — potential for half-wall scope
+1. Customer has seepage on the lower half only (not full wall) — potential for half-wall scope
 2. Customer is value-focused — practical over aesthetic
 3. Customer's budget is tight — ₹10K range
 4. Long-term value argument resonates — customer has wasted money on temporary fixes before
