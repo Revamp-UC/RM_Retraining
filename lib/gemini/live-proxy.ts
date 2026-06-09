@@ -15,7 +15,7 @@ import {
 import type { WSMessage } from '@/types/gemini';
 import type { CustomerGender } from '@/types/consultation';
 
-const LIVE_MODEL = 'gemini-3.1-flash-live-preview';
+const LIVE_MODEL = 'gemini-live-2.5-flash-preview';
 
 export async function handleConsultationStream(
   clientWs: WebSocket,
@@ -177,8 +177,8 @@ export async function handleConsultationStream(
           }
         },
 
-        onclose: () => {
-          console.log('[LiveProxy] Gemini closed');
+        onclose: (e: CloseEvent) => {
+          console.log('[LiveProxy] Gemini closed | code:', e.code, '| reason:', e.reason || '(none)');
           send({ type: 'session_ended' });
         },
 
