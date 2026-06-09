@@ -85,7 +85,13 @@ export function useAudioCapture({ sampleRate = 16000, onAudioChunk, onHighNoise 
 
       setIsCapturing(true);
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Microphone access denied';
+      const name = err instanceof Error ? (err as DOMException).name : '';
+      const message =
+        name === 'NotAllowedError' || name === 'PermissionDeniedError'
+          ? 'Microphone access is blocked. Please allow microphone permission in your browser settings and refresh the page.'
+          : name === 'NotFoundError' || name === 'DevicesNotFoundError'
+            ? 'No microphone found. Please connect a microphone and refresh the page.'
+            : 'Could not access your microphone. Please check your browser settings and refresh the page.';
       setError(message);
     }
   }, [isCapturing, sampleRate, onAudioChunk, onHighNoise]);

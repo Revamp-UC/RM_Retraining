@@ -70,10 +70,18 @@ export function useConsultationSocket({
           case 'evaluation_complete':
             onEvaluationComplete();
             break;
-          case 'error':
-            onError(msg.error ?? 'Unknown error occurred');
+          case 'error': {
+            const code = msg.error ?? '';
+            const friendly =
+              code === 'ai_error' || code === 'ai_connect_failed'
+                ? 'The AI service is busy right now. Please wait 2-3 minutes and try again. If the problem continues, let your admin know.'
+                : code.includes('token') || code.includes('session')
+                  ? 'Your session has expired. Please refresh the page to start again.'
+                  : 'Something went wrong. Please refresh the page and try again.';
+            onError(friendly);
             onStatusChange('error');
             break;
+          }
           case 'session_ended':
             onStatusChange('completed');
             break;
@@ -84,7 +92,7 @@ export function useConsultationSocket({
     };
 
     ws.onerror = () => {
-      onError('Connection error. Please check your internet and try again.');
+      onError('Connection failed. Please check your internet connection and try again.');
       onStatusChange('error');
     };
 
@@ -92,6 +100,7 @@ export function useConsultationSocket({
       setIsConnected(false);
       clearHeartbeat();
       if (event.code !== 1000 && event.code !== 1001) {
+        onError('Connection was lost. Please refresh the page — your session data has been saved.');
         onStatusChange('error');
       }
     };

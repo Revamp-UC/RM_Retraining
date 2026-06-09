@@ -106,12 +106,12 @@ export function useConsultationState({
       if (data.success) {
         router.push(`/module/${moduleId}/report/${consultationId}`);
       } else {
-        setErrorMessage(data.error ?? 'Failed to generate report');
+        setErrorMessage('Report could not be generated. Please note your session ID and let your admin know. Your data is safe.');
         setIsEnding(false);
         setStatus('error');
       }
     } catch {
-      setErrorMessage('Network error. Please try again.');
+      setErrorMessage('Could not reach the server. Please check your internet connection and try again.');
       setIsEnding(false);
       setStatus('error');
     }

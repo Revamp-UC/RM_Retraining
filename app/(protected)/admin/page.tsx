@@ -5,6 +5,7 @@ import { validateSession } from '@/lib/auth/session';
 import { getAllRMPerformance } from '@/lib/db/admin';
 import { ArrowLeft, Trophy, AlertTriangle, Users, BarChart3, ChevronRight, Medal } from 'lucide-react';
 import type { RMPerformance } from '@/lib/db/admin';
+import { BroadcastControl } from '@/components/admin/BroadcastControl';
 
 export const dynamic = 'force-dynamic';
 
@@ -184,6 +185,9 @@ export default async function AdminPage() {
             }
           />
         </div>
+
+        {/* ── Broadcast ── */}
+        <BroadcastControl />
 
         {/* ── Top Performers + Needs Attention ── */}
         <div className="grid lg:grid-cols-2 gap-6">

@@ -186,7 +186,7 @@ export async function handleConsultationStream(
 
         onerror: (error: ErrorEvent) => {
           console.error('[LiveProxy] Gemini error:', error?.message ?? error);
-          send({ type: 'error', error: 'Gemini session error. Please try again.' });
+          send({ type: 'error', error: 'ai_error' });
         },
       },
     });
@@ -211,7 +211,7 @@ export async function handleConsultationStream(
 
   } catch (err) {
     console.error('[LiveProxy] Failed to connect to Gemini:', err);
-    send({ type: 'error', error: 'Failed to connect to AI service. Please try again.' });
+    send({ type: 'error', error: 'ai_connect_failed' });
     clientWs.close(1011, 'AI connection failed');
     destroySession(consultationId);
   }
