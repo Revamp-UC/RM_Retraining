@@ -133,6 +133,7 @@ export async function handleConsultationStream(
         systemInstruction: { parts: [{ text: systemPrompt }] },
         inputAudioTranscription: {},
         outputAudioTranscription: {},
+        thinkingConfig: { thinkingBudget: 0 },
       },
       callbacks: {
         onopen: () => {
