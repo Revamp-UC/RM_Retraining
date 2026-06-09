@@ -2,47 +2,68 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { Ruler, X, Expand } from 'lucide-react';
+import { Ruler, X, Expand, ChevronRight, ChevronLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+
+interface WallImage {
+  src: string;
+  dim: string;
+  sqft?: string;
+  wallLabel?: string;
+}
+
+interface TaskConfig {
+  label: string;
+  walls: WallImage[] | null;
+}
+
+const TASK_CONFIG: Record<string, TaskConfig> = {
+  task_1: {
+    label: 'Task 1 · Module 1',
+    walls: [{ src: '/images/module1-task1-wall.png', dim: '8 Ft × 8.5 Ft', sqft: '68 sq ft' }],
+  },
+  task_2: {
+    label: 'Task 2 · Module 1',
+    walls: [
+      { src: '/images/module1-task2-wall1.png', dim: '9 Ft × 9 Ft', wallLabel: 'Wall 1' },
+      { src: '/images/module1-task2-wall2.png', dim: '8 Ft × 9 Ft', wallLabel: 'Wall 2' },
+    ],
+  },
+  task_3: {
+    label: 'Task 3 · Module 1',
+    walls: [{ src: '/images/module1-task3-wall.png', dim: '9 Ft × 11 Ft', sqft: '99 sq ft' }],
+  },
+};
 
 interface WallDisplayProps {
   className?: string;
   taskId?: string;
 }
 
-const TASK_CONFIG: Record<string, {
-  label: string;
-  image: string | null;
-  dimPrimary: string;
-  dimSub: string;
-  sqft: string | null;
-}> = {
-  task_1: {
-    label: 'Task 1 · Module 1',
-    image: '/images/module1-task1-wall.png',
-    dimPrimary: '8 Ft × 8.5 Ft',
-    dimSub: '68 sq ft',
-    sqft: '68 sq ft',
-  },
-  task_2: {
-    label: 'Task 2 · Module 1',
-    image: null, // photo to be added later
-    dimPrimary: '2 Walls · 9 Ft × 9 Ft',
-    dimSub: '2 Walls · 8 Ft × 9 Ft',
-    sqft: null,
-  },
-  task_3: {
-    label: 'Task 3 · Module 1',
-    image: '/images/module1-task3-wall.png',
-    dimPrimary: '9 Ft × 11 Ft',
-    dimSub: '99 sq ft',
-    sqft: '99 sq ft',
-  },
-};
-
 export function WallDisplay({ className = '', taskId = 'task_1' }: WallDisplayProps) {
   const [expanded, setExpanded] = useState(false);
+  const [wallIndex, setWallIndex] = useState(0);
+  const [slideDir, setSlideDir] = useState(1);
+
   const cfg = TASK_CONFIG[taskId] ?? TASK_CONFIG['task_1'];
+  const walls = cfg.walls;
+  const isMultiWall = !!(walls && walls.length > 1);
+  const currentWall = walls?.[wallIndex] ?? null;
+
+  function goNext() {
+    setSlideDir(1);
+    setWallIndex(i => i + 1);
+  }
+
+  function goPrev() {
+    setSlideDir(-1);
+    setWallIndex(i => i - 1);
+  }
+
+  function goTo(i: number) {
+    setSlideDir(i > wallIndex ? 1 : -1);
+    setWallIndex(i);
+  }
 
   return (
     <div className={`relative w-full h-full ${className}`}>
@@ -52,29 +73,96 @@ export function WallDisplay({ className = '', taskId = 'task_1' }: WallDisplayPr
         initial={{ opacity: 0, scale: 0.97 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, delay: 1.0, ease: 'easeOut' }}
-        className="absolute inset-0 bottom-[72px] rounded-xl overflow-hidden border border-[#2a2a38] bg-[#13131a] cursor-pointer"
-        onClick={() => cfg.image ? setExpanded(true) : undefined}
+        className={`absolute inset-0 bottom-[72px] rounded-xl overflow-hidden border border-[#2a2a38] bg-[#13131a] ${walls ? 'cursor-pointer' : ''}`}
+        onClick={() => walls ? setExpanded(true) : undefined}
       >
-        {cfg.image ? (
+        {walls ? (
           <>
-            <Image
-              src={cfg.image}
-              alt={`Wall — ${cfg.label}`}
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f]/50 via-transparent to-[#0a0a0f]/20 pointer-events-none" />
-            {/* Tap to expand hint — mobile only */}
-            <div className="absolute bottom-3 right-3 z-10 lg:hidden">
-              <div className="flex items-center gap-1 rounded-md bg-[#0a0a0f]/80 backdrop-blur-sm border border-[#2a2a38] px-2 py-1">
-                <Expand className="h-3 w-3 text-[#9090a8]" />
-                <span className="text-[9px] font-medium text-[#9090a8]">Tap to expand</span>
+            {/* Sliding image */}
+            <AnimatePresence mode="wait" custom={slideDir}>
+              <motion.div
+                key={wallIndex}
+                custom={slideDir}
+                variants={{
+                  enter: (dir: number) => ({ x: dir * 60, opacity: 0 }),
+                  center: { x: 0, opacity: 1 },
+                  exit: (dir: number) => ({ x: -dir * 60, opacity: 0 }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={currentWall!.src}
+                  alt={`Wall — ${cfg.label}${currentWall!.wallLabel ? ' · ' + currentWall!.wallLabel : ''}`}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f]/50 via-transparent to-[#0a0a0f]/20 pointer-events-none" />
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Next arrow — animated bounce to draw attention */}
+            {isMultiWall && wallIndex < walls!.length - 1 && (
+              <button
+                className="absolute right-3 top-1/2 -translate-y-1/2 z-20"
+                onClick={(e) => { e.stopPropagation(); goNext(); }}
+              >
+                <motion.div
+                  animate={{ x: [0, 6, 0] }}
+                  transition={{ repeat: Infinity, duration: 1.3, ease: 'easeInOut' }}
+                  className="flex items-center gap-1.5 rounded-xl bg-indigo-600/90 backdrop-blur-sm border border-indigo-400/50 px-3 py-2 shadow-xl shadow-indigo-900/50"
+                >
+                  <span className="text-xs font-bold text-white">Wall 2</span>
+                  <ChevronRight className="h-4 w-4 text-white" />
+                </motion.div>
+              </button>
+            )}
+
+            {/* Prev arrow */}
+            {isMultiWall && wallIndex > 0 && (
+              <button
+                className="absolute left-3 top-1/2 -translate-y-1/2 z-20"
+                onClick={(e) => { e.stopPropagation(); goPrev(); }}
+              >
+                <div className="flex items-center gap-1.5 rounded-xl bg-[#1a1a2a]/85 backdrop-blur-sm border border-[#2a2a38] px-3 py-2">
+                  <ChevronLeft className="h-4 w-4 text-[#9090a8]" />
+                  <span className="text-xs font-medium text-[#9090a8]">Wall 1</span>
+                </div>
+              </button>
+            )}
+
+            {/* Slide dots */}
+            {isMultiWall && (
+              <div
+                className="absolute bottom-3 right-3 z-10 flex gap-1.5 items-center"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {walls!.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => goTo(i)}
+                    className="rounded-full transition-all duration-300"
+                    style={{ width: i === wallIndex ? 18 : 6, height: 6, background: i === wallIndex ? '#fff' : 'rgba(255,255,255,0.3)' }}
+                  />
+                ))}
               </div>
-            </div>
+            )}
+
+            {/* Expand hint — mobile only */}
+            {!isMultiWall && (
+              <div className="absolute bottom-3 right-3 z-10 lg:hidden">
+                <div className="flex items-center gap-1 rounded-md bg-[#0a0a0f]/80 backdrop-blur-sm border border-[#2a2a38] px-2 py-1">
+                  <Expand className="h-3 w-3 text-[#9090a8]" />
+                  <span className="text-[9px] font-medium text-[#9090a8]">Tap to expand</span>
+                </div>
+              </div>
+            )}
           </>
         ) : (
-          /* Placeholder for tasks without a photo yet */
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
             <div className="w-14 h-14 rounded-xl bg-[#1c1c26] border border-[#2a2a38] flex items-center justify-center">
               <span className="text-2xl">📸</span>
@@ -83,14 +171,14 @@ export function WallDisplay({ className = '', taskId = 'task_1' }: WallDisplayPr
           </div>
         )}
 
-        {/* Live Scenario badge — top right */}
+        {/* Live Scenario badge */}
         <div className="absolute top-3 right-3 z-10">
           <div className="rounded-md bg-[#0a0a0f]/75 backdrop-blur-sm border border-amber-500/40 px-2.5 py-1">
             <span className="text-[10px] font-bold text-amber-400 uppercase tracking-widest">Live Scenario</span>
           </div>
         </div>
 
-        {/* Task label — top left */}
+        {/* Task label */}
         <div className="absolute top-3 left-3 z-10">
           <div className="inline-flex items-center gap-1.5 rounded-lg bg-[#0a0a0f]/75 backdrop-blur-sm border border-[#2a2a38] px-2.5 py-1">
             <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
@@ -108,29 +196,42 @@ export function WallDisplay({ className = '', taskId = 'task_1' }: WallDisplayPr
       >
         <div className="flex items-center gap-2.5">
           <Ruler className="h-5 w-5 text-indigo-400 shrink-0" />
-          <span className="text-sm font-semibold text-[#9090a8] uppercase tracking-wider">Wall Dimensions</span>
+          <span className="text-sm font-semibold text-[#9090a8] uppercase tracking-wider">
+            Wall Dimensions
+          </span>
         </div>
 
         <div className="flex items-center gap-3">
-          {cfg.sqft ? (
+          {isMultiWall && walls ? (
+            <div className="text-right space-y-0.5">
+              {walls.map((w, i) => (
+                <div key={i} className="flex items-center justify-end gap-2">
+                  <span className={`text-[10px] font-semibold uppercase tracking-wider transition-colors ${i === wallIndex ? 'text-indigo-300' : 'text-[#60607a]'}`}>
+                    {w.wallLabel}
+                  </span>
+                  <span className={`text-sm font-bold tracking-wide transition-colors ${i === wallIndex ? 'text-[#f1f1f5]' : 'text-[#60607a]'}`}>
+                    {w.dim}
+                  </span>
+                  <span className={`h-1.5 w-1.5 rounded-full transition-colors ${i === wallIndex ? 'bg-indigo-400' : 'bg-transparent'}`} />
+                </div>
+              ))}
+            </div>
+          ) : currentWall?.sqft ? (
             <>
-              <span className="text-xl font-bold text-[#f1f1f5] tracking-wide">{cfg.dimPrimary}</span>
+              <span className="text-xl font-bold text-[#f1f1f5] tracking-wide">{currentWall.dim}</span>
               <span className="text-xs font-semibold text-indigo-300 bg-indigo-600/15 border border-indigo-500/25 rounded-lg px-2.5 py-1">
-                {cfg.sqft}
+                {currentWall.sqft}
               </span>
             </>
-          ) : (
-            <div className="text-right leading-tight">
-              <p className="text-sm font-bold text-[#f1f1f5] tracking-wide">{cfg.dimPrimary}</p>
-              <p className="text-sm font-bold text-[#f1f1f5] tracking-wide">{cfg.dimSub}</p>
-            </div>
-          )}
+          ) : currentWall ? (
+            <p className="text-sm font-bold text-[#f1f1f5] tracking-wide">{currentWall.dim}</p>
+          ) : null}
         </div>
       </motion.div>
 
-      {/* Fullscreen lightbox — only for tasks with a photo */}
+      {/* Fullscreen lightbox */}
       <AnimatePresence>
-        {expanded && cfg.image && (
+        {expanded && currentWall && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -145,7 +246,9 @@ export function WallDisplay({ className = '', taskId = 'task_1' }: WallDisplayPr
             >
               <div className="flex items-center gap-1.5">
                 <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
-                <span className="text-sm font-semibold text-[#f1f1f5]">{cfg.label}</span>
+                <span className="text-sm font-semibold text-[#f1f1f5]">
+                  {cfg.label}{currentWall.wallLabel ? ` · ${currentWall.wallLabel}` : ''}
+                </span>
               </div>
               <button
                 className="rounded-full bg-white/10 p-2 active:bg-white/20"
@@ -157,7 +260,7 @@ export function WallDisplay({ className = '', taskId = 'task_1' }: WallDisplayPr
 
             <div className="relative flex-1 min-h-0">
               <Image
-                src={cfg.image}
+                src={currentWall.src}
                 alt={`Wall — ${cfg.label}`}
                 fill
                 className="object-contain"
@@ -171,13 +274,15 @@ export function WallDisplay({ className = '', taskId = 'task_1' }: WallDisplayPr
             >
               <div className="flex items-center gap-2">
                 <Ruler className="h-4 w-4 text-indigo-400" />
-                <span className="text-sm font-semibold text-[#9090a8] uppercase tracking-wider">Wall Dimensions</span>
+                <span className="text-sm font-semibold text-[#9090a8] uppercase tracking-wider">
+                  {isMultiWall ? `${currentWall.wallLabel} Dimensions` : 'Wall Dimensions'}
+                </span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-lg font-bold text-[#f1f1f5]">{cfg.dimPrimary}</span>
-                {cfg.sqft && (
+                <span className="text-lg font-bold text-[#f1f1f5]">{currentWall.dim}</span>
+                {currentWall.sqft && (
                   <span className="text-xs font-semibold text-indigo-300 bg-indigo-600/15 border border-indigo-500/25 rounded-lg px-2 py-0.5">
-                    {cfg.sqft}
+                    {currentWall.sqft}
                   </span>
                 )}
               </div>
