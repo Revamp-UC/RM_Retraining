@@ -96,8 +96,18 @@ const MODULE_ID_MAP: Record<string, string> = {
   module_1_task3: 'module_1',
 };
 
+const MODULE_TASK_LABEL: Record<string, string> = {
+  module_1_seepage: 'Module 1 · Task 1',
+  module_1_task2: 'Module 1 · Task 2',
+  module_1_task3: 'Module 1 · Task 3',
+};
+
 function toModuleId(moduleAttempted: string): string {
   return MODULE_ID_MAP[moduleAttempted] ?? moduleAttempted;
+}
+
+function toTaskLabel(moduleAttempted: string): string {
+  return MODULE_TASK_LABEL[moduleAttempted] ?? moduleAttempted;
 }
 
 function ConsultationCard({ c, index }: { c: AdminConsultation; index: number }) {
@@ -113,6 +123,9 @@ function ConsultationCard({ c, index }: { c: AdminConsultation; index: number })
           <div className="flex items-center gap-2 mb-1">
             <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest">
               Session #{index}
+            </span>
+            <span className="text-[10px] font-semibold text-[#9090a8] bg-[#1c1c26] border border-[#2a2a38] rounded px-1.5 py-0.5">
+              {toTaskLabel(c.module_attempted)}
             </span>
             <StatusBadge status={c.status} />
             {c.status === 'completed' && (
