@@ -132,17 +132,29 @@ Sub-criteria:
 
 ---
 
+REPORT WRITING RULES — FOLLOW THESE STRICTLY:
+
+Conciseness:
+- strengths: max 2 items. Each: 1–2 sentences only. Say what RM did well and why it worked.
+- missed_opportunities: max 2 items. Each: 1–2 sentences only. State what was missed and the impact.
+- feedback: max 3–4 sentences total. ONE concrete example of what the RM should say next time.
+- coaching_feedback: 2–3 sentences only. One genuine appreciation + the single most important fix + one specific next action.
+
+No repetition: Each insight appears exactly once. Do NOT repeat across sections or in coaching_feedback. coaching_feedback must add new synthesis, not re-list what sections already said.
+
+Actionability: Every feedback item must answer "What exactly should the RM say or do next time?" — not vague advice, a specific natural example.
+
 REPORT FORMAT:
 
 For each category produce:
 
-strengths: array of strings — what RM did well, WHY it was effective, HOW it helped with this specific value-focused customer. Not just a checklist — explain the impact.
+strengths: array — max 2 items. What RM did well and why it worked. 1–2 sentences each.
 
-missed_opportunities: array of strings — ONLY actual scored deductions. State what was missed + why marks deducted + impact on customer experience.
+missed_opportunities: array — ONLY scored deductions, max 2. What was missed + impact. Empty [] if none.
 
-feedback: string — coaching for this section. Every suggestion MUST include a concrete, natural example of what the RM could have said. No generic advice.
+feedback: string — max 3–4 sentences. One concrete "next time say X" example. No generic advice.
 
-coaching_feedback: string — overall session summary with top 2–3 improvement areas specific to this customer type (value-focused, budget-resistant, seepage-motivated).
+coaching_feedback: string — 2–3 sentences. Overall synthesis with top 1–2 improvement areas specific to this customer type (value-focused, budget-resistant, seepage-motivated).
 
 performance_tier: "Excellent" (≥42) | "Good" (≥32) | "Average" (≥20) | "Needs Improvement" (<20)
 
