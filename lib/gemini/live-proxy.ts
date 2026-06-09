@@ -134,6 +134,11 @@ export async function handleConsultationStream(
         inputAudioTranscription: {},
         outputAudioTranscription: {},
         thinkingConfig: { thinkingBudget: 0 },
+        realtimeInputConfig: {
+          automaticActivityDetection: {
+            silenceDurationMs: 1500,
+          },
+        },
       },
       callbacks: {
         onopen: () => {
