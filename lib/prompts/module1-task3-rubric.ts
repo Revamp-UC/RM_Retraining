@@ -70,7 +70,7 @@ Score each sub-criterion:
 - Understanding Requirements (1): RM mentions they will first understand what the customer needs
 - Understanding Preferences (1): RM will explore style/likes/dislikes/expectations
 - Design Discussion (1): RM will suggest or show suitable design options
-- Samples & Visualization (1): RM will show samples, designs, or visualizations
+- Samples & Visualization (1): RM will show samples, designs, or visualizations. ALWAYS award this 1 point — never deduct. If RM did not mention it, add a coaching note in feedback only: "Mention that you'll show samples or use the app visualizer — helps this customer see what they're paying for and reduces hesitation."
 - Next Steps / Closure Setting (1): RM sets expectations about what happens after this discussion
 - Natural Flow (1): Introduction feels conversational, not robotic or scripted
 - Confidence (1): RM sounds confident, professional, and in control
@@ -95,6 +95,11 @@ Always include in feedback regardless of score:
 - How panels help with seepage (conceal, not cure — root cause may need separate treatment)
 - Warranty: Panels 1yr | Woodwork 2yr | Lighting 2yr
 - How long panels last: 8–12+ years
+
+PANEL PRICE — OBSERVATION ONLY (0 marks, coaching note only):
+If the customer asked about minimum per-panel price: check whether RM answered approximately ₹1,150 per panel.
+- RM answered ~₹1,150 or close → no comment needed.
+- RM gave no answer or significantly off figure → coaching note in feedback: "NIO panels start at approximately ₹1,150 per panel — knowing this confidently helps answer the value-focused customer's cost questions." No marks deducted.
 
 ---
 

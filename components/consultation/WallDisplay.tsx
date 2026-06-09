@@ -152,15 +152,13 @@ export function WallDisplay({ className = '', taskId = 'task_1' }: WallDisplayPr
               </div>
             )}
 
-            {/* Expand hint — mobile only */}
-            {!isMultiWall && (
-              <div className="absolute bottom-3 right-3 z-10 lg:hidden">
-                <div className="flex items-center gap-1 rounded-md bg-[#0a0a0f]/80 backdrop-blur-sm border border-[#2a2a38] px-2 py-1">
-                  <Expand className="h-3 w-3 text-[#9090a8]" />
-                  <span className="text-[9px] font-medium text-[#9090a8]">Tap to expand</span>
-                </div>
+            {/* Click to zoom hint — always visible, left for multi-wall to avoid dot overlap */}
+            <div className={`absolute bottom-3 z-10 ${isMultiWall ? 'left-3' : 'right-3'}`}>
+              <div className="flex items-center gap-1 rounded-md bg-[#0a0a0f]/80 backdrop-blur-sm border border-[#2a2a38] px-2 py-1">
+                <Expand className="h-3 w-3 text-[#9090a8]" />
+                <span className="text-[9px] font-medium text-[#9090a8]">Click to zoom</span>
               </div>
-            )}
+            </div>
           </>
         ) : (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">

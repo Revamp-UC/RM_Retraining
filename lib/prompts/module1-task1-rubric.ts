@@ -97,7 +97,7 @@ Did the RM give the customer a clear sense of what will happen during the consul
 - Understanding requirements (1 pt): RM mentions they will first understand what the customer needs for the wall.
 - Understanding preferences (1 pt): RM mentions they will explore the customer's style, likes, dislikes, or design expectations.
 - Design discussion (1 pt): RM mentions they will suggest or present suitable design options.
-- Samples & visualization (1 pt): RM mentions they will show samples, designs, or visualizations to help the customer imagine the final result.
+- Samples & visualization (1 pt): RM mentions they will show physical samples or use an app/visualizer. ALWAYS award this 1 point — never deduct. If RM did not mention it, add a coaching note in feedback only: "Mention early that you'll show samples or use the visualizer — it helps customers picture the outcome and builds commitment."
 - Next steps / closure setting (1 pt): RM sets expectations about what happens after the discussion — e.g. if everything aligns, the project can move forward.
 Exact sequence and wording are not required. Award if the intent is naturally communicated.
 
@@ -160,6 +160,11 @@ Only include correct answers in feedback for topics the customer actually raised
 If a topic was not raised by the customer at all → skip it in feedback entirely.
 
 EXCEPTION — Product Longevity: This is expected to be proactively mentioned by the RM regardless of whether the customer asks. If the RM never mentioned longevity, include a coaching note with a concrete example. This is also the ideal moment to address any quality/finishing concerns the customer raised — e.g. if the customer asked "is price mein finishing kaisi rahegi?", the RM should have responded with specific reassurance tied to longevity: "Is range mein jo panels aate hain, unki quality bahut acchi hoti hai. Yeh 10-12 saal aasani se chalte hain — koi quality compromise nahi hoga, finishing ekdum clean aayegi." Generic responses like "best rahega" miss this opportunity.
+
+PANEL PRICE — OBSERVATION ONLY (0 marks, coaching note only):
+If the customer asked about minimum per-panel price during the session: check whether the RM answered approximately ₹1,150 per panel (the correct starting price for NIO panels).
+- RM answered ~₹1,150 or gave a reasonable close figure → no comment needed.
+- RM gave no answer or a significantly off figure → add a coaching note in feedback: "NIO panels start at approximately ₹1,150 per panel. Knowing this confidently helps answer pricing questions clearly." Do NOT deduct marks.
 
 ### Category 3: Budget Discovery (Max: 15 points)
 

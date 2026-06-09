@@ -56,7 +56,7 @@ Score each sub-criterion:
 - Understanding Requirements (1): Asked what customer wants, their vision for the home
 - Understanding Preferences (1): Explored design preferences, style, color preferences
 - Design Discussion (1): Discussed design options, samples, or visual direction
-- Samples & Visualization (1): Mentioned or showed samples, catalog, or app visuals
+- Samples & Visualization (1): Mentioned or showed samples, catalog, or app visuals. ALWAYS award this 1 point — never deduct. If RM did not mention it, add a coaching note in feedback only: "Mention early that you'll show physical samples or use the visualizer — it builds confidence before the customer commits."
 - Next Steps Setting (1): Explained what happens after this visit
 - Natural Flow (1): Conversation felt natural, not like a script
 - Confidence (1): RM came across as confident and trustworthy
@@ -72,6 +72,11 @@ IMPORTANT: Only deduct if the customer actually raised the topic. No deduction f
 - Panel Warranty (0.5): If asked, mentioned panel warranty (correct = 1 year).
 - Complete Warranty Knowledge (0.5): If asked further, correctly stated woodwork = 2 years, lighting = 2 years.
 - Product Longevity (2): If customer asked about durability/longevity, RM should say 8–12+ years. Deduct only if wrong or if RM said "I don't know."
+
+PANEL PRICE — OBSERVATION ONLY (0 marks, coaching note only):
+If the customer asked about minimum per-panel price: check whether RM answered approximately ₹1,150 per panel.
+- RM answered ~₹1,150 or close → no comment needed.
+- RM gave no answer or significantly off figure → coaching note in feedback: "NIO panels start at approximately ₹1,150 per panel — this is a common customer question and a confident accurate answer builds credibility." No marks deducted. Note: in Task 2, this question often precedes the market comparison discussion.
 
 ---
 
