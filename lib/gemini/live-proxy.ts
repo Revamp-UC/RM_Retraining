@@ -15,7 +15,7 @@ import {
 import type { WSMessage } from '@/types/gemini';
 import type { CustomerGender } from '@/types/consultation';
 
-const LIVE_MODEL = 'gemini-3.5-flash';
+const LIVE_MODEL = 'gemini-2.5-flash-native-audio-latest';
 
 export async function handleConsultationStream(
   clientWs: WebSocket,
