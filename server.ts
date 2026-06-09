@@ -3,7 +3,6 @@ loadEnv({ path: '.env.local' });
 import { createServer } from 'http';
 import next from 'next';
 import { WebSocketServer } from 'ws';
-import { parse } from 'url';
 import { handleConsultationStream } from './lib/gemini/live-proxy';
 import type { IncomingMessage } from 'http';
 import type WebSocket from 'ws';
@@ -17,17 +16,16 @@ const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
   const httpServer = createServer((req, res) => {
-    const parsedUrl = parse(req.url ?? '/', true);
-    handle(req, res, parsedUrl);
+    handle(req, res);
   });
 
   const wss = new WebSocketServer({ noServer: true });
 
   httpServer.on('upgrade', (req: IncomingMessage, socket, head) => {
-    const parsedUrl = parse(req.url ?? '/', true);
-    console.log('[Server] WS upgrade:', parsedUrl.pathname);
+    const pathname = req.url?.split('?')[0] ?? '/';
+    console.log('[Server] WS upgrade:', pathname);
 
-    if (parsedUrl.pathname === '/api/consultation/stream') {
+    if (pathname === '/api/consultation/stream') {
       console.log('[Server] Handling consultation stream upgrade');
       wss.handleUpgrade(req, socket as never, head, (ws: WebSocket) => {
         wss.emit('connection', ws, req);
