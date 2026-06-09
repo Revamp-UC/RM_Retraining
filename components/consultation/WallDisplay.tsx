@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Ruler, X, Expand, ChevronRight, ChevronLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -48,6 +48,11 @@ export function WallDisplay({ className = '', taskId = 'task_1' }: WallDisplayPr
   const cfg = TASK_CONFIG[taskId] ?? TASK_CONFIG['task_1'];
   const walls = cfg.walls;
   const isMultiWall = !!(walls && walls.length > 1);
+
+  // Preload all wall images on mount so sliding feels instant
+  useEffect(() => {
+    walls?.forEach(w => { const img = new window.Image(); img.src = w.src; });
+  }, [walls]);
   const currentWall = walls?.[wallIndex] ?? null;
 
   function goNext() {
