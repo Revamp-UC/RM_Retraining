@@ -3,7 +3,7 @@ import { redirect, notFound } from 'next/navigation';
 import { validateSession } from '@/lib/auth/session';
 import { getConsultationById } from '@/lib/db/consultations';
 
-const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654']);
+const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965']);
 import { OverallScore } from '@/components/report/OverallScore';
 import { SectionScore } from '@/components/report/SectionScore';
 import { CriticalMistakes } from '@/components/report/CriticalMistakes';

@@ -8,7 +8,7 @@ import type { RMPerformance } from '@/lib/db/admin';
 
 export const dynamic = 'force-dynamic';
 
-const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654']);
+const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965']);
 
 function ScoreChip({ score }: { score: number | null }) {
   if (score === null)

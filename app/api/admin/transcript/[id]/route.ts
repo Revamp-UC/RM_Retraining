@@ -3,7 +3,7 @@ import { cookies } from 'next/headers';
 import { validateSession } from '@/lib/auth/session';
 import { getTranscriptByConsultationId } from '@/lib/db/transcripts';
 
-const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654']);
+const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965']);
 
 export async function GET(
   _req: NextRequest,

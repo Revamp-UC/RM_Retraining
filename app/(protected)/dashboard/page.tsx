@@ -8,7 +8,7 @@ import { StatsStrip } from '@/components/dashboard/StatsStrip';
 import { LogoutButton } from '@/components/dashboard/LogoutButton';
 import { BarChart3 } from 'lucide-react';
 
-const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654']);
+const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965']);
 
 const MODULES = [
   {
