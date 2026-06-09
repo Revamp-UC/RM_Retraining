@@ -15,7 +15,7 @@ import {
 import type { WSMessage } from '@/types/gemini';
 import type { CustomerGender } from '@/types/consultation';
 
-const LIVE_MODEL = 'gemini-2.5-flash-native-audio-latest';
+const LIVE_MODEL = 'gemini-3.1-flash-live-preview';
 
 export async function handleConsultationStream(
   clientWs: WebSocket,
@@ -133,12 +133,6 @@ export async function handleConsultationStream(
         systemInstruction: { parts: [{ text: systemPrompt }] },
         inputAudioTranscription: {},
         outputAudioTranscription: {},
-        thinkingConfig: { thinkingBudget: 0 },
-        realtimeInputConfig: {
-          automaticActivityDetection: {
-            silenceDurationMs: 1000,
-          },
-        },
       },
       callbacks: {
         onopen: () => {
