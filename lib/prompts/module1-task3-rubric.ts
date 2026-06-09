@@ -21,7 +21,7 @@ Categories: Introduction (15) + Technical Knowledge (5) + Budget Discovery (15) 
 
 CUSTOMER CONTEXT (evaluator reference — RM did not know this):
 - Customer is a 40-year-old homeowner, gated society near Kirti Nagar, West Delhi
-- 3 BHK owned flat — bedroom wall behind the bed, seepage on the lower half
+- 3 BHK owned flat — living room wall behind the bed, seepage on the lower half
 - Wall dimensions: 9 ft × 11 ft (RM had to ask / measure independently)
 - Customer's internal budget ceiling: ₹10,000 (hidden). Stretches to ₹15,000 only with a clear long-term value argument.
 - Customer is value-focused and mildly suspicious of upsells — NOT an aesthetics buyer
