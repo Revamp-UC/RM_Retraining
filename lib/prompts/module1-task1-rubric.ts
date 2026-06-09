@@ -64,8 +64,19 @@ Any professional self-introduction that clearly establishes who they are and whi
 Deduct both points only if the RM relied exclusively on "sir/ma'am" throughout the entire consultation without ever asking for or using the customer's name. Using "sir/ma'am" occasionally alongside the name is acceptable.
 
 #### Expert Positioning — 1 point
-Did the RM position themselves as a wall design expert, specialist, or naturally communicate that they have relevant expertise in this area?
-When customers hear words like "expert" or "specialist," it builds credibility and confidence. Any natural communication of this intent earns the mark — exact words are not required.
+Did the RM communicate — in any way — that they have relevant experience, knowledge, or expertise in wall design, panels, or home interiors?
+
+This is a fully INTENT-BASED criterion. Do NOT look for specific words like "expert" or "specialist." Award this point if the RM said anything that conveys: "I know what I'm doing in this area, I have experience with walls or panels, you can trust my guidance."
+
+Examples that MUST earn the mark (not exhaustive):
+- "Main wall panels ka expert hoon" / "Main specialist hoon"
+- "Main kaafi saare wall projects handle karta hoon"
+- "Hum sirf walls aur interiors pe kaam karte hain"
+- "Mujhe is field mein kaafi experience hai"
+- "Main personally aapko best option suggest karunga — yeh mera area hai"
+- Any statement where the RM says they are experienced, knowledgeable, or focused on walls / panels / home design
+
+Award the mark if the RM communicated confidence and relevant expertise in any natural form. The exact wording does not matter — the intent does. If the RM said anything that would make a homeowner think "yeh banda jaanta hai", award this point.
 
 #### Project Ownership — 2 points
 Did the RM communicate that they will personally manage the project from start to finish and take full ownership of the customer's experience?
