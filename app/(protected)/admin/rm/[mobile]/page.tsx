@@ -145,7 +145,7 @@ function ConsultationCard({ c, index }: { c: AdminConsultation; index: number })
         <div className="space-y-1.5 mb-3 border-t border-[#1a1a24] pt-3">
           <SubScoreRow label="Introduction" score={c.introduction_score} max={s?.introduction?.max_score ?? 15} />
           <SubScoreRow label="Technical Knowledge" score={c.technical_score} max={s?.technical?.max_score ?? 5} />
-          <SubScoreRow label="Budget Discovery" score={c.budget_score} max={Math.min(s?.budget_discovery?.max_score ?? 15, 15)} />
+          <SubScoreRow label="Budget Discovery" score={c.budget_score} max={s?.budget_discovery?.max_score ?? 15} />
           <SubScoreRow label="Discovery Confidence" score={c.discovery_score} max={s?.discovery_confidence?.max_score ?? 10} />
           {s?.market_comparison && (
             <SubScoreRow label="Market Comparison" score={s.market_comparison.score} max={s.market_comparison.max_score} />
