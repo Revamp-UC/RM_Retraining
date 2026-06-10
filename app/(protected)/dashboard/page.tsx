@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 import { validateSession } from '@/lib/auth/session';
 import { getModuleStats, getConsultationHistory } from '@/lib/db/consultations';
 import { ModuleCard } from '@/components/dashboard/ModuleCard';
