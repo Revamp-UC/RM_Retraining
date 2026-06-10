@@ -62,6 +62,12 @@ function StatusBadge({ status }: { status: string }) {
         Completed
       </span>
     );
+  if (status === 'evaluation_pending')
+    return (
+      <span className="rounded-full bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 text-[10px] font-bold text-amber-400 uppercase tracking-wider">
+        Pending Report
+      </span>
+    );
   if (status === 'abandoned')
     return (
       <span className="rounded-full bg-red-500/10 border border-red-500/20 px-2.5 py-0.5 text-[10px] font-bold text-red-400 uppercase tracking-wider">
@@ -128,13 +134,13 @@ function ConsultationCard({ c, index }: { c: AdminConsultation; index: number })
               {toTaskLabel(c.module_attempted)}
             </span>
             <StatusBadge status={c.status} />
-            {c.status === 'completed' && (
+            {(c.status === 'completed' || c.status === 'evaluation_pending') && (
               <Link
                 href={`/module/${toModuleId(c.module_attempted)}/report/${c.id}`}
                 className="flex items-center gap-1 rounded-md border border-indigo-500/30 bg-indigo-600/10 px-2 py-0.5 text-[10px] font-semibold text-indigo-400 hover:bg-indigo-600/20 hover:border-indigo-500/45 transition-colors"
               >
                 <FileBarChart className="h-3 w-3" />
-                Report
+                {c.status === 'evaluation_pending' ? 'Retry Report' : 'Report'}
               </Link>
             )}
           </div>
@@ -194,12 +200,15 @@ export default async function RMDetailPage({
   if (!rmName) notFound();
 
   // Only show sessions where a real conversation happened:
-  // completed (any duration) OR abandoned/in-progress with ≥60s of talk time
+  // completed/evaluation_pending (any duration) OR in-progress with ≥60s of talk time
   const consultations = allConsultations.filter(
-    c => c.status === 'completed' || (c.duration_seconds !== null && c.duration_seconds >= 60),
+    c =>
+      c.status === 'completed' ||
+      c.status === 'evaluation_pending' ||
+      (c.duration_seconds !== null && c.duration_seconds >= 60),
   );
 
-  const completed = consultations.filter(c => c.status === 'completed');
+  const completed = consultations.filter(c => c.status === 'completed' || c.status === 'evaluation_pending');
   const scores = completed.map(c => c.overall_score).filter((s): s is number => s !== null);
   const bestScore = scores.length > 0 ? Math.max(...scores) : null;
   const avgScore =

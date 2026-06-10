@@ -36,8 +36,8 @@ export async function getAllRMPerformance(): Promise<RMPerformance[]> {
     db.from('users').select('mobile_number, name').eq('is_active', true).order('name'),
     db
       .from('consultation_history')
-      .select('mobile_number, overall_score, attempt_date, created_at, module_attempted')
-      .eq('status', 'completed')
+      .select('mobile_number, overall_score, attempt_date, created_at, module_attempted, status, duration_seconds')
+      .in('status', ['completed', 'evaluation_pending'])
       .order('created_at', { ascending: false }),
   ]);
 
