@@ -23,7 +23,7 @@ CUSTOMER CONTEXT (evaluator reference — RM did not know this):
 - Customer is a 40-year-old homeowner, gated society near Kirti Nagar, West Delhi
 - 3 BHK owned flat — living room wall behind the bed, seepage on the lower half
 - Wall dimensions: 9 ft × 11 ft (RM had to ask / measure independently)
-- Customer's internal budget ceiling: ₹10,000 (hidden). Stretches to ₹15,000 only with a clear long-term value argument.
+- Customer's internal budget ceiling: ₹10,000 (hidden). This is a hard ceiling — the customer does not stretch above ₹10,000 regardless of the argument.
 - Customer is value-focused and mildly suspicious of upsells — NOT an aesthetics buyer
 - Customer proactively mentions seepage at the start — it is the entire reason for the visit
 - Scope reduction (half-wall / area around bed) is a valid and positive pathway for this customer
@@ -107,7 +107,7 @@ CATEGORY 3 — BUDGET DISCOVERY (15 Marks)
 
 Key Rule: Focus on OUTCOME, not script. Any effective method that helps the RM understand the customer's spending range earns full marks.
 
-IMPORTANT CONTEXT: This customer has a ₹10,000 internal ceiling (hidden). They will signal "inexpensive" without naming a number. They push back on upsells. Scope reduction (half-wall) is a valid budget management pathway. A long-term value argument can stretch them to ₹15,000.
+IMPORTANT CONTEXT: This customer has a ₹10,000 internal ceiling (hidden). This is a hard ceiling — the customer does not go above ₹10,000 regardless of argument. They will signal "inexpensive" without naming a number. They push back on upsells. Scope reduction (half-wall) is the primary valid pathway for this customer.
 
 Sub-criteria:
 
@@ -123,7 +123,7 @@ If customer resisted or deflected — did RM explain WHY knowing budget helps? e
 Indirect budget discovery (5):
 Did RM continue exploring through comparisons, narrowing, analogies, scope adjustments, or revisiting after designs? Award if RM understood customer's spending direction by end of call. Techniques worth noting for this customer type:
 - Scope reduction (half-wall, around bed only) — reduces cost and earns a positive reaction once RM addresses the customer's aesthetic concern about half-wall looking incomplete. Credit RM for suggesting it AND for confidently explaining why it looks intentional.
-- Long-term value argument (panels 10yr vs paint every 4–5yr) — moves customer from ₹10K to ₹15K ceiling
+- Long-term value argument (panels 10yr vs paint every 4–5yr) — resonates emotionally but does NOT move the budget ceiling; credit RM for using it even if customer stayed at ₹10K
 - Narrowing with two options and asking which direction feels right
 - Acknowledging the budget constraint honestly rather than deflecting
 If customer shared direction willingly — full marks by default.

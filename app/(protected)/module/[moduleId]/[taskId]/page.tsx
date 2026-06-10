@@ -6,6 +6,7 @@ import { createConsultation } from '@/lib/db/consultations';
 import { createWsToken } from '@/lib/auth/session';
 import { getTaskConfig } from '@/lib/config/modules';
 import { ConsultationClient } from '@/components/consultation/ConsultationClient';
+import { PreStartModal } from '@/components/consultation/PreStartModal';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
@@ -49,6 +50,7 @@ export default async function ConsultationPage({ params }: TaskPageProps) {
 
   return (
     <div className="h-screen bg-[#0a0a0f] flex flex-col overflow-hidden">
+      <PreStartModal rmName={user.name} />
       {/* Top bar */}
       <header className="flex items-center justify-between px-4 lg:px-6 py-3 border-b border-[#2a2a38] bg-[#13131a] shrink-0">
         <div className="flex items-center gap-3">

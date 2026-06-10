@@ -3,15 +3,29 @@
 import { motion } from 'framer-motion';
 import { getTierColor } from '@/lib/utils/formatters';
 
+interface SectionResult {
+  score: number;
+  max_score: number;
+}
+
 interface OverallScoreProps {
   score: number;
   maxScore?: number;
   tier: string;
   customerName: string;
   duration: number | null;
+  sections?: Record<string, SectionResult>;
 }
 
-export function OverallScore({ score, maxScore = 45, tier, customerName, duration }: OverallScoreProps) {
+const SECTION_SHORT: Record<string, string> = {
+  introduction: 'Intro',
+  technical: 'Technical',
+  budget_discovery: 'Budget',
+  discovery_confidence: 'D&C',
+  market_comparison: 'Market',
+};
+
+export function OverallScore({ score, maxScore = 45, tier, customerName, duration, sections }: OverallScoreProps) {
   const pct = Math.round((score / maxScore) * 100);
   const radius = 54;
   const circumference = 2 * Math.PI * radius;
@@ -87,6 +101,32 @@ export function OverallScore({ score, maxScore = 45, tier, customerName, duratio
           {duration ? <span className="ml-1.5 text-[#60607a]">· {formatDur(duration)}</span> : null}
         </p>
       </motion.div>
+
+      {/* Section score pills */}
+      {sections && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8 }}
+          className="mt-5 w-full px-4 flex flex-wrap justify-center gap-2"
+        >
+          {Object.entries(sections).map(([key, s]) => {
+            const pct = s.max_score > 0 ? s.score / s.max_score : 0;
+            const color =
+              pct >= 0.75
+                ? 'bg-green-500/12 border-green-500/30 text-green-400'
+                : pct >= 0.5
+                  ? 'bg-amber-500/12 border-amber-500/30 text-amber-400'
+                  : 'bg-red-500/12 border-red-500/30 text-red-400';
+            return (
+              <div key={key} className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 ${color}`}>
+                <span className="text-xs font-semibold">{SECTION_SHORT[key] ?? key}</span>
+                <span className="text-xs opacity-70">{s.score}/{s.max_score}</span>
+              </div>
+            );
+          })}
+        </motion.div>
+      )}
     </div>
   );
 }

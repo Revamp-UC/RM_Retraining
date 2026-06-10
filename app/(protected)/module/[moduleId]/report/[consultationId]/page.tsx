@@ -117,6 +117,7 @@ export default async function ReportPage({ params }: ReportPageProps) {
             tier={report.performance_tier}
             customerName={consultation.customer_name ?? 'Customer'}
             duration={consultation.duration_seconds}
+            sections={report.sections}
           />
         </div>
 
