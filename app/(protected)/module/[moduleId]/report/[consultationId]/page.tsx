@@ -11,6 +11,7 @@ import { ArrowLeft, RotateCcw, LayoutDashboard, ShieldCheck } from 'lucide-react
 import Link from 'next/link';
 import type { ReportCard } from '@/types/consultation';
 import { resolveTaskPath } from '@/lib/config/modules';
+import { PendingReport } from '@/components/report/PendingReport';
 
 interface ReportPageProps {
   params: Promise<{ moduleId: string; consultationId: string }>;
@@ -50,6 +51,10 @@ export default async function ReportPage({ params }: ReportPageProps) {
   }
 
   const isOwnReport = consultation.mobile_number === user.mobile_number;
+
+  if (consultation.status === 'evaluation_pending') {
+    return <PendingReport consultationId={consultationId} moduleId={moduleId} isOwn={isOwnReport} />;
+  }
 
   if (consultation.status !== 'completed' || !consultation.report_card_json) {
     redirect(isOwnReport ? `/module/${moduleId}` : '/admin');

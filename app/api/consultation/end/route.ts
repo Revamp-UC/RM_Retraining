@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { validateSession } from '@/lib/auth/session';
-import { completeConsultation, getConsultationById } from '@/lib/db/consultations';
+import { completeConsultation, getConsultationById, markEvaluationPending } from '@/lib/db/consultations';
 import { saveTranscript, getTranscriptByConsultationId } from '@/lib/db/transcripts';
 import { evaluateConsultation } from '@/lib/gemini/evaluator';
 import { destroySession, getSession } from '@/lib/gemini/session-store';
@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
     full_transcript: transcript,
   });
 
-  // Run evaluation (evaluator retries once internally on transient failures)
+  // Run evaluation with fallback model — if all retries fail, mark pending for later retry
   let reportCard;
   try {
     reportCard = await evaluateConsultation({
@@ -73,7 +73,8 @@ export async function POST(req: NextRequest) {
     });
   } catch (err) {
     console.error('[Evaluate] Error:', err);
-    return NextResponse.json({ error: 'Evaluation failed' }, { status: 500 });
+    await markEvaluationPending(consultation_id, duration_seconds);
+    return NextResponse.json({ success: false, pending: true, consultation_id }, { status: 200 });
   }
 
   // Persist scores

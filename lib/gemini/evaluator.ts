@@ -17,51 +17,56 @@ export async function evaluateConsultation(params: {
   const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
   const prompt = getEvaluationPrompt(params.module, params.transcript, params.customer_name);
 
-  const DELAYS = [4000, 8000, 15000]; // ms between retries: 4s → 8s → 15s
   let lastError: unknown;
 
+  // Phase 1: gemini-2.5-flash with exponential backoff (4s → 8s → 15s)
+  const DELAYS_PRIMARY = [4000, 8000, 15000];
   for (let attempt = 1; attempt <= 4; attempt++) {
     try {
-      const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        config: {
-          responseMimeType: 'application/json',
-          temperature: 0.3,
-          thinkingConfig: { thinkingBudget: 0 },
-        },
-      });
-
-      const rawText = response.text?.trim() ?? '';
-
-      let parsed: ReportCard;
-      try {
-        const cleaned = rawText.replace(/^```json\s*/i, '').replace(/\s*```$/i, '');
-        parsed = JSON.parse(cleaned) as ReportCard;
-      } catch (err) {
-        console.error('[Evaluator] Failed to parse response:', rawText, err);
-        return buildEmptyReport();
-      }
-
-      return sanitizeReportCard(params.module, parsed);
+      return sanitizeReportCard(params.module, await callModel(ai, 'gemini-2.5-flash', prompt));
     } catch (err) {
       lastError = err;
       const status = (err as { status?: number })?.status ?? (err as { code?: number })?.code;
-      const isTransient = status === 503 || status === 429;
-      console.error(`[Evaluator] Attempt ${attempt} failed (status ${status ?? 'unknown'}):`, err);
-
-      // Fail fast on non-transient errors (bad request, auth, etc.)
-      if (!isTransient) throw err;
-
+      console.error(`[Evaluator] gemini-2.5-flash attempt ${attempt} failed (status ${status ?? 'unknown'})`);
+      if (status !== 503 && status !== 429) throw err; // hard error — don't retry
       if (attempt < 4) {
-        const delay = DELAYS[attempt - 1];
-        console.log(`[Evaluator] Retrying in ${delay / 1000}s…`);
-        await new Promise((r) => setTimeout(r, delay));
+        console.log(`[Evaluator] Retrying in ${DELAYS_PRIMARY[attempt - 1]! / 1000}s…`);
+        await new Promise((r) => setTimeout(r, DELAYS_PRIMARY[attempt - 1]!));
       }
     }
   }
 
+  // Phase 2: fallback to gemini-2.0-flash (2 attempts, 3s gap)
+  console.log('[Evaluator] Falling back to gemini-2.0-flash…');
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      return sanitizeReportCard(params.module, await callModel(ai, 'gemini-2.0-flash', prompt));
+    } catch (err) {
+      lastError = err;
+      const status = (err as { status?: number })?.status ?? (err as { code?: number })?.code;
+      console.error(`[Evaluator] gemini-2.0-flash attempt ${attempt} failed (status ${status ?? 'unknown'})`);
+      if (status !== 503 && status !== 429) throw err;
+      if (attempt < 2) await new Promise((r) => setTimeout(r, 3000));
+    }
+  }
+
   throw lastError;
+}
+
+async function callModel(ai: GoogleGenAI, model: string, prompt: string): Promise<ReportCard> {
+  const response = await ai.models.generateContent({
+    model,
+    contents: [{ role: 'user', parts: [{ text: prompt }] }],
+    config: { responseMimeType: 'application/json', temperature: 0.3, thinkingConfig: { thinkingBudget: 0 } },
+  });
+  const rawText = response.text?.trim() ?? '';
+  try {
+    const cleaned = rawText.replace(/^```json\s*/i, '').replace(/\s*```$/i, '');
+    return JSON.parse(cleaned) as ReportCard;
+  } catch (err) {
+    console.error('[Evaluator] Failed to parse response:', rawText, err);
+    return buildEmptyReport();
+  }
 }
 
 function buildEmptyReport(): ReportCard {

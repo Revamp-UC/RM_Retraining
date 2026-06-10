@@ -1,4 +1,4 @@
-export type ConsultationStatus = 'in_progress' | 'completed' | 'abandoned';
+export type ConsultationStatus = 'in_progress' | 'completed' | 'abandoned' | 'evaluation_pending';
 export type CustomerGender = 'male' | 'female';
 
 export interface ConsultationRecord {

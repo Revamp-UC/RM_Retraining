@@ -131,6 +131,14 @@ export async function completeConsultation(params: {
   } catch { /* DB not configured */ }
 }
 
+export async function markEvaluationPending(id: string, duration_seconds: number): Promise<void> {
+  const dev = devConsultations.get(id);
+  if (dev) { dev.status = 'evaluation_pending'; dev.duration_seconds = duration_seconds; }
+  try {
+    await db.from('consultation_history').update({ status: 'evaluation_pending', duration_seconds }).eq('id', id);
+  } catch { /* DB not configured */ }
+}
+
 export async function abandonConsultation(id: string): Promise<void> {
   const dev = devConsultations.get(id);
   if (dev) dev.status = 'abandoned';

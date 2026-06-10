@@ -101,9 +101,11 @@ export function useConsultationState({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ consultation_id: consultationId }),
       });
-      const data = await res.json() as { success?: boolean; error?: string };
+      const data = await res.json() as { success?: boolean; pending?: boolean; error?: string };
 
       if (data.success) {
+        router.push(`/module/${moduleId}/report/${consultationId}`);
+      } else if (data.pending) {
         router.push(`/module/${moduleId}/report/${consultationId}`);
       } else {
         setErrorMessage('Report could not be generated. Please note your session ID and let your admin know. Your data is safe.');
