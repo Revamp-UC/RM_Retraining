@@ -24,6 +24,7 @@ export function useConsultationState({
   const [isEnding, setIsEnding] = useState(false);
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [noiseWarning, setNoiseWarning] = useState(false);
+  const [timeWarning, setTimeWarning] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startedRef = useRef(false);
 
@@ -51,6 +52,13 @@ export function useConsultationState({
 
   const handleHighNoise = useCallback(() => setNoiseWarning(true), []);
   const dismissNoiseWarning = useCallback(() => setNoiseWarning(false), []);
+
+  // 8-minute session limit: warn at 7 min, auto-end at 8 min
+  useEffect(() => {
+    if (status !== 'connected') return;
+    if (elapsedSeconds === 420) setTimeWarning(true);
+    if (elapsedSeconds === 480) endConsultation();
+  }, [elapsedSeconds, status, endConsultation]);
 
   const { start: startMic, stop: stopMic, isCapturing, error: micError } = useAudioCapture({
     sampleRate: 16000,
@@ -138,6 +146,7 @@ export function useConsultationState({
     elapsedSeconds,
     noiseWarning,
     dismissNoiseWarning,
+    timeWarning,
     startSession,
     endConsultation,
   };

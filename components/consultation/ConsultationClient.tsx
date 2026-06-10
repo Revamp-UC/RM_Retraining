@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Volume2, X } from 'lucide-react';
+import { Volume2, X, Timer } from 'lucide-react';
 import { WallDisplay } from './WallDisplay';
 import { VoiceArea } from './VoiceArea';
 import { useConsultationState } from '@/hooks/useConsultationState';
@@ -31,6 +31,7 @@ export function ConsultationClient({
     elapsedSeconds,
     noiseWarning,
     dismissNoiseWarning,
+    timeWarning,
     startSession,
     endConsultation,
   } = useConsultationState({ consultationId, wsToken, moduleId });
@@ -70,6 +71,24 @@ export function ConsultationClient({
           />
         </div>
       </motion.div>
+
+      {/* Time limit warning toast */}
+      <AnimatePresence>
+        {timeWarning && !isEnding && (
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 16 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-[#1a1a2e] border border-red-500/40 rounded-xl px-4 py-3 shadow-2xl max-w-sm w-[calc(100%-2rem)]"
+          >
+            <Timer className="h-4 w-4 text-red-400 shrink-0 animate-pulse" />
+            <p className="text-sm text-red-200/90 flex-1 leading-snug">
+              1 minute left — session ends at 8 minutes. Wrap up now.
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Background noise warning toast */}
       <AnimatePresence>
