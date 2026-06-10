@@ -90,11 +90,12 @@ Sub-criteria:
 - Warranty — All products (0.5): Only if customer asked follow-up: Panels 1yr / Woodwork 2yr / Lighting 2yr
 - Product Longevity (2): RM proactively mentions panels last 8–10 / 10–12 / 15+ years. Deduct if never mentioned at any point. NOTE: For this specific customer type, longevity is especially powerful — it directly supports the long-term value argument that can move this customer's budget. A strong RM will connect longevity to the value argument (e.g. "aap baar baar painting karwate ho, panels ek baar lagao aur 10–12 saal tension free").
 
-Always include in feedback regardless of score:
-- What are NIO Panels and what are they made of
-- How panels help with seepage (conceal, not cure — root cause may need separate treatment)
-- Warranty: Panels 1yr | Woodwork 2yr | Lighting 2yr
-- How long panels last: 8–12+ years
+Include in feedback ONLY for topics that actually came up in the session:
+- If RM mentioned or customer asked about panels/product → explain what NIO Panels are and what they're made of
+- If seepage fix was discussed → clarify panels conceal, not cure — root cause may need separate treatment
+- If warranty was asked → Panels 1yr | Woodwork 2yr | Lighting 2yr
+- If longevity was discussed → panels last 8–12+ years
+Do NOT include any of the above if the topic was never raised in the conversation.
 
 PANEL PRICE — OBSERVATION ONLY (0 marks, coaching note only):
 If the customer asked about minimum per-panel price: check whether RM answered approximately ₹1,150 per panel.
@@ -113,9 +114,10 @@ Sub-criteria:
 
 Explicitly asking for budget (3):
 Any genuine direct budget question earns these marks — "rough range", "kitna spend karna chahte ho", "kya budget soch ke aa rahe ho", etc. Award if the intent is clear.
+If RM skipped asking budget and jumped directly to quoting a range — deduct and add this specific coaching note in feedback: " - **Pehle budget poochho, phir range do**: Seedha range dene se pehle customer ka budget samajhna zaroori hai. Pehle poochho — 'Aapka rough budget kya hai?' Ya 'Kitne mein yeh kaam karwana chahte hain?' — phir unke jawab ke hisaab se relevant range suggest karo. Isse conversation focused rehti hai aur customer ko relevant options milte hain."
 
 Giving a relevant budget range (4):
-RM proactively suggests a price range relevant to wall size (e.g. below ₹15k / ₹15k–₹25k / above ₹25k). Anchoring the conversation is a critical step. This customer reacts poorly to multiple ranges thrown together — the RM should guide them toward the right option. Award if RM provided a meaningful price anchor to help the customer orient.
+RM proactively suggests a price range relevant to wall size after understanding customer direction. This customer reacts poorly to multiple ranges thrown together — the RM should guide them toward the right option based on what the customer has signalled. Award if RM provided a meaningful, targeted price anchor. If RM gave a range WITHOUT first asking budget, award marks for the range itself but ensure the coaching note above is included.
 
 Handling budget resistance (3):
 If customer resisted or deflected — did RM explain WHY knowing budget helps? e.g. "budget aapke liye nahi, mere liye hai taaki relevant options dikha sakun." Award if RM made any genuine attempt to re-engage with a clear reason. Deduct only if resistance actually occurred AND RM gave up immediately without any attempt to explain.
