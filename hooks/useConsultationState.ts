@@ -53,13 +53,6 @@ export function useConsultationState({
   const handleHighNoise = useCallback(() => setNoiseWarning(true), []);
   const dismissNoiseWarning = useCallback(() => setNoiseWarning(false), []);
 
-  // 8-minute session limit: warn at 7 min, auto-end at 8 min
-  useEffect(() => {
-    if (status !== 'connected') return;
-    if (elapsedSeconds === 420) setTimeWarning(true);
-    if (elapsedSeconds === 480) endConsultation();
-  }, [elapsedSeconds, status, endConsultation]);
-
   const { start: startMic, stop: stopMic, isCapturing, error: micError } = useAudioCapture({
     sampleRate: 16000,
     onAudioChunk: sendAudio,
@@ -126,6 +119,13 @@ export function useConsultationState({
       setStatus('error');
     }
   }, [isEnding, stopMic, sendEndSignal, disconnect, stopPlayback, consultationId, moduleId, router]);
+
+  // 8-minute session limit: warn at 7 min, auto-end at 8 min
+  useEffect(() => {
+    if (status !== 'connected') return;
+    if (elapsedSeconds === 420) setTimeWarning(true);
+    if (elapsedSeconds === 480) endConsultation();
+  }, [elapsedSeconds, status, endConsultation]);
 
   // Cleanup on unmount
   useEffect(() => {
