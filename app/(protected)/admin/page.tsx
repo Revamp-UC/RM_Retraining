@@ -3,9 +3,10 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { validateSession } from '@/lib/auth/session';
 import { getAllRMPerformance } from '@/lib/db/admin';
-import { ArrowLeft, Trophy, AlertTriangle, Users, BarChart3, ChevronRight, Medal } from 'lucide-react';
+import { ArrowLeft, AlertTriangle, BarChart3, ChevronRight } from 'lucide-react';
 import type { RMPerformance } from '@/lib/db/admin';
 import { BroadcastControl } from '@/components/admin/BroadcastControl';
+import { TopPerformers } from '@/components/admin/TopPerformers';
 
 export const dynamic = 'force-dynamic';
 
@@ -115,7 +116,10 @@ export default async function AdminPage() {
     .sort((a, b) => (b.best_score ?? -1) - (a.best_score ?? -1));
 
   const notAttempted = allRM.filter(rm => rm.attempt_count === 0);
-  const topPerformers = attempted.slice(0, 5);
+  // Exclude admins from top performers
+  const topPerformers = attempted
+    .filter(rm => !ADMIN_MOBILES.has(rm.mobile_number))
+    .slice(0, 10);
   const needsAttention = attempted.filter(rm => (rm.best_score ?? 100) < 27);
 
   const totalAttempts = allRM.reduce((sum, rm) => sum + rm.attempt_count, 0);
@@ -129,7 +133,6 @@ export default async function AdminPage() {
 
   const allSorted = [...allRM].sort((a, b) => (b.best_score ?? -1) - (a.best_score ?? -1));
 
-  const medalColors = ['text-amber-400', 'text-[#b0b0c8]', 'text-amber-600'];
 
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
@@ -193,45 +196,7 @@ export default async function AdminPage() {
         <div className="grid lg:grid-cols-2 gap-6">
 
           {/* Top Performers */}
-          <div className="rounded-xl border border-[#1e1e28] bg-[#13131a] overflow-hidden">
-            <div className="flex items-center gap-2.5 px-5 py-4 border-b border-[#1e1e28]">
-              <Trophy className="h-4 w-4 text-amber-400" />
-              <h2 className="text-sm font-bold text-[#f1f1f5]">Top Performers</h2>
-              {topPerformers.length > 0 && (
-                <span className="ml-auto text-xs text-[#60607a]">by best score</span>
-              )}
-            </div>
-            {topPerformers.length === 0 ? (
-              <div className="px-5 py-8 text-center text-xs text-[#60607a]">
-                No consultations completed yet.
-              </div>
-            ) : (
-              <ul className="divide-y divide-[#1a1a24]">
-                {topPerformers.map((rm, i) => (
-                  <li key={rm.mobile_number}>
-                    <Link
-                      href={`/admin/rm/${rm.mobile_number}`}
-                      className="flex items-center gap-3 px-5 py-3.5 hover:bg-[#16161f] transition-colors group"
-                    >
-                      <span className={`w-5 text-sm font-bold ${medalColors[i] ?? 'text-[#60607a]'}`}>
-                        {i < 3 ? <Medal className="h-4 w-4" /> : `#${i + 1}`}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-[#f1f1f5] truncate">{rm.name}</p>
-                        <p className="text-xs text-[#60607a]">
-                          {rm.attempt_count} attempt{rm.attempt_count !== 1 ? 's' : ''}
-                          {rm.avg_score !== null ? ` · avg ${rm.avg_score}` : ''}
-                          {rm.last_module_attempted ? ` · ${toTaskLabel(rm.last_module_attempted)}` : ''}
-                        </p>
-                      </div>
-                      <ScoreChip score={rm.best_score} />
-                      <ChevronRight className="h-3.5 w-3.5 text-[#2a2a38] group-hover:text-[#60607a] transition-colors" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <TopPerformers performers={topPerformers} />
 
           {/* Needs Attention */}
           <div className="rounded-xl border border-[#1e1e28] bg-[#13131a] overflow-hidden">
@@ -273,26 +238,6 @@ export default async function AdminPage() {
           </div>
         </div>
 
-        {/* ── Not Started ── */}
-        {notAttempted.length > 0 && (
-          <div className="rounded-xl border border-[#1e1e28] bg-[#13131a] overflow-hidden">
-            <div className="flex items-center gap-2.5 px-5 py-4 border-b border-[#1e1e28]">
-              <Users className="h-4 w-4 text-[#60607a]" />
-              <h2 className="text-sm font-bold text-[#f1f1f5]">Not Started</h2>
-              <span className="ml-1 text-xs text-[#60607a]">({notAttempted.length} RMs)</span>
-            </div>
-            <div className="px-5 py-4 flex flex-wrap gap-2">
-              {notAttempted.map(rm => (
-                <span
-                  key={rm.mobile_number}
-                  className="rounded-lg bg-[#0f0f16] border border-[#1e1e28] px-3 py-1.5 text-xs text-[#60607a]"
-                >
-                  {rm.name}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* ── All RMs table ── */}
         <div className="rounded-xl border border-[#1e1e28] bg-[#13131a] overflow-hidden">
