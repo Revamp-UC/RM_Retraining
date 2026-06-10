@@ -1,12 +1,12 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import Link from 'next/link';
 import { validateSession } from '@/lib/auth/session';
 import { getModuleStats, getConsultationHistory } from '@/lib/db/consultations';
 import { ModuleCard } from '@/components/dashboard/ModuleCard';
 import { StatsStrip } from '@/components/dashboard/StatsStrip';
 import { LogoutButton } from '@/components/dashboard/LogoutButton';
-import { BarChart3, ChevronRight, Clock } from 'lucide-react';
+import { BarChart3 } from 'lucide-react';
+import { MySessions } from '@/components/dashboard/MySessions';
 
 const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965']);
 
@@ -70,12 +70,6 @@ export default async function DashboardPage() {
     },
   };
 
-  const MODULE_TASK_LABEL: Record<string, string> = {
-    module_1_seepage: 'M1 · T1',
-    module_1_task2:   'M1 · T2',
-    module_1_task3:   'M1 · T3',
-  };
-
   const completedHistory = history.filter(
     h => h.status === 'completed' || h.status === 'evaluation_pending'
   ).slice(0, 15);
@@ -113,49 +107,7 @@ export default async function DashboardPage() {
         <StatsStrip name={user.name} stats={statsMap} />
 
         {/* My Sessions */}
-        {completedHistory.length > 0 && (
-          <div className="mb-8">
-            <h2 className="text-sm font-semibold text-[#9090a8] uppercase tracking-widest mb-3">My Sessions</h2>
-            <div className="rounded-xl border border-[#1e1e28] bg-[#13131a] overflow-hidden">
-              <ul className="divide-y divide-[#1a1a24]">
-                {completedHistory.map((session) => {
-                  const label = MODULE_TASK_LABEL[session.module_attempted] ?? session.module_attempted;
-                  const date = new Date(session.attempt_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
-                  const isPending = session.status === 'evaluation_pending';
-                  const score = session.overall_score;
-                  const scoreColor = score === null ? '' : score >= 36 ? 'bg-green-500/12 border-green-500/30 text-green-400' : score >= 27 ? 'bg-amber-500/12 border-amber-500/30 text-amber-400' : 'bg-red-500/12 border-red-500/30 text-red-400';
-
-                  return (
-                    <li key={session.id}>
-                      <Link
-                        href={`/module/module_1/report/${session.id}`}
-                        className="flex items-center gap-3 px-4 py-3.5 hover:bg-[#16161f] transition-colors group"
-                      >
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className="text-[10px] font-semibold text-[#9090a8] bg-[#1c1c26] border border-[#2a2a38] rounded px-1.5 py-0.5">{label}</span>
-                            <span className="text-xs text-[#60607a]">{date}</span>
-                            {session.customer_name && (
-                              <span className="text-xs text-[#60607a] truncate">· {session.customer_name}</span>
-                            )}
-                          </div>
-                        </div>
-                        {isPending ? (
-                          <span className="flex items-center gap-1 text-[10px] font-semibold text-amber-400 border border-amber-500/30 rounded px-1.5 py-0.5">
-                            <Clock className="h-3 w-3" /> Pending
-                          </span>
-                        ) : score !== null ? (
-                          <span className={`inline-block rounded-lg border px-2 py-0.5 text-xs font-bold ${scoreColor}`}>{score}</span>
-                        ) : null}
-                        <ChevronRight className="h-3.5 w-3.5 text-[#2a2a38] group-hover:text-[#60607a] transition-colors shrink-0" />
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </div>
-        )}
+        <MySessions sessions={completedHistory} />
 
         {/* Modules section */}
         <div className="mb-4 flex items-center justify-between">
