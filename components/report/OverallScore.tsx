@@ -52,7 +52,7 @@ export function OverallScore({ score, maxScore = 45, tier, customerName, duratio
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         className="relative"
       >
-        <svg width="140" height="140" viewBox="0 0 140 140">
+        <svg width="116" height="116" viewBox="0 0 140 140">
           {/* Background ring */}
           <circle
             cx="70" cy="70" r={radius}
@@ -119,9 +119,9 @@ export function OverallScore({ score, maxScore = 45, tier, customerName, duratio
                   ? 'bg-amber-500/12 border-amber-500/30 text-amber-400'
                   : 'bg-red-500/12 border-red-500/30 text-red-400';
             return (
-              <div key={key} className={`flex items-center gap-1.5 rounded-lg border px-2.5 py-1.5 ${color}`}>
-                <span className="text-xs font-semibold">{SECTION_SHORT[key] ?? key}</span>
-                <span className="text-xs opacity-70">{s.score}/{s.max_score}</span>
+              <div key={key} className={`flex items-center gap-2 rounded-xl border px-3.5 py-2 ${color}`}>
+                <span className="text-sm font-semibold">{SECTION_SHORT[key] ?? key}</span>
+                <span className="text-sm opacity-70">{s.score}/{s.max_score}</span>
               </div>
             );
           })}
