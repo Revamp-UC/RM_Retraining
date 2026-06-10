@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { Ruler, X, Expand, ChevronRight, ChevronLeft } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -49,10 +49,6 @@ export function WallDisplay({ className = '', taskId = 'task_1' }: WallDisplayPr
   const walls = cfg.walls;
   const isMultiWall = !!(walls && walls.length > 1);
 
-  // Preload all wall images on mount so sliding feels instant
-  useEffect(() => {
-    walls?.forEach(w => { const img = new window.Image(); img.src = w.src; });
-  }, [walls]);
   const currentWall = walls?.[wallIndex] ?? null;
 
   function goNext() {
@@ -83,32 +79,28 @@ export function WallDisplay({ className = '', taskId = 'task_1' }: WallDisplayPr
       >
         {walls ? (
           <>
-            {/* Sliding image */}
-            <AnimatePresence mode="wait" custom={slideDir}>
-              <motion.div
-                key={wallIndex}
-                custom={slideDir}
-                variants={{
-                  enter: (dir: number) => ({ x: dir * 60, opacity: 0 }),
-                  center: { x: 0, opacity: 1 },
-                  exit: (dir: number) => ({ x: -dir * 60, opacity: 0 }),
-                }}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-                className="absolute inset-0"
-              >
-                <Image
-                  src={currentWall!.src}
-                  alt={`Wall — ${cfg.label}${currentWall!.wallLabel ? ' · ' + currentWall!.wallLabel : ''}`}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f]/50 via-transparent to-[#0a0a0f]/20 pointer-events-none" />
-              </motion.div>
-            </AnimatePresence>
+            {/* All wall images always in DOM — slides via position, no unmount */}
+            {walls!.map((wall, i) => {
+              const isActive = i === wallIndex;
+              const offset = (i - wallIndex) * 100;
+              return (
+                <motion.div
+                  key={wall.src}
+                  animate={{ x: `${offset}%`, opacity: isActive ? 1 : 0 }}
+                  transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={wall.src}
+                    alt={`Wall — ${cfg.label}${wall.wallLabel ? ' · ' + wall.wallLabel : ''}`}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f]/50 via-transparent to-[#0a0a0f]/20 pointer-events-none" />
+                </motion.div>
+              );
+            })}
 
             {/* Next arrow — animated bounce to draw attention */}
             {isMultiWall && wallIndex < walls!.length - 1 && (
