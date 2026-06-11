@@ -63,7 +63,16 @@ async function callModel(ai: GoogleGenAI, model: string, prompt: string): Promis
     contents: [{ role: 'user', parts: [{ text: prompt }] }],
     config: { responseMimeType: 'application/json', temperature: 0.3, thinkingConfig: { thinkingBudget: 1024 } },
   });
-  const rawText = response.text?.trim() ?? '';
+
+  // Filter out thinking tokens (thought: true parts) — only use actual response text
+  const parts = response.candidates?.[0]?.content?.parts ?? [];
+  const responseParts = parts.filter((p: { thought?: boolean }) => !p.thought);
+  const rawText = (
+    responseParts.length > 0
+      ? responseParts.map((p: { text?: string }) => p.text ?? '').join('')
+      : (response.text ?? '')
+  ).trim();
+
   try {
     const cleaned = rawText.replace(/^```json\s*/i, '').replace(/\s*```$/i, '');
     return JSON.parse(cleaned);

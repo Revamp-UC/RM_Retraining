@@ -25,8 +25,9 @@ export async function createConsultation(params: {
   customer_gender: CustomerGender;
 }): Promise<ConsultationRecord> {
   const now = new Date();
-  const attempt_date = now.toISOString().split('T')[0];
-  const attempt_time = now.toTimeString().split(' ')[0];
+  const ist = new Date(now.getTime() + 5.5 * 60 * 60 * 1000);
+  const attempt_date = ist.toISOString().split('T')[0];
+  const attempt_time = ist.toISOString().split('T')[1].split('.')[0];
 
   try {
     const { data, error } = await db
