@@ -48,10 +48,10 @@ export async function POST(req: NextRequest) {
     id: consultation_id,
     duration_seconds: consultation.duration_seconds ?? 0,
     overall_score: reportCard.overall_score,
-    introduction_score: reportCard.sections.introduction.score,
-    technical_score: reportCard.sections.technical.score,
-    budget_score: reportCard.sections.budget_discovery.score,
-    discovery_score: reportCard.sections.discovery_confidence.score,
+    introduction_score: reportCard.sections.introduction?.score ?? null,
+    technical_score: reportCard.sections.technical?.score ?? null,
+    budget_score: reportCard.sections.budget_discovery?.score ?? null,
+    discovery_score: reportCard.sections.discovery_confidence?.score ?? null,
     report_card_json: reportCard,
   });
 
