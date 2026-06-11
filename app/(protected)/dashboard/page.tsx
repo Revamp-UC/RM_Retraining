@@ -11,7 +11,7 @@ import { MySessions } from '@/components/dashboard/MySessions';
 
 const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965']);
 
-const MODULES = [
+const MODULES_BASE = [
   {
     id: 'module_1',
     number: 1,
@@ -19,6 +19,25 @@ const MODULES = [
     isActive: true,
   },
   { id: 'module_2', number: 2, name: 'Lighting Solutions', isActive: false },
+  { id: 'module_3', number: 3, name: 'Ceiling Design', isActive: false },
+  { id: 'module_4', number: 4, name: 'Readymade Woodwork', isActive: false },
+  { id: 'module_5', number: 5, name: 'Mouldings & Trim', isActive: false },
+  { id: 'module_6', number: 6, name: 'Complete Room Makeover', isActive: false },
+];
+
+const MODULES_ADMIN = [
+  {
+    id: 'module_1',
+    number: 1,
+    task: 'Know the budget of your customer',
+    isActive: true,
+  },
+  {
+    id: 'module_2',
+    number: 2,
+    task: 'Design Finalisation — Object Handling',
+    isActive: true,
+  },
   { id: 'module_3', number: 3, name: 'Ceiling Design', isActive: false },
   { id: 'module_4', number: 4, name: 'Readymade Woodwork', isActive: false },
   { id: 'module_5', number: 5, name: 'Mouldings & Trim', isActive: false },
@@ -33,10 +52,13 @@ export default async function DashboardPage() {
   const user = await validateSession(token);
   if (!user) redirect('/login');
 
-  const [task1Stats, task2Stats, task3Stats, history] = await Promise.all([
+  const isAdmin = ADMIN_MOBILES.has(user.mobile_number);
+
+  const [task1Stats, task2Stats, task3Stats, m2task1Stats, history] = await Promise.all([
     getModuleStats(user.mobile_number, 'module_1_seepage'),
     getModuleStats(user.mobile_number, 'module_1_task2'),
     getModuleStats(user.mobile_number, 'module_1_task3'),
+    isAdmin ? getModuleStats(user.mobile_number, 'module_2_task1') : Promise.resolve(null),
     getConsultationHistory(user.mobile_number),
   ]);
 
@@ -69,6 +91,7 @@ export default async function DashboardPage() {
       best_max_score: bestTask?.best_max_score ?? null,
       avg_score: null,
     },
+    ...(m2task1Stats ? { module_2: m2task1Stats } : {}),
   };
 
   const completedHistory = history.filter(
@@ -113,11 +136,11 @@ export default async function DashboardPage() {
         {/* Modules section */}
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-sm font-semibold text-[#9090a8] uppercase tracking-widest">Training Modules</h2>
-          <span className="text-xs text-[#60607a]">1 of 6 active</span>
+          <span className="text-xs text-[#60607a]">{isAdmin ? '2 of 6 active' : '1 of 6 active'}</span>
         </div>
 
         <div className="space-y-3">
-          {MODULES.map((mod, index) => (
+          {(isAdmin ? MODULES_ADMIN : MODULES_BASE).map((mod, index) => (
             <ModuleCard
               key={mod.id}
               id={mod.id}

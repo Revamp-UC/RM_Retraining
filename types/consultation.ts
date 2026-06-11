@@ -54,16 +54,11 @@ export interface ModuleStats {
 
 export interface ReportCard {
   overall_score: number;
-  sections: {
-    introduction: SectionResult;
-    technical: SectionResult;
-    budget_discovery: SectionResult;
-    discovery_confidence: SectionResult;
-    market_comparison?: SectionResult; // Task 2+
-  };
+  sections: Record<string, SectionResult>;
   critical_mistakes: string[];
   coaching_feedback: string;
   performance_tier: 'Excellent' | 'Good' | 'Average' | 'Needs Improvement';
+  suggested_ideal_response?: string; // Module 2+
 }
 
 export interface SectionResult {

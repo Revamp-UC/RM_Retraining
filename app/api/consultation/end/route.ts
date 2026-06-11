@@ -77,15 +77,15 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: false, pending: true, consultation_id }, { status: 200 });
   }
 
-  // Persist scores
+  // Persist scores — sub-score columns are null for modules that don't use them
   await completeConsultation({
     id: consultation_id,
     duration_seconds,
     overall_score: reportCard.overall_score,
-    introduction_score: reportCard.sections.introduction.score,
-    technical_score: reportCard.sections.technical.score,
-    budget_score: reportCard.sections.budget_discovery.score,
-    discovery_score: reportCard.sections.discovery_confidence.score,
+    introduction_score: reportCard.sections.introduction?.score ?? null,
+    technical_score: reportCard.sections.technical?.score ?? null,
+    budget_score: reportCard.sections.budget_discovery?.score ?? null,
+    discovery_score: reportCard.sections.discovery_confidence?.score ?? null,
     report_card_json: reportCard,
   });
 

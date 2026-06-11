@@ -19,7 +19,7 @@ export function PreStartModal({ rmName }: PreStartModalProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[#0a0a0f]/80 backdrop-blur-sm px-5"
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-[#0a0a0f]/80 backdrop-blur-sm px-5"
         >
           <motion.div
             initial={{ scale: 0.92, opacity: 0, y: 16 }}

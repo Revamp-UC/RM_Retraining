@@ -1,8 +1,8 @@
 // Prompt registry — maps module_attempted (DB value) to persona, rubric, and sanitizer.
 //
 // To add a new task:
-//   1. Create lib/prompts/module1-taskN-persona.ts
-//   2. Create lib/prompts/module1-taskN-rubric.ts
+//   1. Create lib/prompts/moduleN-taskN-persona.ts
+//   2. Create lib/prompts/moduleN-taskN-rubric.ts
 //   3. Add a new entry in PROMPT_REGISTRY below — nothing else needs touching.
 
 import type { CustomerGender } from '@/types/consultation';
@@ -20,6 +20,10 @@ import { buildEvaluationPrompt as m1t2Rubric } from './module1-task2-rubric';
 // Module 1 · Task 3
 import { generateCustomerPersonaPrompt as m1t3Persona } from './module1-task3-persona';
 import { buildEvaluationPrompt as m1t3Rubric } from './module1-task3-rubric';
+
+// Module 2 · Task 1
+import { generateCustomerPersonaPrompt as m2t1Persona } from './module2-task1-persona';
+import { buildEvaluationPrompt as m2t1Rubric } from './module2-task1-rubric';
 
 // ─── Sanitizer helpers ────────────────────────────────────────────────────────
 
@@ -47,6 +51,13 @@ function tier(overall: number): ReportCard['performance_tier'] {
   if (overall >= 42) return 'Excellent';
   if (overall >= 32) return 'Good';
   if (overall >= 20) return 'Average';
+  return 'Needs Improvement';
+}
+
+function tier2(overall: number): ReportCard['performance_tier'] {
+  if (overall >= 24) return 'Excellent';
+  if (overall >= 18) return 'Good';
+  if (overall >= 12) return 'Average';
   return 'Needs Improvement';
 }
 
@@ -118,6 +129,33 @@ function sanitizeTask2(raw: unknown): ReportCard {
   };
 }
 
+// Module 2 Task 1 sanitizer — 6 sections, max 30
+function sanitizeM2Task1(raw: unknown): ReportCard {
+  const c = raw as Partial<ReportCard> & { suggested_ideal_response?: string };
+  const empathy      = clamp(c.sections?.empathy_validation?.score, 5);
+  const personal     = clamp(c.sections?.personalisation_respect?.score, 5);
+  const discovery    = clamp(c.sections?.discovery_leaning?.score, 5);
+  const recommend    = clamp(c.sections?.expert_recommendation?.score, 5);
+  const reinforce    = clamp(c.sections?.reinforcement_tools?.score, 5);
+  const confidence   = clamp(c.sections?.confidence_building?.score, 5);
+  const overall      = empathy + personal + discovery + recommend + reinforce + confidence;
+  return {
+    overall_score: overall,
+    sections: {
+      empathy_validation:      section(c.sections?.empathy_validation, empathy, 5),
+      personalisation_respect: section(c.sections?.personalisation_respect, personal, 5),
+      discovery_leaning:       section(c.sections?.discovery_leaning, discovery, 5),
+      expert_recommendation:   section(c.sections?.expert_recommendation, recommend, 5),
+      reinforcement_tools:     section(c.sections?.reinforcement_tools, reinforce, 5),
+      confidence_building:     section(c.sections?.confidence_building, confidence, 5),
+    },
+    critical_mistakes: c.critical_mistakes ?? [],
+    coaching_feedback: c.coaching_feedback ?? '',
+    performance_tier: tier2(overall),
+    suggested_ideal_response: c.suggested_ideal_response ?? '',
+  };
+}
+
 // ─── Registry ─────────────────────────────────────────────────────────────────
 
 interface PromptHandlers {
@@ -142,9 +180,14 @@ const PROMPT_REGISTRY: Record<string, PromptHandlers> = {
     rubric:   m1t3Rubric,
     sanitize: sanitizeTask3,
   },
+  'module_2_task1': {
+    persona:  m2t1Persona,
+    rubric:   (transcript, customerName) => m2t1Rubric(transcript, customerName),
+    sanitize: sanitizeM2Task1,
+  },
 };
 
-const FALLBACK = PROMPT_REGISTRY['module_1_seepage'];
+const FALLBACK = PROMPT_REGISTRY['module_1_seepage']!;
 
 export function getPersonaPrompt(
   moduleAttempted: string,

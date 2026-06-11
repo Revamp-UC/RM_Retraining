@@ -143,7 +143,7 @@ export async function handleConsultationStream(
           }
           openFired = true;
           send({ type: 'session_ready', data: { customer_name } });
-          if (geminiSession) kickOffConversation(geminiSession);
+          if (geminiSession) kickOffConversation(geminiSession, module_attempted);
         },
 
         onmessage: (message: LiveServerMessage) => {
@@ -201,7 +201,7 @@ export async function handleConsultationStream(
     }
 
     if (openFired) {
-      kickOffConversation(geminiSession);
+      kickOffConversation(geminiSession, module_attempted);
     }
 
     setGeminiSession(consultationId, {
@@ -229,12 +229,19 @@ function isHindiOrEnglish(text: string): boolean {
   return foreign / text.length < 0.1;
 }
 
-function kickOffConversation(session: Session) {
+function getKickOffText(moduleAttempted: string): string {
+  if (moduleAttempted === 'module_2_task1') {
+    return 'Start the conversation. The introduction is already done — you have seen the RM and discussed your wall. The RM has now shown you all three design options (Blush Flutes, Beige Warp, Blush Arc) and you have looked at them. Begin speaking first as the confused customer — express your genuine indecision about which design to choose.';
+  }
+  return 'Start the conversation. The RM has just arrived at your door for the scheduled home consultation. Greet them naturally and lead them inside.';
+}
+
+function kickOffConversation(session: Session, moduleAttempted: string) {
   try {
     session.sendClientContent({
       turns: [{
         role: 'user',
-        parts: [{ text: 'Start the conversation. The RM has just arrived at your door for the scheduled home consultation. Greet them naturally and lead them inside.' }],
+        parts: [{ text: getKickOffText(moduleAttempted) }],
       }],
       turnComplete: true,
     });

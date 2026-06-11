@@ -15,9 +15,27 @@ export interface ModuleConfig {
   title: string;
   description: string;
   tasks: TaskConfig[];
+  adminOnly?: boolean; // when true, only admins can see and access this module
 }
 
 export const MODULE_CONFIG: Record<string, ModuleConfig> = {
+  module_2: {
+    id: 'module_2',
+    title: 'Design Finalisation — Object Handling',
+    description: 'Guide confused customers to a confident design decision using empathy, discovery and expert recommendation',
+    adminOnly: true,
+    tasks: [
+      {
+        id: 'task_1',
+        title: 'Task 1 of Module 2',
+        description: 'Customer has seen 3 wall panel designs and is confused which to choose. Guide them to a final decision without pressure.',
+        moduleAttempted: 'module_2_task1', // ← persona: module2-task1-persona.ts | rubric: module2-task1-rubric.ts
+        status: 'active',
+      },
+      { id: 'task_2', title: 'Coming Soon', description: '', moduleAttempted: '', status: 'coming_soon' },
+      { id: 'task_3', title: 'Coming Soon', description: '', moduleAttempted: '', status: 'coming_soon' },
+    ],
+  },
   module_1: {
     id: 'module_1',
     title: 'Know the Budget of Your Customer',

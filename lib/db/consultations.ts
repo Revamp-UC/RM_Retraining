@@ -91,10 +91,10 @@ export async function completeConsultation(params: {
   id: string;
   duration_seconds: number;
   overall_score: number;
-  introduction_score: number;
-  technical_score: number;
-  budget_score: number;
-  discovery_score: number;
+  introduction_score: number | null;
+  technical_score: number | null;
+  budget_score: number | null;
+  discovery_score: number | null;
   report_card_json: ReportCard;
 }): Promise<void> {
   // Update in-memory record if it exists

@@ -7,7 +7,7 @@ const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '843919
 import { OverallScore } from '@/components/report/OverallScore';
 import { SectionScore } from '@/components/report/SectionScore';
 import { CriticalMistakes } from '@/components/report/CriticalMistakes';
-import { ArrowLeft, RotateCcw, LayoutDashboard, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, RotateCcw, LayoutDashboard, ShieldCheck, Lightbulb } from 'lucide-react';
 import Link from 'next/link';
 import type { ReportCard } from '@/types/consultation';
 import { resolveTaskPath } from '@/lib/config/modules';
@@ -18,19 +18,35 @@ interface ReportPageProps {
 }
 
 const SECTION_ICONS: Record<string, React.ReactNode> = {
+  // Module 1
   introduction: <span className="text-sm">👋</span>,
   technical: <span className="text-sm">🔧</span>,
   budget_discovery: <span className="text-sm">💰</span>,
   discovery_confidence: <span className="text-sm">🎯</span>,
   market_comparison: <span className="text-sm">⚡</span>,
+  // Module 2
+  empathy_validation: <span className="text-sm">🤝</span>,
+  personalisation_respect: <span className="text-sm">✨</span>,
+  discovery_leaning: <span className="text-sm">🔍</span>,
+  expert_recommendation: <span className="text-sm">🎨</span>,
+  reinforcement_tools: <span className="text-sm">🖼️</span>,
+  confidence_building: <span className="text-sm">💪</span>,
 };
 
 const SECTION_TITLES: Record<string, string> = {
+  // Module 1
   introduction: 'Introduction & Agenda Setting',
   technical: 'Technical Knowledge',
   budget_discovery: 'Budget Discovery',
   discovery_confidence: 'Discovery & Confidence',
   market_comparison: 'Market Comparison & Value Defense',
+  // Module 2
+  empathy_validation: 'Empathy & Validation',
+  personalisation_respect: 'Personalisation & Respect',
+  discovery_leaning: 'Discovery: Identify Customer Leaning',
+  expert_recommendation: 'Expert Recommendation',
+  reinforcement_tools: 'Reinforcement Tools Usage',
+  confidence_building: 'Confidence Building',
 };
 
 export default async function ReportPage({ params }: ReportPageProps) {
@@ -150,6 +166,22 @@ export default async function ReportPage({ params }: ReportPageProps) {
             coachingFeedback={report.coaching_feedback}
           />
         </div>
+
+        {/* Suggested ideal response — Module 2 only */}
+        {report.suggested_ideal_response && (
+          <div>
+            <h2 className="text-xs font-semibold text-[#60607a] uppercase tracking-widest mb-3">Model Response</h2>
+            <div className="rounded-xl border border-violet-500/25 bg-violet-500/5 p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <Lightbulb className="h-4 w-4 text-violet-400 shrink-0" />
+                <p className="text-xs font-bold text-violet-300 uppercase tracking-widest">Ideal RM Response</p>
+              </div>
+              <p className="text-sm text-[#c0c0d8] leading-relaxed whitespace-pre-wrap">
+                {report.suggested_ideal_response}
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Action buttons */}
         <div className="flex flex-col sm:flex-row gap-3 pt-2 pb-8">

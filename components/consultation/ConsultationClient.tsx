@@ -1,8 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, X, Timer } from 'lucide-react';
 import { WallDisplay } from './WallDisplay';
+import { DesignGallery } from './DesignGallery';
+import { ScenarioModal } from './ScenarioModal';
 import { VoiceArea } from './VoiceArea';
 import { useConsultationState } from '@/hooks/useConsultationState';
 
@@ -23,6 +26,9 @@ export function ConsultationClient({
   moduleId,
   taskId,
 }: ConsultationClientProps) {
+  const isModule2 = moduleId === 'module_2';
+  const [scenarioAcknowledged, setScenarioAcknowledged] = useState(false);
+
   const {
     status,
     errorMessage,
@@ -39,17 +45,26 @@ export function ConsultationClient({
   return (
     <div className="flex flex-col lg:flex-row lg:h-full gap-4 lg:gap-6 p-4 lg:p-6 relative">
 
-      {/* Wall panel — container appears quickly, internal elements animate at 1s via WallDisplay */}
+      {/* Scenario modal for Module 2 — sits at z-50, revealed after PreStartModal (z-60) exits */}
+      {isModule2 && !scenarioAcknowledged && (
+        <ScenarioModal onAcknowledge={() => setScenarioAcknowledged(true)} />
+      )}
+
+      {/* Left panel — WallDisplay for M1, DesignGallery for M2 */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3, delay: 0.05, ease: 'easeOut' }}
         className="w-full lg:w-1/2 h-[38vh] lg:h-full shrink-0"
       >
-        <WallDisplay className="h-full" taskId={taskId} />
+        {isModule2 ? (
+          <DesignGallery className="h-full" />
+        ) : (
+          <WallDisplay className="h-full" taskId={taskId} />
+        )}
       </motion.div>
 
-      {/* Customer info — appears first */}
+      {/* Right panel — VoiceArea */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
@@ -61,6 +76,7 @@ export function ConsultationClient({
             customerName={customerName}
             customerGender={customerGender}
             taskId={taskId}
+            moduleId={moduleId}
             status={status}
             isCapturing={isCapturing}
             isEnding={isEnding}

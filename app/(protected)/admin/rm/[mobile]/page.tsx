@@ -29,13 +29,7 @@ function formatDate(dateStr: string): string {
 function getSessionMax(c: AdminConsultation): number {
   const s = c.report_card_json?.sections;
   if (!s) return 45;
-  return (
-    (s.introduction?.max_score ?? 15) +
-    (s.technical?.max_score ?? 5) +
-    (s.budget_discovery?.max_score ?? 15) +
-    (s.discovery_confidence?.max_score ?? 10) +
-    (s.market_comparison?.max_score ?? 0)
-  );
+  return Object.values(s).reduce((sum, section) => sum + (section?.max_score ?? 0), 0);
 }
 
 function ScoreChip({ score, max }: { score: number | null; max: number }) {
@@ -100,12 +94,28 @@ const MODULE_ID_MAP: Record<string, string> = {
   module_1_seepage: 'module_1',
   module_1_task2: 'module_1',
   module_1_task3: 'module_1',
+  module_2_task1: 'module_2',
 };
 
 const MODULE_TASK_LABEL: Record<string, string> = {
   module_1_seepage: 'Module 1 · Task 1',
   module_1_task2: 'Module 1 · Task 2',
   module_1_task3: 'Module 1 · Task 3',
+  module_2_task1: 'Module 2 · Task 1',
+};
+
+const SECTION_LABELS: Record<string, string> = {
+  introduction: 'Introduction',
+  technical: 'Technical Knowledge',
+  budget_discovery: 'Budget Discovery',
+  discovery_confidence: 'Discovery Confidence',
+  market_comparison: 'Market Comparison',
+  empathy_validation: 'Empathy & Validation',
+  personalisation_respect: 'Personalisation',
+  discovery_leaning: 'Discovery',
+  expert_recommendation: 'Expert Recommendation',
+  reinforcement_tools: 'Reinforcement Tools',
+  confidence_building: 'Confidence Building',
 };
 
 function toModuleId(moduleAttempted: string): string {
@@ -159,16 +169,17 @@ function ConsultationCard({ c, index }: { c: AdminConsultation; index: number })
         <ScoreChip score={c.overall_score} max={sessionMax} />
       </div>
 
-      {/* Sub-scores */}
-      {c.status === 'completed' && (
+      {/* Sub-scores — render dynamically from report_card_json for any module */}
+      {c.status === 'completed' && s && Object.keys(s).length > 0 && (
         <div className="space-y-1.5 mb-3 border-t border-[#1a1a24] pt-3">
-          <SubScoreRow label="Introduction" score={c.introduction_score} max={s?.introduction?.max_score ?? 15} />
-          <SubScoreRow label="Technical Knowledge" score={c.technical_score} max={s?.technical?.max_score ?? 5} />
-          <SubScoreRow label="Budget Discovery" score={c.budget_score} max={s?.budget_discovery?.max_score ?? 15} />
-          <SubScoreRow label="Discovery Confidence" score={c.discovery_score} max={s?.discovery_confidence?.max_score ?? 10} />
-          {s?.market_comparison && (
-            <SubScoreRow label="Market Comparison" score={s.market_comparison.score} max={s.market_comparison.max_score} />
-          )}
+          {Object.entries(s).map(([key, sec]) => (
+            <SubScoreRow
+              key={key}
+              label={SECTION_LABELS[key] ?? key}
+              score={sec.score}
+              max={sec.max_score}
+            />
+          ))}
         </div>
       )}
 

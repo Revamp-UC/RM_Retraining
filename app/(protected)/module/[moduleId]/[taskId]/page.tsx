@@ -4,7 +4,7 @@ import { validateSession } from '@/lib/auth/session';
 import { generateCustomer } from '@/lib/utils/name-generator';
 import { createConsultation } from '@/lib/db/consultations';
 import { createWsToken } from '@/lib/auth/session';
-import { getTaskConfig } from '@/lib/config/modules';
+import { getTaskConfig, getModuleConfig } from '@/lib/config/modules';
 import { ConsultationClient } from '@/components/consultation/ConsultationClient';
 import { PreStartModal } from '@/components/consultation/PreStartModal';
 import { ArrowLeft } from 'lucide-react';
@@ -27,6 +27,10 @@ export default async function ConsultationPage({ params }: TaskPageProps) {
 
   const user = await validateSession(token);
   if (!user) redirect('/login');
+
+  const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965']);
+  const moduleConfig = getModuleConfig(moduleId);
+  if (moduleConfig?.adminOnly && !ADMIN_MOBILES.has(user.mobile_number)) notFound();
 
   const { name: customerName, gender: customerGender } = generateCustomer();
 

@@ -22,6 +22,7 @@ interface VoiceAreaProps {
   customerName: string;
   customerGender: 'male' | 'female';
   taskId?: string;
+  moduleId?: string;
   status: ConnectionStatus;
   isCapturing: boolean;
   isEnding: boolean;
@@ -32,9 +33,12 @@ interface VoiceAreaProps {
 }
 
 const CUSTOMER_PROFILE: Record<string, { age: string; home: string; scope?: string }> = {
+  // Module 1
   task_1: { age: 'Homeowner', home: '2 BHK · Tier-1 City' },
   task_2: { age: '45 yr old', home: '3 BHK · Newly Built Flat', scope: '2 Wall Requirement' },
   task_3: { age: '40 yr old', home: '3 BHK · Gated Society, West Delhi', scope: 'Seepage Wall · Living Room' },
+  // Module 2
+  module_2_task_1: { age: 'Homeowner', home: 'Design Finalisation', scope: '3 Options Shown · Confused to Pick' },
 };
 
 function formatTime(seconds: number): string {
@@ -47,6 +51,7 @@ export function VoiceArea({
   customerName,
   customerGender,
   taskId = 'task_1',
+  moduleId = 'module_1',
   status,
   isCapturing,
   isEnding,
@@ -57,7 +62,9 @@ export function VoiceArea({
 }: VoiceAreaProps) {
   const isIdle = status === 'idle';
   const [quoteIndex, setQuoteIndex] = useState(0);
-  const profile = CUSTOMER_PROFILE[taskId] ?? CUSTOMER_PROFILE['task_1'];
+  // Use module-specific composite key first, fallback to taskId
+  const profileKey = moduleId !== 'module_1' ? `${moduleId}_${taskId}` : taskId;
+  const profile = CUSTOMER_PROFILE[profileKey] ?? CUSTOMER_PROFILE[taskId] ?? CUSTOMER_PROFILE['task_1']!;
 
   useEffect(() => {
     if (!isEnding) return;
