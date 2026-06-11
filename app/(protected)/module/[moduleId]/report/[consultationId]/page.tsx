@@ -44,9 +44,9 @@ const SECTION_TITLES: Record<string, string> = {
   // Module 2
   empathy_validation: 'Empathy & Validation',
   personalisation_respect: 'Personalisation & Respect',
-  discovery_leaning: 'Discovery: Identify Customer Leaning',
+  discovery_leaning: 'Discovery & Preference Identification',
   expert_recommendation: 'Expert Recommendation',
-  reinforcement_tools: 'Reinforcement Tools Usage',
+  reinforcement_tools: 'Reinforcement & Confidence Aids',
   confidence_building: 'Confidence Building',
 };
 

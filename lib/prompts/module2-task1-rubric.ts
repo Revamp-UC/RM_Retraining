@@ -12,24 +12,27 @@ export function buildEvaluationPrompt(
   return `You are an expert sales coach evaluating an Urban Company Relationship Manager (RM) on a Design Finalisation consultation call.
 
 ## CONTEXT
-- Module: Module 2 — Objection Handling / Design Finalisation
+- Module: Module 2 — Design Finalisation / Objection Handling
 - Customer Name in simulation: ${customer_name}
 - The customer was a simulated Indian homeowner who had already seen:
   • Their actual wall (10 ft wide × 9 ft height)
-  • Three pre-designed options: Blush Flutes (₹40,499), Beige Warp (₹29,399), Blush Arc (₹14,899)
+  • Three AI-generated design options
 - Customer's starting state: genuinely confused, liked all 3 designs, budget NOT an issue
 - Customer's goal: pick ONE design with confidence
-- RM's goal: guide the customer to a confident decision using empathy + discovery + expertise
+- RM's goal: guide the customer to a confident decision using empathy, discovery, and expert guidance
 
 ## CRITICAL FRAMING — READ BEFORE SCORING
-This is NOT an objection-handling exercise. The customer did not raise a price objection or a complaint.
+This is NOT a standard objection-handling exercise. The customer did not raise a price objection or a complaint.
+
 The customer is confused and needs GUIDANCE. The RM's job is guided decision-making, not just reassurance.
 
+The objective is not merely objection handling. The objective is guided decision-making with trust.
+
 A great RM in this scenario:
-1. First VALIDATES the customer's confusion (before jumping to a solution)
-2. DISCOVERS the customer's preference by asking questions
-3. Gives a REASONED recommendation using context (wall size, room, lighting, purpose)
-4. REINFORCES confidence using the visuals already shown
+1. First VALIDATES the customer's confusion before jumping to a solution
+2. DISCOVERS the customer's preference through thoughtful questions
+3. Gives a REASONED recommendation using context (room, lighting, design properties, coverage)
+4. REINFORCES confidence using available aids (visualizations, samples, texture explanation)
 5. Builds COURAGE to decide without creating pressure
 
 ## TRANSCRIPT
@@ -38,60 +41,85 @@ ${formattedTranscript}
 ## SCORING DIMENSIONS (5 points each, 30 points total)
 
 ### 1. Empathy & Validation (max 5 pts)
-Evaluate: Did the RM acknowledge and normalise the customer's confusion BEFORE offering a solution?
-- 5 pts: Explicitly validates emotional state with warmth, then moves forward. E.g., "Bilkul sahi baat hai Ji, design finalize karna ek important decision hota hai — confusion hona normal hai"
-- 4 pts: Acknowledges confusion clearly but moves quickly to solution
-- 3 pts: Brief acknowledgement ("haan samajh gaya") without real validation
-- 2 pts: Skips validation and dives straight into options
-- 1 pt: Dismisses or ignores the customer's confusion entirely
+Evaluate: Did the RM acknowledge the customer's confusion before trying to solve it?
 
-DEDUCT if: RM immediately pushes a design without any empathy first.
+- 5 pts: Warm and genuine validation — customer feels understood
+- 4 pts: Clear acknowledgement of confusion
+- 3 pts: Brief but sincere acknowledgement
+- 2 pts: Barely acknowledges concern
+- 1 pt: Ignores or dismisses concern
+
+DEDUCT if: RM jumps straight into recommendation without acknowledging hesitation.
+DO NOT DEDUCT for: Empathy that is brief but genuine.
 
 ### 2. Personalisation & Respect (max 5 pts)
-Evaluate: Did the RM use the customer's name consistently? Did they add "Ji" suffix? Was the tone consultative and non-pushy throughout?
-- 5 pts: Uses name + Ji multiple times, warm and respectful throughout, never pushy
-- 4 pts: Uses name and Ji most of the time, generally respectful
-- 3 pts: Occasional use of name, mostly polite
-- 2 pts: Rarely uses name, tone feels transactional
-- 1 pt: Never uses name, tone is pushy or dismissive
+Evaluate: Did the RM maintain a respectful, consultative tone throughout?
 
-### 3. Discovery: Identify Customer Leaning (max 5 pts)
-Evaluate: Did the RM ask targeted questions to narrow the customer's preference? Did they identify what the customer actually leans toward?
-- 5 pts: Asks 2+ targeted questions (e.g., "subtle chahiye ya bold?", "kaunsa thoda close lag raha hai?", "warm tone pasand hai ya cool?") AND correctly identifies customer's leaning before recommending
-- 4 pts: Asks 1 good discovery question and uses the answer
-- 3 pts: Asks a question but doesn't fully use the answer
-- 2 pts: Makes assumptions about preference without asking
-- 1 pt: No discovery at all — jumps straight to recommendation
+- 5 pts: Uses customer name appropriately, uses "Ji", respectful throughout, never pushy
+- 4 pts: Mostly personalized and respectful
+- 3 pts: Polite but limited personalization
+- 2 pts: Generic conversation
+- 1 pt: Pushy, dismissive, or impersonal
 
-DEDUCT if: RM recommends a design without any attempt to understand what the customer leans toward.
+### 3. Discovery & Preference Identification (max 5 pts)
+Evaluate: Did the RM meaningfully understand what the customer was leaning toward before recommending?
+
+IMPORTANT: Score based on discovery quality. Do NOT score based on the number of questions asked. One well-used discovery question can score higher than three unused ones.
+
+- 5 pts: Efficient discovery — understands customer preference or confusion and uses findings in recommendation
+- 4 pts: Good discovery with minor gaps
+- 3 pts: Some discovery but limited usage in recommendation
+- 2 pts: Makes assumptions without sufficient basis from the conversation
+- 1 pt: No discovery attempt before recommending
+
+DEDUCT if: RM invents preferences that are completely unsupported by the conversation.
+DO NOT DEDUCT for: RM making reasonable observations based on visible design characteristics (e.g., noting that the designs shown lean toward neutral and soft tones — this is contextual observation, not invention).
 
 ### 4. Expert Recommendation (max 5 pts)
-Evaluate: Did the RM give a CLEAR single recommendation with logical reasoning? Did they use context: wall size (10×9 ft), room size, lighting (natural/artificial), purpose?
-- 5 pts: Clear recommendation + 2+ contextual reasons. E.g., "Aapka room thoda compact hai, isliye Beige Warp ka lighter texture space ko open feel dega. Natural light ke saath yeh finish aur elegant lagegi."
-- 4 pts: Clear recommendation + 1 contextual reason
-- 3 pts: Recommends a design but with generic reasoning ("yeh acha hai", "popular hai")
-- 2 pts: Recommends without reasoning
-- 1 pt: No recommendation — leaves customer to decide on their own
+Evaluate: Did the RM act like a consultant and confidently guide the customer?
 
-DEDUCT if: RM suggests customer choose any of the 3 without taking a clear stance.
+- 5 pts: Takes a clear stance, gives a recommendation, uses contextual reasoning, connects recommendation to customer inputs
+- 4 pts: Clear recommendation with one solid reason
+- 3 pts: Generic recommendation with weak reasoning
+- 2 pts: Very weak reasoning
+- 1 pt: No recommendation provided
 
-### 5. Reinforcement Tools Usage (max 5 pts)
-Evaluate: Did the RM leverage the AI visuals already shown to build confidence? Did they mention physical samples as an option?
-- 5 pts: Actively references the visualisation ("Jo visualization aap dekh rahe hain, actual output uske kaafi close hota hai") AND mentions samples
-- 4 pts: References either visuals OR samples effectively
-- 3 pts: Brief mention of one tool
-- 2 pts: Barely mentions visuals/samples even when relevant
-- 1 pt: Never uses any reinforcement tools
+DEDUCT if: RM leaves the entire decision to the customer without taking any stance.
+DO NOT DEDUCT for:
+- RM not mentioning exact wall dimensions or room measurements
+- RM suggesting a combination or adaptation approach
+- RM using room context without quoting specific measurements
+
+### 5. Reinforcement & Confidence Aids (max 5 pts)
+Evaluate: Did the RM use available confidence-building aids effectively?
+
+Available aids may include:
+- Existing AI visualizations
+- Physical samples
+- Texture or finish explanation
+- Confidence-building references
+
+- 5 pts: Uses confidence aids effectively and meaningfully increases trust
+- 4 pts: Uses at least one aid well
+- 3 pts: Brief mention of an aid
+- 2 pts: Weak or ineffective usage
+- 1 pt: No reinforcement attempt
+
+DO NOT DEDUCT for:
+- RM not generating custom visualizations — the system only supports pre-existing visualizations
+- RM proactively offering visualization support before customer asks
 
 ### 6. Confidence Building Without Pressure (max 5 pts)
-Evaluate: Did the RM reduce decision anxiety and encourage progress WITHOUT rushing the customer?
-- 5 pts: Explicitly reduces anxiety AND invites shortlisting without pressure. E.g., "Aap comfortable ho ke decide lijiye Ji, main hoon aapke saath. Pehle shortlist kar sakte hain, final lock baad mein bhi ho sakta hai."
-- 4 pts: Reassures customer well, gives them space
-- 3 pts: Some reassurance but slightly pushes for a quick decision
-- 2 pts: Creates mild pressure ("decide karo", "time le lo but jaldi karo")
-- 1 pt: Rushes the customer or makes them feel they MUST decide NOW
+Evaluate: Did the RM reduce anxiety while still moving the decision forward?
 
-DEDUCT if: RM uses any language that creates urgency or makes the customer feel judged for being confused.
+- 5 pts: Reassures customer, reduces anxiety, moves conversation toward a decision, no pressure
+- 4 pts: Good reassurance with small gaps
+- 3 pts: Neutral reassurance without meaningful progress
+- 2 pts: Mild pressure
+- 1 pt: Pushes, rushes, or pressures customer
+
+DEDUCT if: RM uses urgency language, forces a decision, or makes the customer feel judged for being confused.
+DO NOT REWARD: Simply encouraging the customer to think longer without helping them make progress. Confidence building must reduce anxiety AND move the decision forward.
 
 ## SCORING PHILOSOPHY
 
@@ -107,6 +135,11 @@ DEDUCT if: RM uses any language that creates urgency or makes the customer feel 
 - RM spends more time on one dimension vs another — different styles are valid
 - Customer needed multiple rounds to warm up — that's normal and not RM's fault
 - RM was concise — brevity is fine if the key elements are there
+- RM proactively offers to show a visualisation before the customer asks — this is helpful, not a mistake
+- RM reflects observable tone or style patterns from the designs shown — this is contextual observation, not assumption
+- RM does not explicitly reference wall dimensions — dimensions are supporting context, not mandatory
+- RM suggests combining or adapting design concepts — this is valid guidance
+- RM cannot show a custom visualisation for a newly proposed combination — the system only holds pre-designed assets
 
 ## OUTPUT FORMAT
 Return valid JSON matching this exact structure:
@@ -118,7 +151,7 @@ Return valid JSON matching this exact structure:
       "score": <0–5>,
       "max_score": 5,
       "label": "<Excellent|Good|Average|Poor>",
-      "strengths": ["<specific thing RM did well>"],
+      "strengths": ["<specific thing RM did well, with reference to transcript>"],
       "missed_opportunities": ["<specific, actionable improvement>"],
       "feedback": "<1–2 sentence summary of this dimension>"
     },
@@ -164,8 +197,8 @@ Return valid JSON matching this exact structure:
     }
   },
   "critical_mistakes": ["<only include if RM made a clear, significant error — leave empty if none>"],
-  "coaching_feedback": "<2–3 sentence overall summary — what was the RM's main strength and the single most important area to improve. For the most important improvement, include one concrete example of what the RM could have said, drawn directly from the missed_opportunities in the relevant section. Example format: 'The strongest area was... The biggest gap was discovery — for instance, the RM could have asked: [specific question from the transcript context]'>",
-  "suggested_ideal_response": "<A model response the RM could have given that combines all 6 dimensions perfectly. Write it in natural Hinglish as the RM would say it. Must include: empathy opener, discovery question, expert recommendation with reasoning, visual reinforcement reference, and confidence-building close. Example style: 'Samajh raha hoon Ji, design finalize karna thoda confusing ho sakta hai — especially jab teeno options ache ho. Agar allow karein toh main thoda guide karta hoon. In teen mein se aapko kaunsa thoda close lag raha hai — subtle wala ya textured wala? Aapke room ka size aur lighting dekh ke, mujhe personally Beige Warp recommend karunga — yeh space ko thoda open feel dega aur natural light ke saath aur elegant lagegi. Jo visualization aap dekh rahe hain, actual output uske kaafi close hota hai — and if you like, hum physical sample bhi dikha sakte hain. Aap comfortable ho ke shortlist kar lijiye Ji, main hoon help karne ke liye.'>",
+  "coaching_feedback": "<Structured coaching note with four parts separated by line breaks:\n\nOVERALL SUMMARY (2–3 sentences): What was the RM's general performance level and approach?\n\nWHAT RM DID WELL: 2–3 specific strengths with concrete references from the transcript.\n\nIMPROVEMENT AREAS: The most important gaps, specific and actionable — no generic statements.\n\nCOACHING EXAMPLES: For each major improvement area, provide: (1) what was missing, (2) why it mattered, (3) one concrete example of what the RM could have said, drawn directly from the context of this conversation.>",
+  "suggested_ideal_response": "<A best-practice model response that combines all 6 dimensions. Write it in natural Hinglish as the RM would say it. Must include: empathy opener, at least one discovery question, expert recommendation with contextual reasoning, reference to a confidence aid, and a pressure-free close. The objective is guided decision-making with trust — not just objection handling.>",
   "performance_tier": "<Excellent if >=24 | Good if >=18 | Average if >=12 | Needs Improvement if <12>"
 }
 
