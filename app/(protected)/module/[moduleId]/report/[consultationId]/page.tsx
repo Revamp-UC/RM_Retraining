@@ -12,6 +12,7 @@ import Link from 'next/link';
 import type { ReportCard } from '@/types/consultation';
 import { resolveTaskPath } from '@/lib/config/modules';
 import { PendingReport } from '@/components/report/PendingReport';
+import { TooShortReport } from '@/components/report/TooShortReport';
 
 interface ReportPageProps {
   params: Promise<{ moduleId: string; consultationId: string }>;
@@ -70,6 +71,12 @@ export default async function ReportPage({ params }: ReportPageProps) {
 
   if (consultation.status === 'evaluation_pending') {
     return <PendingReport consultationId={consultationId} moduleId={moduleId} isOwn={isOwnReport} />;
+  }
+
+  if (consultation.status === 'too_short') {
+    const taskRef = resolveTaskPath(consultation.module_attempted ?? '');
+    const retryHref = taskRef ? `/module/${taskRef.moduleId}/${taskRef.taskId}` : `/module/${moduleId}`;
+    return <TooShortReport retryHref={retryHref} isOwn={isOwnReport} />;
   }
 
   if (consultation.status !== 'completed' || !consultation.report_card_json) {

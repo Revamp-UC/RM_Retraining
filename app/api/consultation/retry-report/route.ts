@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { validateSession } from '@/lib/auth/session';
-import { getConsultationById, completeConsultation } from '@/lib/db/consultations';
+import { getConsultationById, completeConsultation, markTooShort } from '@/lib/db/consultations';
 import { getTranscriptByConsultationId } from '@/lib/db/transcripts';
 import { evaluateConsultation } from '@/lib/gemini/evaluator';
 
@@ -27,6 +27,11 @@ export async function POST(req: NextRequest) {
 
   if (consultation.status === 'completed') {
     return NextResponse.json({ success: true, already_complete: true });
+  }
+
+  if ((consultation.duration_seconds ?? 0) < 30) {
+    await markTooShort(consultation_id, consultation.duration_seconds ?? 0);
+    return NextResponse.json({ success: false, too_short: true });
   }
 
   const saved = await getTranscriptByConsultationId(consultation_id);

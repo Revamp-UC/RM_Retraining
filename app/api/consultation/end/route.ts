@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { validateSession } from '@/lib/auth/session';
-import { completeConsultation, getConsultationById, markEvaluationPending } from '@/lib/db/consultations';
+import { completeConsultation, getConsultationById, markEvaluationPending, markTooShort } from '@/lib/db/consultations';
 import { saveTranscript, getTranscriptByConsultationId } from '@/lib/db/transcripts';
 import { evaluateConsultation } from '@/lib/gemini/evaluator';
 import { destroySession, getSession } from '@/lib/gemini/session-store';
@@ -62,6 +62,12 @@ export async function POST(req: NextRequest) {
     customer_name: consultation.customer_name ?? 'Customer',
     full_transcript: transcript,
   });
+
+  // Sessions under 30 seconds are too short to evaluate
+  if (duration_seconds < 30) {
+    await markTooShort(consultation_id, duration_seconds);
+    return NextResponse.json({ success: false, too_short: true, consultation_id }, { status: 200 });
+  }
 
   // Run evaluation with fallback model — if all retries fail, mark pending for later retry
   let reportCard;

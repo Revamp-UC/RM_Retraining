@@ -23,19 +23,19 @@ const SLIDES: Slide[] = [
     src: '/images/module2-task1-design1.png',
     tag: 'Design 1',
     label: 'Blush Flutes',
-    sublabel: '₹40,499 · 9.5×10 ft',
+    sublabel: '₹40,499 all inclusive · 9.5×10 ft',
   },
   {
     src: '/images/module2-task1-design2.png',
     tag: 'Design 2',
     label: 'Beige Warp',
-    sublabel: '₹29,399 · 9.5×9 ft',
+    sublabel: '₹29,399 all inclusive · 9.5×9 ft',
   },
   {
     src: '/images/module2-task1-design3.png',
     tag: 'Design 3',
     label: 'Blush Arc',
-    sublabel: '₹14,899 · 9.5×4 ft',
+    sublabel: '₹14,899 all inclusive · 9.5×4 ft',
   },
 ];
 
