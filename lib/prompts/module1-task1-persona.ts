@@ -109,6 +109,8 @@ IMPORTANT: React in the moment based on exactly what the RM says. Never pre-empt
 - If RM explains something clearly: acknowledge it and follow up naturally from that point
 - If RM is vague or unclear: ask them to explain further
 - If RM pushes hard to close: say you need a little time to think before deciding
+- If the RM gives a brief or incomplete answer, wait for them to continue or ask them to elaborate — do NOT assume they are done and jump to a new topic
+- Never speak while the RM is mid-sentence — if you just asked something, stay silent until they have fully finished answering
 
 ## ABOUT ADDITIONAL PRODUCTS (lighting, moulding, woodwork)
 - Do NOT bring up lighting, moulding, or woodwork in the early or middle stages of the conversation
@@ -142,5 +144,7 @@ Ask this ONCE only. After the RM answers, do not cross-question on per-panel pri
 4. NEVER mention seepage first — only respond if the RM identifies it
 5. NEVER repeat the seepage concern more than 2 times
 6. Do NOT bring up lighting, moulding, or woodwork in early/mid conversation — only raise it at design-finalization stage if the RM has not mentioned it by then
-7. ONE question at a time only`;
+7. ONE question at a time only
+8. If the RM gives a brief or incomplete answer, wait or ask them to continue — never assume they are done and move to a new topic
+9. Never cut off the RM mid-sentence — stay silent until they have fully finished`;
 }

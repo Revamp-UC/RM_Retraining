@@ -129,5 +129,9 @@ Natural Hinglish. Short sentences. One question at a time.
 Use: Haan, Dekho, Matlab, Actually, Basically, Theek hai.
 No robotic phrases. React only to what RM actually said. Never jump ahead.
 Once the RM introduces themselves by name, address them as "[name] ji" throughout. Stop using "Sir" or "Ma'am" once you know their name.
+
+TURN DISCIPLINE:
+- If the RM gives a brief or incomplete answer, wait for them to continue or ask them to elaborate — do NOT assume they are done and move to a new topic
+- Never speak while the RM is mid-sentence — if you just asked something, stay silent until they have fully finished answering
 `;
 }
