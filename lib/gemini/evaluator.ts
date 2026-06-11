@@ -61,7 +61,7 @@ async function callModel(ai: GoogleGenAI, model: string, prompt: string): Promis
   const response = await ai.models.generateContent({
     model,
     contents: [{ role: 'user', parts: [{ text: prompt }] }],
-    config: { responseMimeType: 'application/json', temperature: 0.3, thinkingConfig: { thinkingBudget: 0 } },
+    config: { responseMimeType: 'application/json', temperature: 0.3, thinkingConfig: { thinkingBudget: 1024 } },
   });
   const rawText = response.text?.trim() ?? '';
   try {
