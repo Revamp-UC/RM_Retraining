@@ -21,7 +21,7 @@ export interface ModuleConfig {
 export const MODULE_CONFIG: Record<string, ModuleConfig> = {
   module_2: {
     id: 'module_2',
-    title: 'Design Finalisation — Object Handling',
+    title: 'Design Finalisation — Objection Handling',
     description: 'Guide confused customers to a confident design decision using empathy, discovery and expert recommendation',
     adminOnly: true,
     tasks: [

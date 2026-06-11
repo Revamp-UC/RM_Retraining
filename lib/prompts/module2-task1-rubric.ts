@@ -12,7 +12,7 @@ export function buildEvaluationPrompt(
   return `You are an expert sales coach evaluating an Urban Company Relationship Manager (RM) on a Design Finalisation consultation call.
 
 ## CONTEXT
-- Module: Module 2 — Object Handling / Design Finalisation
+- Module: Module 2 — Objection Handling / Design Finalisation
 - Customer Name in simulation: ${customer_name}
 - The customer was a simulated Indian homeowner who had already seen:
   • Their actual wall (10 ft wide × 9 ft height)

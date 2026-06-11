@@ -35,7 +35,7 @@ const MODULES_ADMIN = [
   {
     id: 'module_2',
     number: 2,
-    task: 'Design Finalisation — Object Handling',
+    task: 'Design Finalisation — Objection Handling',
     isActive: true,
   },
   { id: 'module_3', number: 3, name: 'Ceiling Design', isActive: false },
