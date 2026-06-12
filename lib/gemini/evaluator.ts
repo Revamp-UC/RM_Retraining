@@ -51,7 +51,10 @@ function buildResponseSchema(module: string): unknown {
   return {
     type: 'object',
     properties,
-    required: ['overall_score', 'sections', 'critical_mistakes', 'coaching_feedback', 'performance_tier'],
+    required: [
+      'overall_score', 'sections', 'critical_mistakes', 'coaching_feedback', 'performance_tier',
+      ...(config.hasIdealResponse ? ['suggested_ideal_response'] : []),
+    ],
   };
 }
 
@@ -130,11 +133,12 @@ async function callModel(
   // Filter out thinking tokens — only parse the actual response parts
   const parts = response.candidates?.[0]?.content?.parts ?? [];
   const responseParts = parts.filter((p: { thought?: boolean }) => !p.thought);
-  const rawText = (
-    responseParts.length > 0
-      ? responseParts.map((p: { text?: string }) => p.text ?? '').join('')
-      : (response.text ?? '')
-  ).trim();
+  const rawText = responseParts.map((p: { text?: string }) => p.text ?? '').join('').trim();
+
+  if (!rawText) {
+    console.error('[Evaluator] Empty response after filtering thinking tokens');
+    throw new Error('Empty response after filtering thinking tokens — triggering retry');
+  }
 
   // responseSchema constrains Gemini to valid JSON — throw on failure so retry logic kicks in
   const cleaned = rawText.replace(/^```json\s*/i, '').replace(/\s*```$/i, '');

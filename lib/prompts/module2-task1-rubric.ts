@@ -94,13 +94,13 @@ IMPORTANT SYSTEM CONSTRAINT: The system can only show pre-existing saved design 
 ### 6. Confidence Building Without Pressure (max 5 pts)
 Evaluate: Did the RM reduce decision anxiety and encourage progress WITHOUT rushing the customer?
 - 5 pts: Explicitly reduces anxiety AND invites shortlisting without pressure
-- 4 pts: Reassures customer well, gives them space
+- 4 pts: Reassures customer well, gives them space to decide
 - 3 pts: Some reassurance but slightly pushes for a quick decision
-- 2 pts: Creates mild pressure ("decide karo", "time le lo but jaldi karo")
+- 2 pts: Only gives generic encouragement ("soch lo", "time le lo", "dono acha hai") with no actual progress toward a decision — OR creates mild pressure ("jaldi karo", "decide karo")
 - 1 pt: Rushes the customer or makes them feel they MUST decide NOW
 
 DEDUCT if: RM uses any language that creates urgency or makes the customer feel judged for being confused.
-DO NOT REWARD: Simply encouraging the customer to think longer without helping them make progress. Confidence building must reduce anxiety AND move the decision forward.
+DO NOT REWARD: Simply encouraging the customer to think longer without helping them make progress. An RM who only says "take your time, both are good" repeatedly scores 2 — not 3 or above. Confidence building must reduce anxiety AND move the decision forward.
 
 ## SCORING PHILOSOPHY
 

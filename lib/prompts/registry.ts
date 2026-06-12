@@ -33,7 +33,7 @@ import { buildEvaluationPrompt as m2t2Rubric } from './module2-task2-rubric';
 
 function clamp(v: unknown, max: number): number {
   const n = typeof v === 'number' ? v : 0;
-  return Math.min(Math.max(0, Math.round(n * 10) / 10), max);
+  return Math.min(Math.max(0, Math.round(n)), max);
 }
 
 function section(
@@ -226,14 +226,14 @@ const PROMPT_REGISTRY: Record<string, PromptHandlers> = {
   },
 };
 
-const FALLBACK = PROMPT_REGISTRY['module_1_seepage']!;
-
 export function getPersonaPrompt(
   moduleAttempted: string,
   customerName: string,
   customerGender: CustomerGender,
 ): string {
-  return (PROMPT_REGISTRY[moduleAttempted] ?? FALLBACK).persona(customerName, customerGender);
+  const handler = PROMPT_REGISTRY[moduleAttempted];
+  if (!handler) throw new Error(`Unknown moduleAttempted: "${moduleAttempted}"`);
+  return handler.persona(customerName, customerGender);
 }
 
 export function getEvaluationPrompt(
@@ -241,9 +241,13 @@ export function getEvaluationPrompt(
   transcript: TranscriptEntry[],
   customerName: string,
 ): string {
-  return (PROMPT_REGISTRY[moduleAttempted] ?? FALLBACK).rubric(transcript, customerName, moduleAttempted);
+  const handler = PROMPT_REGISTRY[moduleAttempted];
+  if (!handler) throw new Error(`Unknown moduleAttempted: "${moduleAttempted}"`);
+  return handler.rubric(transcript, customerName, moduleAttempted);
 }
 
 export function sanitizeReportCard(moduleAttempted: string, raw: unknown): ReportCard {
-  return (PROMPT_REGISTRY[moduleAttempted] ?? FALLBACK).sanitize(raw);
+  const handler = PROMPT_REGISTRY[moduleAttempted];
+  if (!handler) throw new Error(`Unknown moduleAttempted: "${moduleAttempted}"`);
+  return handler.sanitize(raw);
 }
