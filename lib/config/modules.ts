@@ -35,7 +35,7 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
       {
         id: 'task_2',
         title: 'Task 2 of Module 2',
-        description: 'Design is finalised and price is settled — but the customer is anxious about whether the real installed wall will match the image. Build confidence through proof and ownership.',
+        description: 'Design is finalised and price is settled — but the customer is anxious about whether the real installed wall will match the image. Your job is to build genuine confidence.',
         moduleAttempted: 'module_2_task2',
         status: 'active',
       },
