@@ -12,7 +12,7 @@ interface Slide {
   sublabel: string;
 }
 
-const SLIDES: Slide[] = [
+const SLIDES_M2T1: Slide[] = [
   {
     src: '/images/module2-task1-wall.png',
     tag: 'Wall',
@@ -39,11 +39,28 @@ const SLIDES: Slide[] = [
   },
 ];
 
+const SLIDES_M2T2: Slide[] = [
+  {
+    src: '/images/module2-task2-wall.png',
+    tag: 'Wall',
+    label: "Customer's Wall",
+    sublabel: '9 ft × 9 ft',
+  },
+  {
+    src: '/images/module2-task2-design1.png',
+    tag: 'Design',
+    label: 'Finalised Design',
+    sublabel: 'All inclusive',
+  },
+];
+
 interface DesignGalleryProps {
   className?: string;
+  taskId?: string;
 }
 
-export function DesignGallery({ className = '' }: DesignGalleryProps) {
+export function DesignGallery({ className = '', taskId }: DesignGalleryProps) {
+  const SLIDES = taskId === 'task_2' ? SLIDES_M2T2 : SLIDES_M2T1;
   const [index, setIndex] = useState(0);
   const [expanded, setExpanded] = useState(false);
 

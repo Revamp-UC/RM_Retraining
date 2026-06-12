@@ -2,14 +2,51 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Palette } from 'lucide-react';
+import { ArrowRight, Palette, ShieldCheck } from 'lucide-react';
 
 interface ScenarioModalProps {
   onAcknowledge: () => void;
+  taskId: string;
 }
 
-export function ScenarioModal({ onAcknowledge }: ScenarioModalProps) {
+const TASK_CONTENT: Record<string, {
+  icon: React.ReactNode;
+  accent: string;
+  title: string;
+  intro: string;
+  knowItems: string[];
+  stateText: string;
+}> = {
+  task_1: {
+    icon: <Palette className="h-4 w-4 text-violet-400" />,
+    accent: 'violet',
+    title: 'Design Finalisation',
+    intro: 'The introduction is done. You have seen the customer\'s wall and understood their requirements.',
+    knowItems: [
+      'Wall: 10 ft wide × 9 ft height',
+      'Budget is not an issue — customer wants the best look',
+      '3 designs have already been shown to the customer',
+    ],
+    stateText: 'The customer has seen all three designs and is confused — they like all of them. Your job is to guide them to one design without putting pressure.',
+  },
+  task_2: {
+    icon: <ShieldCheck className="h-4 w-4 text-indigo-400" />,
+    accent: 'indigo',
+    title: 'Commitment Confidence',
+    intro: 'The design is finalised and the price is not a blocker. One thing is still holding the customer back.',
+    knowItems: [
+      'Wall: 9 ft × 9 ft',
+      'Design: already selected and agreed upon',
+      'Price: acceptable to the customer',
+    ],
+    stateText: 'The customer is not confident about how the final installed wall will actually look. They are anxious and confused — worried the real result may not match the image. Your job is to build genuine confidence through proof and ownership.',
+  },
+};
+
+export function ScenarioModal({ onAcknowledge, taskId }: ScenarioModalProps) {
   const [visible, setVisible] = useState(true);
+  const content = TASK_CONTENT[taskId] ?? TASK_CONTENT['task_1']!;
+  const isIndigo = content.accent === 'indigo';
 
   function handleAck() {
     setVisible(false);
@@ -34,12 +71,12 @@ export function ScenarioModal({ onAcknowledge }: ScenarioModalProps) {
             className="w-full max-w-sm rounded-2xl border border-[#2a2a38] bg-[#13131a] shadow-2xl shadow-black/60 p-6"
           >
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-violet-500/15 border border-violet-500/25 flex items-center justify-center shrink-0">
-                <Palette className="h-4 w-4 text-violet-400" />
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isIndigo ? 'bg-indigo-500/15 border border-indigo-500/25' : 'bg-violet-500/15 border border-violet-500/25'}`}>
+                {content.icon}
               </div>
               <div>
-                <p className="text-xs font-semibold text-violet-400 uppercase tracking-widest">Scenario Brief</p>
-                <h2 className="text-base font-bold text-[#f1f1f5] leading-tight">Design Finalisation</h2>
+                <p className={`text-xs font-semibold uppercase tracking-widest ${isIndigo ? 'text-indigo-400' : 'text-violet-400'}`}>Scenario Brief</p>
+                <h2 className="text-base font-bold text-[#f1f1f5] leading-tight">{content.title}</h2>
               </div>
             </div>
 
@@ -47,36 +84,32 @@ export function ScenarioModal({ onAcknowledge }: ScenarioModalProps) {
 
             <div className="space-y-3 mb-5">
               <p className="text-sm text-[#9090a8] leading-relaxed">
-                The introduction is done. You have seen the customer&apos;s wall and understood their requirements.
+                {content.intro}
               </p>
 
               <div className="rounded-xl border border-[#1e1e28] bg-[#0f0f17] p-3.5 space-y-2">
                 <p className="text-[10px] font-bold text-[#60607a] uppercase tracking-widest">What you know</p>
                 <ul className="space-y-1.5">
-                  {[
-                    'Wall: 10 ft wide × 9 ft height',
-                    'Budget is not an issue — customer wants the best look',
-                    '3 designs have already been shown to the customer',
-                  ].map((line, i) => (
+                  {content.knowItems.map((line, i) => (
                     <li key={i} className="flex items-start gap-2">
-                      <span className="mt-1.5 h-1 w-1 rounded-full bg-violet-400 shrink-0" />
+                      <span className={`mt-1.5 h-1 w-1 rounded-full shrink-0 ${isIndigo ? 'bg-indigo-400' : 'bg-violet-400'}`} />
                       <span className="text-xs text-[#c0c0d8]">{line}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="rounded-xl border border-violet-500/20 bg-violet-500/5 p-3.5">
-                <p className="text-[10px] font-bold text-violet-400 uppercase tracking-widest mb-1.5">Customer&apos;s State</p>
+              <div className={`rounded-xl p-3.5 ${isIndigo ? 'border border-indigo-500/20 bg-indigo-500/5' : 'border border-violet-500/20 bg-violet-500/5'}`}>
+                <p className={`text-[10px] font-bold uppercase tracking-widest mb-1.5 ${isIndigo ? 'text-indigo-400' : 'text-violet-400'}`}>Customer&apos;s State</p>
                 <p className="text-xs text-[#c0c0d8] leading-relaxed">
-                  The customer has seen all three designs and is confused — they like all of them. Your job is to guide them to one design without putting pressure.
+                  {content.stateText}
                 </p>
               </div>
             </div>
 
             <button
               onClick={handleAck}
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-violet-600 hover:bg-violet-500 active:scale-[0.98] transition-all text-white font-semibold text-sm py-3"
+              className={`w-full flex items-center justify-center gap-2 rounded-xl active:scale-[0.98] transition-all text-white font-semibold text-sm py-3 ${isIndigo ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-violet-600 hover:bg-violet-500'}`}
             >
               Got it, start consultation
               <ArrowRight className="h-4 w-4" />

@@ -32,7 +32,13 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
         moduleAttempted: 'module_2_task1', // ← persona: module2-task1-persona.ts | rubric: module2-task1-rubric.ts
         status: 'active',
       },
-      { id: 'task_2', title: 'Coming Soon', description: '', moduleAttempted: '', status: 'coming_soon' },
+      {
+        id: 'task_2',
+        title: 'Task 2 of Module 2',
+        description: 'Design is finalised and price is settled — but the customer is anxious about whether the real installed wall will match the image. Build confidence through proof and ownership.',
+        moduleAttempted: 'module_2_task2',
+        status: 'active',
+      },
       { id: 'task_3', title: 'Coming Soon', description: '', moduleAttempted: '', status: 'coming_soon' },
     ],
   },

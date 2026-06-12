@@ -25,6 +25,7 @@ const MODULE_SECTIONS: Record<string, { keys: string[]; hasIdealResponse: boolea
   'module_1_task2':   { keys: ['introduction', 'technical', 'budget_discovery', 'discovery_confidence', 'market_comparison'], hasIdealResponse: false },
   'module_1_task3':   { keys: ['introduction', 'technical', 'budget_discovery', 'discovery_confidence'], hasIdealResponse: false },
   'module_2_task1':   { keys: ['empathy_validation', 'personalisation_respect', 'discovery_leaning', 'expert_recommendation', 'reinforcement_tools', 'confidence_building'], hasIdealResponse: true },
+  'module_2_task2':   { keys: ['trust_confidence', 'reinforcement_proof', 'hesitation_ownership', 'ff_gallery_validation'], hasIdealResponse: true },
 };
 
 function buildResponseSchema(module: string): unknown {

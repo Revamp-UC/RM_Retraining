@@ -47,7 +47,7 @@ export function ConsultationClient({
 
       {/* Scenario modal for Module 2 — sits at z-50, revealed after PreStartModal (z-60) exits */}
       {isModule2 && !scenarioAcknowledged && (
-        <ScenarioModal onAcknowledge={() => setScenarioAcknowledged(true)} />
+        <ScenarioModal onAcknowledge={() => setScenarioAcknowledged(true)} taskId={taskId} />
       )}
 
       {/* Left panel — WallDisplay for M1, DesignGallery for M2 */}
@@ -58,7 +58,7 @@ export function ConsultationClient({
         className="w-full lg:w-1/2 h-[38vh] lg:h-full shrink-0"
       >
         {isModule2 ? (
-          <DesignGallery className="h-full" />
+          <DesignGallery className="h-full" taskId={taskId} />
         ) : (
           <WallDisplay className="h-full" taskId={taskId} />
         )}

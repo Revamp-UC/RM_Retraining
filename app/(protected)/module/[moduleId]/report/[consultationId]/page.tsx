@@ -25,13 +25,18 @@ const SECTION_ICONS: Record<string, React.ReactNode> = {
   budget_discovery: <span className="text-sm">💰</span>,
   discovery_confidence: <span className="text-sm">🎯</span>,
   market_comparison: <span className="text-sm">⚡</span>,
-  // Module 2
+  // Module 2 Task 1
   empathy_validation: <span className="text-sm">🤝</span>,
   personalisation_respect: <span className="text-sm">✨</span>,
   discovery_leaning: <span className="text-sm">🔍</span>,
   expert_recommendation: <span className="text-sm">🎨</span>,
   reinforcement_tools: <span className="text-sm">🖼️</span>,
   confidence_building: <span className="text-sm">💪</span>,
+  // Module 2 Task 2
+  trust_confidence: <span className="text-sm">🛡️</span>,
+  reinforcement_proof: <span className="text-sm">📸</span>,
+  hesitation_ownership: <span className="text-sm">🤜</span>,
+  ff_gallery_validation: <span className="text-sm">🏠</span>,
 };
 
 const SECTION_TITLES: Record<string, string> = {
@@ -41,13 +46,18 @@ const SECTION_TITLES: Record<string, string> = {
   budget_discovery: 'Budget Discovery',
   discovery_confidence: 'Discovery & Confidence',
   market_comparison: 'Market Comparison & Value Defense',
-  // Module 2
+  // Module 2 Task 1
   empathy_validation: 'Empathy & Validation',
   personalisation_respect: 'Personalisation & Respect',
   discovery_leaning: 'Discovery: Identify Customer Leaning',
   expert_recommendation: 'Expert Recommendation',
   reinforcement_tools: 'Reinforcement Tools Usage',
   confidence_building: 'Confidence Building',
+  // Module 2 Task 2
+  trust_confidence: 'Trust Building & Confidence',
+  reinforcement_proof: 'Reinforcement Using Proof',
+  hesitation_ownership: 'Hesitation Handling & Ownership',
+  ff_gallery_validation: 'FF Gallery & Real Installation',
 };
 
 export default async function ReportPage({ params }: ReportPageProps) {

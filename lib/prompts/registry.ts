@@ -25,6 +25,10 @@ import { buildEvaluationPrompt as m1t3Rubric } from './module1-task3-rubric';
 import { generateCustomerPersonaPrompt as m2t1Persona } from './module2-task1-persona';
 import { buildEvaluationPrompt as m2t1Rubric } from './module2-task1-rubric';
 
+// Module 2 · Task 2
+import { generateCustomerPersonaPrompt as m2t2Persona } from './module2-task2-persona';
+import { buildEvaluationPrompt as m2t2Rubric } from './module2-task2-rubric';
+
 // ─── Sanitizer helpers ────────────────────────────────────────────────────────
 
 function clamp(v: unknown, max: number): number {
@@ -58,6 +62,13 @@ function tier2(overall: number): ReportCard['performance_tier'] {
   if (overall >= 24) return 'Excellent';
   if (overall >= 18) return 'Good';
   if (overall >= 12) return 'Average';
+  return 'Needs Improvement';
+}
+
+function tier3(overall: number): ReportCard['performance_tier'] {
+  if (overall >= 17) return 'Excellent';
+  if (overall >= 13) return 'Good';
+  if (overall >= 9) return 'Average';
   return 'Needs Improvement';
 }
 
@@ -156,6 +167,29 @@ function sanitizeM2Task1(raw: unknown): ReportCard {
   };
 }
 
+// Module 2 Task 2 sanitizer — 4 sections, max 20
+function sanitizeM2Task2(raw: unknown): ReportCard {
+  const c = raw as Partial<ReportCard> & { suggested_ideal_response?: string };
+  const trust      = clamp(c.sections?.trust_confidence?.score, 5);
+  const proof      = clamp(c.sections?.reinforcement_proof?.score, 5);
+  const hesitation = clamp(c.sections?.hesitation_ownership?.score, 5);
+  const gallery    = clamp(c.sections?.ff_gallery_validation?.score, 5);
+  const overall    = trust + proof + hesitation + gallery;
+  return {
+    overall_score: overall,
+    sections: {
+      trust_confidence:      section(c.sections?.trust_confidence, trust, 5),
+      reinforcement_proof:   section(c.sections?.reinforcement_proof, proof, 5),
+      hesitation_ownership:  section(c.sections?.hesitation_ownership, hesitation, 5),
+      ff_gallery_validation: section(c.sections?.ff_gallery_validation, gallery, 5),
+    },
+    critical_mistakes: c.critical_mistakes ?? [],
+    coaching_feedback: c.coaching_feedback ?? '',
+    performance_tier: tier3(overall),
+    suggested_ideal_response: c.suggested_ideal_response ?? '',
+  };
+}
+
 // ─── Registry ─────────────────────────────────────────────────────────────────
 
 interface PromptHandlers {
@@ -184,6 +218,11 @@ const PROMPT_REGISTRY: Record<string, PromptHandlers> = {
     persona:  m2t1Persona,
     rubric:   (transcript, customerName) => m2t1Rubric(transcript, customerName),
     sanitize: sanitizeM2Task1,
+  },
+  'module_2_task2': {
+    persona:  m2t2Persona,
+    rubric:   (transcript, customerName) => m2t2Rubric(transcript, customerName),
+    sanitize: sanitizeM2Task2,
   },
 };
 
