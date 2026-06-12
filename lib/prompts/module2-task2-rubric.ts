@@ -11,6 +11,8 @@ export function buildEvaluationPrompt(
 
   return `You are an expert sales coach evaluating an Urban Company Relationship Manager (RM) on a Design Commitment consultation call.
 
+LANGUAGE RULE: Write all feedback, strengths, missed_opportunities, and coaching_feedback in simple, everyday language. No corporate jargon, no tough English. Write like you are talking to someone directly — clear and easy to understand.
+
 ## CONTEXT
 - Module: Module 2 — Task 2 / Commitment Confidence
 - Customer Name in simulation: ${customer_name}
@@ -75,16 +77,22 @@ Evaluate: When the customer questioned whether the AI image would match reality,
 DEDUCT if: RM overpromises; claims AI and reality are identical or "100% same."
 DO NOT DEDUCT if: RM honestly acknowledges minor differences between AI and real — that is correct and trustworthy behavior, not weakness.
 
-### 4. FF Gallery / Real Installation Validation (max 5 pts)
-Evaluate: Did the RM leverage actual completed installations to close the realism gap?
+### 4. Real Installation Proof (max 5 pts)
+Evaluate: Did the RM show real photos of past completed work to close the realism gap?
 
-- 5 pts: Uses real installation references effectively, confidently explains visualization-to-real similarity with specific examples
-- 4 pts: Shows and explains real installation examples
-- 3 pts: Briefly references past installations
-- 2 pts: Weak usage — mentions it but does not anchor to customer's concern
-- 1 pt: Never uses any real-world validation
+This includes ANY of the following — RM does NOT need to say "FF Gallery":
+- "yeh kaam maine kiya hai, photo dikhata hoon"
+- "ek ghar mein same design lagaya tha, real photo dekho"
+- Referencing FF Gallery by name
+- Any real completed installation photo shown to the customer
 
-DO NOT DEDUCT if: Gallery was unavailable in the flow, or RM used equivalent real-installation proof by another method.
+- 5 pts: Shows real installation photos confidently, connects them to customer's own wall/design, customer trust clearly increases
+- 4 pts: Shows real photos and explains them well
+- 3 pts: Briefly shows or mentions past work photos
+- 2 pts: Mentions it but doesn't actually show or anchor to the customer's concern
+- 1 pt: Never shows any real installation proof
+
+DO NOT DEDUCT if: RM used any real-world proof method even if they didn't say "FF Gallery".
 
 ## SCORING PHILOSOPHY
 
@@ -141,7 +149,7 @@ Return valid JSON matching this exact structure:
     }
   },
   "critical_mistakes": ["<only include if RM made a clear, significant error — leave empty if none>"],
-  "coaching_feedback": "<2–3 sentence overall summary — what was the RM's main strength and the single most important area to improve. For the most important improvement, include one concrete example of what the RM could have said, drawn directly from the missed_opportunities in the relevant section.>",
+  "coaching_feedback": "<2–3 sentences in simple language. First: what the RM did well. Second: the single most important thing to improve — be specific, say exactly what the RM should have said or done differently. Example: 'Instead of saying X, RM should have said Y.' Draw this directly from the conversation.>",
   "suggested_ideal_response": "<A best-practice model response combining: genuine validation of the fear, at least one proof source anchored to the customer's wall and design, honest expectation-setting on AI vs real, and a confident ownership-based close. Write in natural Hinglish as the RM would say it.>",
   "performance_tier": "<Excellent if >=17 | Good if >=13 | Average if >=9 | Needs Improvement if <9>"
 }

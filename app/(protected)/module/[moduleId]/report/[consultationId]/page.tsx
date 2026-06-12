@@ -57,7 +57,7 @@ const SECTION_TITLES: Record<string, string> = {
   trust_confidence: 'Trust Building & Confidence',
   reinforcement_proof: 'Reinforcement Using Proof',
   hesitation_ownership: 'Hesitation Handling & Ownership',
-  ff_gallery_validation: 'FF Gallery & Real Installation',
+  ff_gallery_validation: 'Real Installation Proof',
 };
 
 export default async function ReportPage({ params }: ReportPageProps) {
