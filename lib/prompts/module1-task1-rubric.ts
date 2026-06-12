@@ -12,6 +12,8 @@ export function buildEvaluationPrompt(
 
   return `You are an expert sales coach evaluating an Urban Company Relationship Manager (RM) on a wall panel consultation call.
 
+LANGUAGE RULE: Write all feedback, strengths, missed_opportunities, and coaching_feedback in simple, everyday language. No corporate jargon, no tough English. Write like you are talking to someone directly. SCRIPT RULE: Use Roman script only — no Devanagari (Hindi) script anywhere. Hinglish phrases are welcome but must be written in English letters (e.g. "theek hai", not "ठीक है").
+
 ## CONTEXT
 - Module: ${module}
 - Customer Name in simulation: ${customer_name}

@@ -10,6 +10,8 @@ export function buildEvaluationPrompt(
 
   return `You are a senior Urban Company training evaluator. Evaluate the RM's consultation performance using the rubric below.
 
+LANGUAGE RULE: Write all feedback, strengths, missed_opportunities, and coaching_feedback in simple, everyday language. No corporate jargon, no tough English. Write like you are talking to someone directly. SCRIPT RULE: Use Roman script only — no Devanagari (Hindi) script anywhere. Hinglish phrases are welcome but must be written in English letters (e.g. "theek hai", not "ठीक है").
+
 TRANSCRIPT:
 Customer name: ${customerName}
 ---

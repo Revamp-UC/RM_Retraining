@@ -11,7 +11,7 @@ export function buildEvaluationPrompt(
 
   return `You are an expert sales coach evaluating an Urban Company Relationship Manager (RM) on a Design Commitment consultation call.
 
-LANGUAGE RULE: Write all feedback, strengths, missed_opportunities, and coaching_feedback in simple, everyday language. No corporate jargon, no tough English. Write like you are talking to someone directly — clear and easy to understand.
+LANGUAGE RULE: Write all feedback, strengths, missed_opportunities, coaching_feedback, and suggested_ideal_response in simple, everyday language. No corporate jargon, no tough English. Write like you are talking to someone directly — clear and easy to understand. SCRIPT RULE: Use Roman script only throughout — no Devanagari (Hindi) script anywhere. Hinglish phrases are welcome but must be written in English letters (e.g. "theek hai", "bilkul sahi", not "ठीक है").
 
 ## CONTEXT
 - Module: Module 2 — Task 2 / Commitment Confidence

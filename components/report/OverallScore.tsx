@@ -18,11 +18,24 @@ interface OverallScoreProps {
 }
 
 const SECTION_SHORT: Record<string, string> = {
+  // Module 1
   introduction: 'Intro',
   technical: 'Technical',
   budget_discovery: 'Budget',
   discovery_confidence: 'D&C',
   market_comparison: 'Market',
+  // Module 2 Task 1
+  empathy_validation: 'Empathy',
+  personalisation_respect: 'Respect',
+  discovery_leaning: 'Discovery',
+  expert_recommendation: 'Recommendation',
+  reinforcement_tools: 'Reinforcement',
+  confidence_building: 'Confidence',
+  // Module 2 Task 2
+  trust_confidence: 'Trust',
+  reinforcement_proof: 'Proof',
+  hesitation_ownership: 'Hesitation',
+  ff_gallery_validation: 'Real Installs',
 };
 
 export function OverallScore({ score, maxScore = 45, tier, customerName, duration, sections }: OverallScoreProps) {
