@@ -50,7 +50,7 @@ const SLIDES_M2T2: Slide[] = [
     src: '/images/module2-task2-design1.png',
     tag: 'Design',
     label: 'Finalised Design',
-    sublabel: 'All inclusive',
+    sublabel: '',
   },
 ];
 

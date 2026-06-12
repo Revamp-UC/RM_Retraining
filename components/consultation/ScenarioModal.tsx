@@ -39,7 +39,7 @@ const TASK_CONTENT: Record<string, {
       'Design: already selected and agreed upon',
       'Price: acceptable to the customer',
     ],
-    stateText: 'The customer is not confident about how the final installed wall will actually look. They are anxious and confused — worried the real result may not match the image. Your job is to build genuine confidence through proof and ownership.',
+    stateText: 'The customer is not confident about how the final installed wall will actually look. They are anxious and confused — worried the real result may not match the design showed. Your job is to build genuine confidence.',
   },
 };
 
