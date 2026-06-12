@@ -110,6 +110,9 @@ DO NOT DEDUCT if: RM used any real-world proof method even if they didn't say "F
 - Customer took multiple turns to warm up — normal and not the RM's fault
 
 ## OUTPUT FORMAT
+
+ANTI-REPETITION RULE: Each section must evaluate a different angle. If a finding (e.g. "RM overpromised") is already captured in one section's missed_opportunities or strengths — do NOT repeat it in another section. Every section should surface something new about the RM's performance. The coaching_feedback must NOT re-summarize what sections already said — it should synthesize and add one new overall insight.
+
 Return valid JSON matching this exact structure:
 
 {

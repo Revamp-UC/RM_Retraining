@@ -32,8 +32,8 @@ const SECTION_SHORT: Record<string, string> = {
   reinforcement_tools: 'Reinforcement',
   confidence_building: 'Confidence',
   // Module 2 Task 2
-  trust_confidence: 'Trust',
-  reinforcement_proof: 'Proof',
+  trust_confidence: 'Trust Building',
+  reinforcement_proof: 'Reinforcement Proof',
   hesitation_ownership: 'Hesitation',
   ff_gallery_validation: 'Real Installs',
 };

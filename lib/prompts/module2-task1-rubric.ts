@@ -125,6 +125,9 @@ DO NOT REWARD: Simply encouraging the customer to think longer without helping t
 - RM cannot show a custom visualisation for a newly proposed combination — the system only holds pre-designed assets. Do not penalise for absence of a visualisation that cannot exist
 
 ## OUTPUT FORMAT
+
+ANTI-REPETITION RULE: Each section must evaluate a different angle. If a finding (e.g. "RM overpromised") is already captured in one section's missed_opportunities or strengths — do NOT repeat it in another section. Every section should surface something new about the RM's performance. The coaching_feedback must NOT re-summarize what sections already said — it should synthesize and add one new overall insight.
+
 Return valid JSON matching this exact structure:
 
 {
