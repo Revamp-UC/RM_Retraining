@@ -11,41 +11,68 @@ Traditional RM training relies on classroom sessions or shadowing — neither gi
 - The RM speaks naturally (voice call, no typing)
 - An AI customer responds in real-time, in Hinglish, behaving like a real homeowner
 - The customer has a hidden budget, hidden concerns, and personality quirks — the RM has to discover them through the conversation
-- After the session ends, an AI coach evaluates the full transcript and generates a scored report card across 4 categories
+- After the session ends, an AI coach evaluates the full transcript and generates a scored report card
 
 ---
 
 ## How It Works
 
 ```
-Login → Select Module → Start Consultation → Speak with AI Customer → End Session → View Report Card
+Login → Select Module → Read Scenario Brief → Start Consultation → Speak with AI Customer → End Session → View Report Card
 ```
 
-1. **Login** — RM logs in with their registered mobile number and password
-2. **Module** — Each module is a specific consultation scenario (e.g. Seepage Wall)
-3. **Consultation** — RM sees the wall image and speaks with the AI customer via microphone
-4. **Report Card** — After ending the session, a detailed scored report is generated (takes ~15–30 seconds)
-
----
-
-## Scoring (per session)
-
-| Category | Max Points | What's Evaluated |
-|---|---|---|
-| Introduction & Rapport | 15 | Did RM introduce as Project Manager? Build comfort? Natural tone? |
-| Technical Knowledge | 5 | Explained panels correctly? Addressed seepage? Durability? |
-| Budget Discovery | 20 | Explored budget? Offered options? Read customer reactions? |
-| Discovery & Confidence | 10 | Asked dimensions? Design preferences? Handled questions confidently? |
-| **Total** | **50** | — |
+1. **Login** — RM logs in with their registered mobile number and OTP/password
+2. **Module** — Each module is a specific consultation scenario with one or more tasks
+3. **Scenario Brief** — A modal explains what the RM already knows before the call starts
+4. **Consultation** — RM sees the wall/design image and speaks with the AI customer via microphone
+5. **Report Card** — After ending the session, a detailed scored report is generated (~15–30 seconds)
 
 ---
 
 ## Available Modules
 
-### Module 1 — Seepage Wall Consultation
-The RM visits a homeowner whose wall has seepage/water damage. The customer doesn't bring it up — the RM must notice it and handle it. Core objectives: identify the problem, explain wall panels, discover budget, and suggest appropriate options.
+### Module 1 — Know the Budget of Your Customer
+Three tasks, each with a different customer type and wall scenario. Core objective across all tasks: discover the customer's budget through natural conversation.
 
-More modules can be added over time for different consultation scenarios.
+| Task | Scenario | Max Score |
+|---|---|---|
+| Task 1 | Seepage wall — customer hides budget, RM must notice wall damage | 45 pts |
+| Task 2 | New flat — aesthetic upgrade, handle market price comparisons | 50 pts |
+| Task 3 | Value-focused customer — extreme budget resistance, scope negotiation | 45 pts |
+
+### Module 2 — Design Finalisation: Objection Handling *(Admin only)*
+Customer has already been shown designs. Core objective: guide the customer from confusion/hesitation to a confident decision.
+
+| Task | Scenario | Max Score |
+|---|---|---|
+| Task 1 | Customer likes all 3 designs but can't decide — guide without pressure | 30 pts |
+| Task 2 | Design is selected, price is fine — customer anxious real wall won't match image | 20 pts |
+
+---
+
+## Scoring
+
+Each task has its own scoring dimensions. Report cards include:
+- Per-section scores with strengths and missed opportunities
+- Coach's feedback with a specific actionable improvement
+- Ideal RM response example (Module 2 only)
+- Performance tier: **Excellent / Good / Average / Needs Improvement**
+
+---
+
+## AI Stack
+
+| Role | Model | Details |
+|---|---|---|
+| Voice customer | `gemini-3.1-flash-live-preview` | Real-time bidirectional voice, Hinglish persona |
+| Evaluator | `gemini-2.5-flash` | Thinking enabled (`thinkingBudget: 1024`), constrained JSON output via `responseSchema` |
+| Evaluator fallback | `gemini-2.0-flash` | Used if 2.5-flash is overloaded (4 retries → fallback) |
+
+### Evaluation reliability features
+- `responseSchema` constrained generation — Gemini is forced to output valid JSON at the token level
+- Thinking token filter — thinking tokens are stripped before JSON parsing
+- Retry logic — 4 attempts on primary model with exponential backoff, then 2 attempts on fallback
+- Parse failure throws (not silent return) so retries kick in correctly
 
 ---
 
@@ -54,16 +81,14 @@ More modules can be added over time for different consultation scenarios.
 Admins can:
 - View all RMs and their full session history
 - See scores, session duration, and attempt dates per RM
-- Open any RM's detailed report card directly
-- Read the full conversation transcript of any session
+- Open any RM's detailed report card and full transcript
+- Access Module 2 (admin-only modules)
 
-Admin access is controlled by a fixed list of mobile numbers in the codebase.
+Admin access is controlled by a fixed allowlist of mobile numbers in the codebase.
 
 ---
 
 ## Running Locally
-
-See [SETUP.md](SETUP.md) for the full setup guide. Quick version:
 
 ```bash
 # 1. Install dependencies
@@ -77,30 +102,22 @@ cp .env.local.example .env.local
 npm run dev
 ```
 
-Open `http://localhost:3000` and log in with a seeded mobile number + password `123456`.
+Open `http://localhost:3000` and log in with a seeded mobile number.
 
 ---
 
 ## Tech Stack
 
-| What | Tool | Why |
-|---|---|---|
-| Frontend + Backend | Next.js 15 | One codebase, server-side rendering, fast |
-| Voice AI | Gemini Live API | Real-time bidirectional voice with low latency |
-| Evaluation AI | Gemini 2.5 Flash | Evaluates transcript and generates report card |
-| Database | Supabase (PostgreSQL) | Stores RMs, sessions, transcripts, scores |
-| Real-time voice bridge | WebSocket (custom server) | Keeps the Gemini connection stable on the server |
-| Deployment | Render.com | Supports persistent WebSocket connections |
+| What | Tool |
+|---|---|
+| Frontend + Backend | Next.js 15 (App Router) |
+| Voice AI | Gemini Live API |
+| Evaluation AI | Gemini 2.5 Flash |
+| Database | Supabase (PostgreSQL) |
+| Real-time voice bridge | Custom WebSocket server |
+| Deployment | Render.com |
 
----
-
-## Deployment
-
-The app is deployed on [Render.com](https://render.com). Render is used instead of Vercel because the voice feature requires a persistent WebSocket connection that stays open for the full duration of a consultation.
-
-Live URL: `https://rm-retraining.onrender.com`
-
-> Note: The free tier on Render spins down after 15 minutes of inactivity, causing a ~50 second cold start on the first login. This is expected on the free plan.
+> Render is used instead of Vercel because the voice feature requires a persistent WebSocket connection for the full duration of a consultation.
 
 ---
 
@@ -119,13 +136,24 @@ Live URL: `https://rm-retraining.onrender.com`
 
 ```
 app/              → Pages and API routes (Next.js App Router)
-components/       → UI components (consultation, admin, report card)
-lib/              → Core logic (Gemini AI, database, auth, prompts)
-hooks/            → React hooks for consultation state
+components/       → UI components (consultation, report, admin)
+lib/
+  gemini/         → Gemini Live voice client + evaluator
+  prompts/        → Persona and rubric files per module/task + registry
+  config/         → Module and task configuration (single source of truth)
+  db/             → Database queries
+  auth/           → Session management
+hooks/            → React hooks for consultation state machine
 types/            → TypeScript types
 server.ts         → Custom Node.js server with WebSocket support
-scripts/          → Database schema and seed files
 ```
+
+### Adding a new task
+1. Create `lib/prompts/moduleN-taskN-persona.ts`
+2. Create `lib/prompts/moduleN-taskN-rubric.ts`
+3. Add entry in `lib/prompts/registry.ts` (persona + rubric + sanitizer)
+4. Add section keys in `lib/gemini/evaluator.ts` → `MODULE_SECTIONS`
+5. Add task in `lib/config/modules.ts`
 
 ---
 
