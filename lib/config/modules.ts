@@ -23,7 +23,6 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
     id: 'module_2',
     title: 'Design Finalisation — Objection Handling',
     description: 'Guide confused customers to a confident design decision using empathy, discovery and expert recommendation',
-    adminOnly: true,
     tasks: [
       {
         id: 'task_1',
