@@ -23,7 +23,7 @@ const TASK_CONFIG: Record<string, DetailConfig> = {
   },
   task_2: {
     label: 'Task 2 · Module 3',
-    src: '/images/module3-task2-wall.png',
+    src: '/images/module3-task2-wall.jpg',
     dim: '9.5 ft × 8 ft',
     price: '₹57,499',
     materials: ['X921', 'M0703', 'Console', 'Shelves'],
