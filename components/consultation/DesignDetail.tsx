@@ -28,6 +28,13 @@ const TASK_CONFIG: Record<string, DetailConfig> = {
     price: '₹57,499',
     materials: ['X921', 'M0703', 'Console', 'Shelves'],
   },
+  task_3: {
+    label: 'Task 3 · Module 3',
+    src: '/images/module3-task3-wall.png',
+    dim: '9 ft × 9 ft',
+    price: '₹77,499',
+    materials: ['M5508', 'R5332', 'MONO CONSOLE', 'LUNA LIGHT'],
+  },
 };
 
 interface DesignDetailProps {

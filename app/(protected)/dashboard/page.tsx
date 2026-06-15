@@ -40,7 +40,7 @@ export default async function DashboardPage() {
 
   const isAdmin = ADMIN_MOBILES.has(user.mobile_number);
 
-  const [task1Stats, task2Stats, task3Stats, m2task1Stats, m2task2Stats, m3task1Stats, m3task2Stats, history] = await Promise.all([
+  const [task1Stats, task2Stats, task3Stats, m2task1Stats, m2task2Stats, m3task1Stats, m3task2Stats, m3task3Stats, history] = await Promise.all([
     getModuleStats(user.mobile_number, 'module_1_seepage'),
     getModuleStats(user.mobile_number, 'module_1_task2'),
     getModuleStats(user.mobile_number, 'module_1_task3'),
@@ -49,6 +49,7 @@ export default async function DashboardPage() {
     // Module 3 is admin-only for now — only fetch its stats for admins
     isAdmin ? getModuleStats(user.mobile_number, 'module_3_task1') : Promise.resolve(null),
     isAdmin ? getModuleStats(user.mobile_number, 'module_3_task2') : Promise.resolve(null),
+    isAdmin ? getModuleStats(user.mobile_number, 'module_3_task3') : Promise.resolve(null),
     getConsultationHistory(user.mobile_number),
   ]);
 
@@ -61,6 +62,7 @@ export default async function DashboardPage() {
     module_2_task2: m2task2Stats,
     ...(m3task1Stats ? { module_3_task1: m3task1Stats } : {}),
     ...(m3task2Stats ? { module_3_task2: m3task2Stats } : {}),
+    ...(m3task3Stats ? { module_3_task3: m3task3Stats } : {}),
   };
 
   // Combined per-module for the module card (attempt count across all tasks).
@@ -86,7 +88,7 @@ export default async function DashboardPage() {
   const moduleCardStatsMap: Record<string, typeof task1Stats> = {
     module_1: aggregateTasks([task1Stats, task2Stats, task3Stats]),
     module_2: aggregateTasks([m2task1Stats, m2task2Stats]),
-    ...(m3task1Stats && m3task2Stats ? { module_3: aggregateTasks([m3task1Stats, m3task2Stats]) } : {}),
+    ...(m3task1Stats && m3task2Stats && m3task3Stats ? { module_3: aggregateTasks([m3task1Stats, m3task2Stats, m3task3Stats]) } : {}),
   };
 
   const completedHistory = history.filter(

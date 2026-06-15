@@ -28,6 +28,7 @@ const MODULE_SECTIONS: Record<string, { keys: string[]; hasIdealResponse: boolea
   'module_2_task2':   { keys: ['trust_confidence', 'reinforcement_proof', 'hesitation_ownership', 'ff_gallery_validation'], hasIdealResponse: true },
   'module_3_task1':   { keys: ['lever_used', 'confidence_objection', 'personalization'], hasIdealResponse: true },
   'module_3_task2':   { keys: ['lever_used', 'confidence_objection', 'personalization'], hasIdealResponse: true },
+  'module_3_task3':   { keys: ['discovery_questions', 'discount_lever', 'trust_confidence'], hasIdealResponse: true },
 };
 
 function buildResponseSchema(module: string): unknown {

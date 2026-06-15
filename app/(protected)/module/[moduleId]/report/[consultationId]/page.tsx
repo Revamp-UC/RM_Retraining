@@ -37,10 +37,13 @@ const SECTION_ICONS: Record<string, React.ReactNode> = {
   reinforcement_proof: <span className="text-sm">📸</span>,
   hesitation_ownership: <span className="text-sm">🤜</span>,
   ff_gallery_validation: <span className="text-sm">🏠</span>,
-  // Module 3 Task 1
+  // Module 3 Task 1 & 2
   lever_used: <span className="text-sm">🔑</span>,
   confidence_objection: <span className="text-sm">💪</span>,
   personalization: <span className="text-sm">🙏</span>,
+  // Module 3 Task 3
+  discovery_questions: <span className="text-sm">🔍</span>,
+  discount_lever: <span className="text-sm">🏷️</span>,
 };
 
 const SECTION_TITLES: Record<string, string> = {
@@ -62,10 +65,13 @@ const SECTION_TITLES: Record<string, string> = {
   reinforcement_proof: 'Reinforcement Using Proof',
   hesitation_ownership: 'Hesitation Handling & Ownership',
   ff_gallery_validation: 'Real Installation Proof',
-  // Module 3 Task 1
+  // Module 3 Task 1 & 2
   lever_used: 'Lever Used',
   confidence_objection: 'Trust & Confidence',
   personalization: 'Personalisation',
+  // Module 3 Task 3
+  discovery_questions: 'Discovery Questions',
+  discount_lever: 'Discount Lever Execution',
 };
 
 export default async function ReportPage({ params }: ReportPageProps) {

@@ -100,6 +100,18 @@ const CONTENT: Record<string, {
     ],
     stateText: 'The customer is satisfied with the design but wants more time before committing. Your job is to help them confirm the booking today — without any pressure.',
   },
+  module_3_task_3: {
+    icon: <CalendarClock className="h-4 w-4 text-amber-400" />,
+    accent: 'amber',
+    title: 'Levers Used',
+    intro: 'You have already completed the introduction and the full consultation process with this customer.',
+    knowItems: [
+      'Introduction & full process: already completed',
+      'Design: finalised by the customer',
+      'Booking: still pending',
+    ],
+    stateText: 'The customer likes the design and does not want any changes, but is hesitating on the booking. Your job is to help them confirm the booking today — without any pressure.',
+  },
 };
 
 export function ScenarioModal({ onAcknowledge, moduleId, taskId }: ScenarioModalProps) {
