@@ -31,6 +31,8 @@ The ONE thing that genuinely overcomes this customer's "I want time" is realisin
 
 The RM has to: probe and DISCOVER the upcoming event, explain that work does not finish instantly after booking (measurement → material → installation slot → execution all take days), connect that timeline to the customer's event, and create urgency around booking the slot NOW so it is completed in time.
 
+As a FINAL push-back, the customer typically asks the RM to "hold / reserve / block the slot for me without booking" (I'll pay or confirm in 1-2 days). The RM must NOT promise to hold it — instead the RM should explain that a slot cannot be blocked without an actual booking (FIFO / first-come-first-served, this is the latest available slot anyone can take any moment) and turn that into urgency to book NOW. Giving in and falsely promising to hold the slot is a mistake.
+
 Other levers do NOT, on their own, convert this customer:
 - Price hike / future price increase → customer dismisses it ("ek-do din mein prices nahi badalte").
 - Discount → customer brushes it off ("57k pe 3-4 hazaar se farak nahi padta, mujhe satisfaction chahiye").
@@ -56,6 +58,7 @@ Scoring:
 - 5 pts: Slot / execution-timeline urgency became the PRIMARY reason for conversion, clearly tied to the customer's upcoming event.
 
 NOTE: If the RM uses stock / material urgency effectively, acknowledge it positively in the comments. However, award full lever marks ONLY when slot / timeline urgency is the primary closing reason.
+NOTE: Effectively rebutting the customer's final "hold / reserve the slot for me without booking" push-back — explaining FIFO / first-come-first-served, that the latest available slot can be taken by anyone, and that it cannot be frozen without booking — is part of using the slot lever well. Credit it. The customer only books after this is handled, so a strong rebuttal here is a key signal of an effective close.
 DEDUCT if: RM never discovers the event, or closes (or tries to close) purely on price/discount/stock.
 
 ### 2. Confidence & Objection Handling (max 3 pts)
@@ -63,6 +66,7 @@ Evaluate whether the RM:
 - Explored the real reason behind the customer's delay (not just accepting "I want time").
 - Asked meaningful discovery questions that could surface the upcoming event.
 - Handled the postponement objection confidently without getting pushy.
+- Handled the customer's final "hold / reserve the slot for me without booking" push-back — explained that a slot cannot be blocked without an actual booking (FIFO / first-come-first-served), that this is the latest available slot any other customer can take, and built genuine urgency to book now instead of promising to hold it.
 - Maintained control and direction of the conversation.
 
 Scoring:
@@ -87,6 +91,7 @@ Scoring:
 - RM never discovers the upcoming event / reason for the delay
 - RM tries to close purely on price, discount, or stock
 - RM mentions timelines but never connects them to the customer's situation
+- RM gives in to the "reserve / hold the slot for me" ask — falsely promises to block or freeze the slot without a booking instead of explaining FIFO and creating urgency to book now
 - RM gets pushy and pressures the customer
 - RM never asks or uses the customer's name
 
@@ -132,7 +137,7 @@ Return valid JSON matching this exact structure:
   },
   "critical_mistakes": ["<only include if RM made a clear, significant error — leave empty if none>"],
   "coaching_feedback": "<2–3 sentence overall summary — what was the RM's main strength and the single most important area to improve. For the most important improvement, include one concrete example of what the RM could have said, drawn from the relevant section.>",
-  "suggested_ideal_response": "<A model response the RM could have given that uses the slot / execution-timeline lever perfectly. Write it in natural Hinglish (Roman script) as the RM would say it. Must include: discovering the upcoming event, explaining that work does not finish instantly after booking, connecting the timeline to the event, and a no-pressure close using the customer's name + Ji. Example style: '${customer_name} Ji, bilkul samajh sakta hoon ki aap thoda time lena chahte hain. Ek baat clear kar doon — booking ke baad kaam turant shuru nahi hota; pehle measurement, phir material aur installation ka slot allocate hota hai, aur is poore process mein kuch din lagte hain. Aapne bataya ki agle hafte ghar pe function hai — agar aaj slot reserve kar lein to wall uss din se pehle aaram se ready ho jayegi. Do din aur ruk gaye to ho sakta hai uss week ka slot na mile aur kaam event ke baad chala jaaye. Koi pressure nahi ${customer_name} Ji, par aapke function ko dekhte hue aaj slot block kar lena sabse safe rahega.'>",
+  "suggested_ideal_response": "<A model response the RM could have given that uses the slot / execution-timeline lever perfectly. Write it in natural Hinglish (Roman script) as the RM would say it. Must include: discovering the upcoming event, explaining that work does not finish instantly after booking, connecting the timeline to the event, handling the customer's final 'hold / reserve the slot for me without booking' push-back by explaining it cannot be blocked without an actual booking (FIFO / first-come-first-served, latest slot any other customer can take), and a no-pressure close using the customer's name + Ji. Example style: '${customer_name} Ji, bilkul samajh sakta hoon ki aap thoda time lena chahte hain. Ek baat clear kar doon — booking ke baad kaam turant shuru nahi hota; pehle measurement, phir material aur installation ka slot allocate hota hai, aur is poore process mein kuch din lagte hain. Aapne bataya ki agle hafte ghar pe function hai — is timeline ko dekhte hue slot abhi lena zaroori hai. Main chahta to hoon ki aapke liye slot rok ke rakh loon, par sach ye hai ki slot bina booking ke block nahi hota — ye first-come-first-served chalta hai, aur abhi ye latest available slot hai, koi bhi customer ise kabhi bhi le sakta hai. Agar 1-2 din ruke aur slot kisi aur ne le liya, to kaam aapke function ke baad chala jayega. Isliye ${customer_name} Ji, koi pressure nahi — par aapke function ko dekhte hue aaj slot book kar lena hi sabse safe rahega.'>",
   "performance_tier": "<Excellent if >=8 | Good if >=6 | Average if >=4 | Needs Improvement if <4>"
 }
 
