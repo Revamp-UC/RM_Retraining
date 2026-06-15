@@ -40,7 +40,7 @@ const CUSTOMER_PROFILE: Record<string, { age: string; home: string; scope?: stri
   // Module 2
   module_2_task_1: { age: 'Homeowner', home: 'Design Finalisation', scope: '3 Options Shown · Confused to Pick' },
   // Module 3
-  module_3_task_1: { age: 'Homeowner', home: 'Booking Decision', scope: 'Loves Design · Keeps Postponing' },
+  module_3_task_1: { age: 'Homeowner', home: 'Booking Stage', scope: 'Design Finalised · Postponing' },
 };
 
 function formatTime(seconds: number): string {

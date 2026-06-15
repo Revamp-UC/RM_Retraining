@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Palette, ShieldCheck, Flame } from 'lucide-react';
+import { ArrowRight, Palette, ShieldCheck, CalendarClock } from 'lucide-react';
 
 interface ScenarioModalProps {
   onAcknowledge: () => void;
@@ -77,16 +77,16 @@ const CONTENT: Record<string, {
   },
   // Module 3
   module_3_task_1: {
-    icon: <Flame className="h-4 w-4 text-amber-400" />,
+    icon: <CalendarClock className="h-4 w-4 text-amber-400" />,
     accent: 'amber',
     title: 'Levers Used',
-    intro: 'Introduction, rapport building and budget discovery are all done. The customer loves the design — only the booking decision is pending.',
+    intro: 'You have already completed the introduction and the full consultation process with this customer.',
     knowItems: [
-      'Wall: 9.5 ft × 8 ft · ₹33,499',
-      'Design: finalised and genuinely loved by the customer',
-      'Budget: slightly high but manageable — not a blocker',
+      'Introduction & full process: already completed',
+      'Design: finalised by the customer',
+      'Booking: still pending',
     ],
-    stateText: 'The customer keeps postponing the booking, saying they need to discuss with family. Your job is to convert them using the right urgency lever — without any pressure.',
+    stateText: 'The booking is still pending and the customer keeps postponing the decision. Your job is to help them confirm the booking today — without any pressure.',
   },
 };
 

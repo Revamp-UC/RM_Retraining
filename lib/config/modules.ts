@@ -44,13 +44,13 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
   module_3: {
     id: 'module_3',
     title: 'Levers Used',
-    description: 'Convert a customer who loves the design but keeps postponing — identify and use the most impactful urgency lever (material / stock scarcity)',
+    description: 'The introduction and full consultation are done and the design is finalised — only the booking decision is pending',
     adminOnly: true, // live for admins only for now
     tasks: [
       {
         id: 'task_1',
         title: 'Task 1 of Module 3',
-        description: 'Customer loves the design and budget is manageable, but keeps delaying the booking. Use the right urgency lever — material/stock scarcity — to convert without pressure.',
+        description: 'The full process is almost done and the customer likes the design — only the booking decision is pending.',
         moduleAttempted: 'module_3_task1', // ← persona: module3-task1-persona.ts | rubric: module3-task1-rubric.ts
         status: 'active',
       },
