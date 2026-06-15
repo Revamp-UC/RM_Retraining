@@ -19,6 +19,7 @@ const MODULE_TASK_LABEL: Record<string, string> = {
   module_1_task3:   'M1 · T3',
   module_2_task1:   'M2 · T1',
   module_3_task1:   'M3 · T1',
+  module_3_task2:   'M3 · T2',
 };
 
 export function MySessions({ sessions }: { sessions: Session[] }) {

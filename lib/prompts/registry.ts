@@ -33,6 +33,10 @@ import { buildEvaluationPrompt as m2t2Rubric } from './module2-task2-rubric';
 import { generateCustomerPersonaPrompt as m3t1Persona } from './module3-task1-persona';
 import { buildEvaluationPrompt as m3t1Rubric } from './module3-task1-rubric';
 
+// Module 3 · Task 2
+import { generateCustomerPersonaPrompt as m3t2Persona } from './module3-task2-persona';
+import { buildEvaluationPrompt as m3t2Rubric } from './module3-task2-rubric';
+
 // ─── Sanitizer helpers ────────────────────────────────────────────────────────
 
 function clamp(v: unknown, max: number): number {
@@ -202,8 +206,8 @@ function sanitizeM2Task2(raw: unknown): ReportCard {
   };
 }
 
-// Module 3 Task 1 sanitizer — 3 sections, max 10 (5 + 3 + 2)
-function sanitizeM3Task1(raw: unknown): ReportCard {
+// Module 3 sanitizer (Task 1 & 2 share this) — 3 sections, max 10 (5 + 3 + 2)
+function sanitizeM3(raw: unknown): ReportCard {
   const c = raw as Partial<ReportCard> & { suggested_ideal_response?: string };
   const lever      = clamp(c.sections?.lever_used?.score, 5);
   const confidence = clamp(c.sections?.confidence_objection?.score, 3);
@@ -260,7 +264,12 @@ const PROMPT_REGISTRY: Record<string, PromptHandlers> = {
   'module_3_task1': {
     persona:  m3t1Persona,
     rubric:   (transcript, customerName) => m3t1Rubric(transcript, customerName),
-    sanitize: sanitizeM3Task1,
+    sanitize: sanitizeM3,
+  },
+  'module_3_task2': {
+    persona:  m3t2Persona,
+    rubric:   (transcript, customerName) => m3t2Rubric(transcript, customerName),
+    sanitize: sanitizeM3,
   },
 };
 

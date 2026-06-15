@@ -236,6 +236,9 @@ function getKickOffText(moduleAttempted: string): string {
   if (moduleAttempted === 'module_3_task1') {
     return 'Start the conversation. Introduction, rapport building and budget discovery are already done. You have seen the final design for your wall and you genuinely love it. Begin speaking first — warmly appreciate the design (in your own fresh words), then gently start postponing the booking by saying you need to discuss it with your family. Do not reveal that you are the actual decision maker.';
   }
+  if (moduleAttempted === 'module_3_task2') {
+    return 'Start the conversation. Introduction, rapport building and budget discovery are already done. You have seen the final design for your wall and you are reasonably satisfied with it — not overly impressed, just okay with it. Begin speaking first — give a neutral-positive reaction to the design (in your own fresh words), then naturally ask for a day or two of time before committing. Do not reveal that you are the actual decision maker, and do not reveal your upcoming event unless the RM discovers it.';
+  }
   return 'Start the conversation. The RM has just arrived at your door for the scheduled home consultation. Greet them naturally and lead them inside.';
 }
 
