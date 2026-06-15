@@ -38,8 +38,8 @@ const SECTION_SHORT: Record<string, string> = {
   ff_gallery_validation: 'Real Installs',
   // Module 3 Task 1
   lever_used: 'Lever',
-  confidence_objection: 'Confidence',
-  personalization: 'Name + Ji',
+  confidence_objection: 'Trust & Confidence',
+  personalization: 'Personalisation',
 };
 
 export function OverallScore({ score, maxScore = 45, tier, customerName, duration, sections }: OverallScoreProps) {

@@ -95,6 +95,7 @@ const MODULE_ID_MAP: Record<string, string> = {
   module_1_task2: 'module_1',
   module_1_task3: 'module_1',
   module_2_task1: 'module_2',
+  module_3_task1: 'module_3',
 };
 
 const MODULE_TASK_LABEL: Record<string, string> = {
@@ -102,6 +103,7 @@ const MODULE_TASK_LABEL: Record<string, string> = {
   module_1_task2: 'Module 1 · Task 2',
   module_1_task3: 'Module 1 · Task 3',
   module_2_task1: 'Module 2 · Task 1',
+  module_3_task1: 'Module 3 · Task 1',
 };
 
 const SECTION_LABELS: Record<string, string> = {
@@ -116,6 +118,9 @@ const SECTION_LABELS: Record<string, string> = {
   expert_recommendation: 'Expert Recommendation',
   reinforcement_tools: 'Reinforcement Tools',
   confidence_building: 'Confidence Building',
+  lever_used: 'Lever Used',
+  confidence_objection: 'Trust & Confidence',
+  personalization: 'Personalisation',
 };
 
 function toModuleId(moduleAttempted: string): string {

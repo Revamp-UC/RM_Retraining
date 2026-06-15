@@ -64,8 +64,8 @@ const SECTION_TITLES: Record<string, string> = {
   ff_gallery_validation: 'Real Installation Proof',
   // Module 3 Task 1
   lever_used: 'Lever Used',
-  confidence_objection: 'Confidence & Objection Handling',
-  personalization: 'Personalization',
+  confidence_objection: 'Trust & Confidence',
+  personalization: 'Personalisation',
 };
 
 export default async function ReportPage({ params }: ReportPageProps) {
