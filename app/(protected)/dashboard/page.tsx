@@ -24,7 +24,7 @@ const MODULES = [
     task: 'Design Finalisation — Objection Handling',
     isActive: true,
   },
-  { id: 'module_3', number: 3, name: 'Ceiling Design', isActive: false },
+  { id: 'module_3', number: 3, task: 'Levers Used', isActive: true, adminOnly: true },
   { id: 'module_4', number: 4, name: 'Readymade Woodwork', isActive: false },
   { id: 'module_5', number: 5, name: 'Mouldings & Trim', isActive: false },
   { id: 'module_6', number: 6, name: 'Complete Room Makeover', isActive: false },
@@ -40,12 +40,14 @@ export default async function DashboardPage() {
 
   const isAdmin = ADMIN_MOBILES.has(user.mobile_number);
 
-  const [task1Stats, task2Stats, task3Stats, m2task1Stats, m2task2Stats, history] = await Promise.all([
+  const [task1Stats, task2Stats, task3Stats, m2task1Stats, m2task2Stats, m3task1Stats, history] = await Promise.all([
     getModuleStats(user.mobile_number, 'module_1_seepage'),
     getModuleStats(user.mobile_number, 'module_1_task2'),
     getModuleStats(user.mobile_number, 'module_1_task3'),
     getModuleStats(user.mobile_number, 'module_2_task1'),
     getModuleStats(user.mobile_number, 'module_2_task2'),
+    // Module 3 is admin-only for now — only fetch its stats for admins
+    isAdmin ? getModuleStats(user.mobile_number, 'module_3_task1') : Promise.resolve(null),
     getConsultationHistory(user.mobile_number),
   ]);
 
@@ -56,6 +58,7 @@ export default async function DashboardPage() {
     module_1_task3: task3Stats,
     module_2_task1: m2task1Stats,
     module_2_task2: m2task2Stats,
+    ...(m3task1Stats ? { module_3_task1: m3task1Stats } : {}),
   };
 
   // Combined per-module for the module card (attempt count across all tasks).
@@ -81,11 +84,17 @@ export default async function DashboardPage() {
   const moduleCardStatsMap: Record<string, typeof task1Stats> = {
     module_1: aggregateTasks([task1Stats, task2Stats, task3Stats]),
     module_2: aggregateTasks([m2task1Stats, m2task2Stats]),
+    ...(m3task1Stats ? { module_3: aggregateTasks([m3task1Stats]) } : {}),
   };
 
   const completedHistory = history.filter(
     h => h.status === 'completed' || h.status === 'evaluation_pending'
   ).slice(0, 15);
+
+  // An admin-only module is active only for admins
+  const moduleIsActive = (mod: (typeof MODULES)[number]) =>
+    mod.isActive && (!('adminOnly' in mod && mod.adminOnly) || isAdmin);
+  const activeCount = MODULES.filter(moduleIsActive).length;
 
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
@@ -125,22 +134,25 @@ export default async function DashboardPage() {
         {/* Modules section */}
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-sm font-semibold text-[#9090a8] uppercase tracking-widest">Training Modules</h2>
-          <span className="text-xs text-[#60607a]">2 of 6 active</span>
+          <span className="text-xs text-[#60607a]">{activeCount} of 6 active</span>
         </div>
 
         <div className="space-y-3">
-          {MODULES.map((mod, index) => (
-            <ModuleCard
-              key={mod.id}
-              id={mod.id}
-              number={mod.number}
-              name={mod.name}
-              task={'task' in mod ? mod.task : undefined}
-              isActive={mod.isActive}
-              stats={mod.isActive ? moduleCardStatsMap[mod.id] : undefined}
-              index={index}
-            />
-          ))}
+          {MODULES.map((mod, index) => {
+            const active = moduleIsActive(mod);
+            return (
+              <ModuleCard
+                key={mod.id}
+                id={mod.id}
+                number={mod.number}
+                name={'name' in mod ? mod.name : undefined}
+                task={active && 'task' in mod ? mod.task : undefined}
+                isActive={active}
+                stats={active ? moduleCardStatsMap[mod.id] : undefined}
+                index={index}
+              />
+            );
+          })}
         </div>
 
         <p className="text-center text-xs text-[#60607a] mt-8">

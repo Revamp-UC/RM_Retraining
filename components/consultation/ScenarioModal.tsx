@@ -2,22 +2,56 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Palette, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Palette, ShieldCheck, Flame } from 'lucide-react';
 
 interface ScenarioModalProps {
   onAcknowledge: () => void;
+  moduleId: string;
   taskId: string;
 }
 
-const TASK_CONTENT: Record<string, {
+type Accent = 'violet' | 'indigo' | 'amber';
+
+const ACCENT: Record<Accent, {
+  text: string;
+  iconBg: string;
+  dot: string;
+  stateBox: string;
+  btn: string;
+}> = {
+  violet: {
+    text: 'text-violet-400',
+    iconBg: 'bg-violet-500/15 border border-violet-500/25',
+    dot: 'bg-violet-400',
+    stateBox: 'border border-violet-500/20 bg-violet-500/5',
+    btn: 'bg-violet-600 hover:bg-violet-500',
+  },
+  indigo: {
+    text: 'text-indigo-400',
+    iconBg: 'bg-indigo-500/15 border border-indigo-500/25',
+    dot: 'bg-indigo-400',
+    stateBox: 'border border-indigo-500/20 bg-indigo-500/5',
+    btn: 'bg-indigo-600 hover:bg-indigo-500',
+  },
+  amber: {
+    text: 'text-amber-400',
+    iconBg: 'bg-amber-500/15 border border-amber-500/25',
+    dot: 'bg-amber-400',
+    stateBox: 'border border-amber-500/20 bg-amber-500/5',
+    btn: 'bg-amber-600 hover:bg-amber-500',
+  },
+};
+
+const CONTENT: Record<string, {
   icon: React.ReactNode;
-  accent: string;
+  accent: Accent;
   title: string;
   intro: string;
   knowItems: string[];
   stateText: string;
 }> = {
-  task_1: {
+  // Module 2
+  module_2_task_1: {
     icon: <Palette className="h-4 w-4 text-violet-400" />,
     accent: 'violet',
     title: 'Design Finalisation',
@@ -29,7 +63,7 @@ const TASK_CONTENT: Record<string, {
     ],
     stateText: 'The customer has seen all three designs and is confused — they like all of them. Your job is to guide them to one design without putting pressure.',
   },
-  task_2: {
+  module_2_task_2: {
     icon: <ShieldCheck className="h-4 w-4 text-indigo-400" />,
     accent: 'indigo',
     title: 'Commitment Confidence',
@@ -41,12 +75,25 @@ const TASK_CONTENT: Record<string, {
     ],
     stateText: 'The customer is not confident about how the final installed wall will actually look. They are anxious and confused — worried the real result may not match the design showed. Your job is to build genuine confidence.',
   },
+  // Module 3
+  module_3_task_1: {
+    icon: <Flame className="h-4 w-4 text-amber-400" />,
+    accent: 'amber',
+    title: 'Levers Used',
+    intro: 'Introduction, rapport building and budget discovery are all done. The customer loves the design — only the booking decision is pending.',
+    knowItems: [
+      'Wall: 9.5 ft × 8 ft · ₹33,499',
+      'Design: finalised and genuinely loved by the customer',
+      'Budget: slightly high but manageable — not a blocker',
+    ],
+    stateText: 'The customer keeps postponing the booking, saying they need to discuss with family. Your job is to convert them using the right urgency lever — without any pressure.',
+  },
 };
 
-export function ScenarioModal({ onAcknowledge, taskId }: ScenarioModalProps) {
+export function ScenarioModal({ onAcknowledge, moduleId, taskId }: ScenarioModalProps) {
   const [visible, setVisible] = useState(true);
-  const content = TASK_CONTENT[taskId] ?? TASK_CONTENT['task_1']!;
-  const isIndigo = content.accent === 'indigo';
+  const content = CONTENT[`${moduleId}_${taskId}`] ?? CONTENT['module_2_task_1']!;
+  const a = ACCENT[content.accent];
 
   function handleAck() {
     setVisible(false);
@@ -71,11 +118,11 @@ export function ScenarioModal({ onAcknowledge, taskId }: ScenarioModalProps) {
             className="w-full max-w-sm rounded-2xl border border-[#2a2a38] bg-[#13131a] shadow-2xl shadow-black/60 p-6"
           >
             <div className="flex items-center gap-2.5 mb-4">
-              <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isIndigo ? 'bg-indigo-500/15 border border-indigo-500/25' : 'bg-violet-500/15 border border-violet-500/25'}`}>
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${a.iconBg}`}>
                 {content.icon}
               </div>
               <div>
-                <p className={`text-xs font-semibold uppercase tracking-widest ${isIndigo ? 'text-indigo-400' : 'text-violet-400'}`}>Scenario Brief</p>
+                <p className={`text-xs font-semibold uppercase tracking-widest ${a.text}`}>Scenario Brief</p>
                 <h2 className="text-base font-bold text-[#f1f1f5] leading-tight">{content.title}</h2>
               </div>
             </div>
@@ -92,15 +139,15 @@ export function ScenarioModal({ onAcknowledge, taskId }: ScenarioModalProps) {
                 <ul className="space-y-1.5">
                   {content.knowItems.map((line, i) => (
                     <li key={i} className="flex items-start gap-2">
-                      <span className={`mt-1.5 h-1 w-1 rounded-full shrink-0 ${isIndigo ? 'bg-indigo-400' : 'bg-violet-400'}`} />
+                      <span className={`mt-1.5 h-1 w-1 rounded-full shrink-0 ${a.dot}`} />
                       <span className="text-xs text-[#c0c0d8]">{line}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              <div className={`rounded-xl p-3.5 ${isIndigo ? 'border border-indigo-500/20 bg-indigo-500/5' : 'border border-violet-500/20 bg-violet-500/5'}`}>
-                <p className={`text-[10px] font-bold uppercase tracking-widest mb-1.5 ${isIndigo ? 'text-indigo-400' : 'text-violet-400'}`}>Customer&apos;s State</p>
+              <div className={`rounded-xl p-3.5 ${a.stateBox}`}>
+                <p className={`text-[10px] font-bold uppercase tracking-widest mb-1.5 ${a.text}`}>Customer&apos;s State</p>
                 <p className="text-xs text-[#c0c0d8] leading-relaxed">
                   {content.stateText}
                 </p>
@@ -109,7 +156,7 @@ export function ScenarioModal({ onAcknowledge, taskId }: ScenarioModalProps) {
 
             <button
               onClick={handleAck}
-              className={`w-full flex items-center justify-center gap-2 rounded-xl active:scale-[0.98] transition-all text-white font-semibold text-sm py-3 ${isIndigo ? 'bg-indigo-600 hover:bg-indigo-500' : 'bg-violet-600 hover:bg-violet-500'}`}
+              className={`w-full flex items-center justify-center gap-2 rounded-xl active:scale-[0.98] transition-all text-white font-semibold text-sm py-3 ${a.btn}`}
             >
               Got it, start consultation
               <ArrowRight className="h-4 w-4" />

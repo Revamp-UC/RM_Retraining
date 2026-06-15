@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, X, Timer } from 'lucide-react';
 import { WallDisplay } from './WallDisplay';
 import { DesignGallery } from './DesignGallery';
+import { DesignDetail } from './DesignDetail';
 import { ScenarioModal } from './ScenarioModal';
 import { VoiceArea } from './VoiceArea';
 import { useConsultationState } from '@/hooks/useConsultationState';
@@ -27,6 +28,8 @@ export function ConsultationClient({
   taskId,
 }: ConsultationClientProps) {
   const isModule2 = moduleId === 'module_2';
+  const isModule3 = moduleId === 'module_3';
+  const showScenario = isModule2 || isModule3;
   const [scenarioAcknowledged, setScenarioAcknowledged] = useState(false);
 
   const {
@@ -45,19 +48,21 @@ export function ConsultationClient({
   return (
     <div className="flex flex-col lg:flex-row lg:h-full gap-4 lg:gap-6 p-4 lg:p-6 relative">
 
-      {/* Scenario modal for Module 2 — sits at z-50, revealed after PreStartModal (z-60) exits */}
-      {isModule2 && !scenarioAcknowledged && (
-        <ScenarioModal onAcknowledge={() => setScenarioAcknowledged(true)} taskId={taskId} />
+      {/* Scenario modal for Module 2 & 3 — sits at z-50, revealed after PreStartModal (z-60) exits */}
+      {showScenario && !scenarioAcknowledged && (
+        <ScenarioModal onAcknowledge={() => setScenarioAcknowledged(true)} moduleId={moduleId} taskId={taskId} />
       )}
 
-      {/* Left panel — WallDisplay for M1, DesignGallery for M2 */}
+      {/* Left panel — WallDisplay for M1, DesignGallery for M2, DesignDetail for M3 */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3, delay: 0.05, ease: 'easeOut' }}
         className="w-full lg:w-1/2 h-[38vh] lg:h-full shrink-0"
       >
-        {isModule2 ? (
+        {isModule3 ? (
+          <DesignDetail className="h-full" taskId={taskId} />
+        ) : isModule2 ? (
           <DesignGallery className="h-full" taskId={taskId} />
         ) : (
           <WallDisplay className="h-full" taskId={taskId} />

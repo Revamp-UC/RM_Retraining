@@ -39,6 +39,8 @@ const CUSTOMER_PROFILE: Record<string, { age: string; home: string; scope?: stri
   task_3: { age: '40 yr old', home: '3 BHK · Gated Society, West Delhi', scope: 'Seepage Wall · Living Room' },
   // Module 2
   module_2_task_1: { age: 'Homeowner', home: 'Design Finalisation', scope: '3 Options Shown · Confused to Pick' },
+  // Module 3
+  module_3_task_1: { age: 'Homeowner', home: 'Booking Decision', scope: 'Loves Design · Keeps Postponing' },
 };
 
 function formatTime(seconds: number): string {

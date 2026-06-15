@@ -36,6 +36,10 @@ const SECTION_SHORT: Record<string, string> = {
   reinforcement_proof: 'Reinforcement Proof',
   hesitation_ownership: 'Hesitation',
   ff_gallery_validation: 'Real Installs',
+  // Module 3 Task 1
+  lever_used: 'Lever',
+  confidence_objection: 'Confidence',
+  personalization: 'Name + Ji',
 };
 
 export function OverallScore({ score, maxScore = 45, tier, customerName, duration, sections }: OverallScoreProps) {

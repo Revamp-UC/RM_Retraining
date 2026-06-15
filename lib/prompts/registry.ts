@@ -29,6 +29,10 @@ import { buildEvaluationPrompt as m2t1Rubric } from './module2-task1-rubric';
 import { generateCustomerPersonaPrompt as m2t2Persona } from './module2-task2-persona';
 import { buildEvaluationPrompt as m2t2Rubric } from './module2-task2-rubric';
 
+// Module 3 · Task 1
+import { generateCustomerPersonaPrompt as m3t1Persona } from './module3-task1-persona';
+import { buildEvaluationPrompt as m3t1Rubric } from './module3-task1-rubric';
+
 // ─── Sanitizer helpers ────────────────────────────────────────────────────────
 
 function clamp(v: unknown, max: number): number {
@@ -69,6 +73,14 @@ function tier3(overall: number): ReportCard['performance_tier'] {
   if (overall >= 17) return 'Excellent';
   if (overall >= 13) return 'Good';
   if (overall >= 9) return 'Average';
+  return 'Needs Improvement';
+}
+
+// Module 3 tier — out of 10
+function tierM3(overall: number): ReportCard['performance_tier'] {
+  if (overall >= 8) return 'Excellent';
+  if (overall >= 6) return 'Good';
+  if (overall >= 4) return 'Average';
   return 'Needs Improvement';
 }
 
@@ -190,6 +202,27 @@ function sanitizeM2Task2(raw: unknown): ReportCard {
   };
 }
 
+// Module 3 Task 1 sanitizer — 3 sections, max 10 (5 + 3 + 2)
+function sanitizeM3Task1(raw: unknown): ReportCard {
+  const c = raw as Partial<ReportCard> & { suggested_ideal_response?: string };
+  const lever      = clamp(c.sections?.lever_used?.score, 5);
+  const confidence = clamp(c.sections?.confidence_objection?.score, 3);
+  const personal   = clamp(c.sections?.personalization?.score, 2);
+  const overall    = lever + confidence + personal;
+  return {
+    overall_score: overall,
+    sections: {
+      lever_used:           section(c.sections?.lever_used, lever, 5),
+      confidence_objection: section(c.sections?.confidence_objection, confidence, 3),
+      personalization:      section(c.sections?.personalization, personal, 2),
+    },
+    critical_mistakes: c.critical_mistakes ?? [],
+    coaching_feedback: c.coaching_feedback ?? '',
+    performance_tier: tierM3(overall),
+    suggested_ideal_response: c.suggested_ideal_response ?? '',
+  };
+}
+
 // ─── Registry ─────────────────────────────────────────────────────────────────
 
 interface PromptHandlers {
@@ -223,6 +256,11 @@ const PROMPT_REGISTRY: Record<string, PromptHandlers> = {
     persona:  m2t2Persona,
     rubric:   (transcript, customerName) => m2t2Rubric(transcript, customerName),
     sanitize: sanitizeM2Task2,
+  },
+  'module_3_task1': {
+    persona:  m3t1Persona,
+    rubric:   (transcript, customerName) => m3t1Rubric(transcript, customerName),
+    sanitize: sanitizeM3Task1,
   },
 };
 

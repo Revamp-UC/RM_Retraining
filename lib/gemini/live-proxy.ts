@@ -233,6 +233,9 @@ function getKickOffText(moduleAttempted: string): string {
   if (moduleAttempted === 'module_2_task1') {
     return 'Start the conversation. The introduction is already done — you have seen the RM and discussed your wall. The RM has now shown you all three design options (Blush Flutes, Beige Warp, Blush Arc) and you have looked at them. Begin speaking first as the confused customer — express your genuine indecision about which design to choose.';
   }
+  if (moduleAttempted === 'module_3_task1') {
+    return 'Start the conversation. Introduction, rapport building and budget discovery are already done. You have seen the final design for your wall and you genuinely love it. Begin speaking first — warmly appreciate the design (in your own fresh words), then gently start postponing the booking by saying you need to discuss it with your family. Do not reveal that you are the actual decision maker.';
+  }
   return 'Start the conversation. The RM has just arrived at your door for the scheduled home consultation. Greet them naturally and lead them inside.';
 }
 

@@ -41,6 +41,23 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
       { id: 'task_3', title: 'Coming Soon', description: '', moduleAttempted: '', status: 'coming_soon' },
     ],
   },
+  module_3: {
+    id: 'module_3',
+    title: 'Levers Used',
+    description: 'Convert a customer who loves the design but keeps postponing — identify and use the most impactful urgency lever (material / stock scarcity)',
+    adminOnly: true, // live for admins only for now
+    tasks: [
+      {
+        id: 'task_1',
+        title: 'Task 1 of Module 3',
+        description: 'Customer loves the design and budget is manageable, but keeps delaying the booking. Use the right urgency lever — material/stock scarcity — to convert without pressure.',
+        moduleAttempted: 'module_3_task1', // ← persona: module3-task1-persona.ts | rubric: module3-task1-rubric.ts
+        status: 'active',
+      },
+      { id: 'task_2', title: 'Coming Soon', description: '', moduleAttempted: '', status: 'coming_soon' },
+      { id: 'task_3', title: 'Coming Soon', description: '', moduleAttempted: '', status: 'coming_soon' },
+    ],
+  },
   module_1: {
     id: 'module_1',
     title: 'Know the Budget of Your Customer',
