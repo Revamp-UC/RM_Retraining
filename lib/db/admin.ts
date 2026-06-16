@@ -1,5 +1,6 @@
 import { db } from './client';
 import type { ReportCard } from '@/types/consultation';
+import { normaliseScore } from '@/lib/config/modules';
 
 export interface RMPerformance {
   mobile_number: string;
@@ -46,21 +47,27 @@ export async function getAllRMPerformance(): Promise<RMPerformance[]> {
 
   return users.map(user => {
     const userConsults = consultations.filter(c => c.mobile_number === user.mobile_number);
-    const scores = userConsults
-      .map(c => c.overall_score as number | null)
-      .filter((s): s is number => s !== null);
+    // Normalise every session to /50 before aggregating — tasks have different max marks
+    const normScores = userConsults
+      .filter(c => c.overall_score !== null)
+      .map(c => normaliseScore(c.overall_score as number, c.module_attempted as string));
+    // Most recent scored session, also normalised to /50
+    const latestScored = userConsults.find(c => c.overall_score !== null);
+    const lastNorm = latestScored
+      ? Math.round(normaliseScore(latestScored.overall_score as number, latestScored.module_attempted as string))
+      : null;
 
     return {
       mobile_number: user.mobile_number,
       name: user.name,
       attempt_count: userConsults.length,
-      best_score: scores.length > 0 ? Math.max(...scores) : null,
+      best_score: normScores.length > 0 ? Math.round(Math.max(...normScores)) : null,
       avg_score:
-        scores.length > 0
-          ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+        normScores.length > 0
+          ? Math.round(normScores.reduce((a, b) => a + b, 0) / normScores.length)
           : null,
       last_attempt_date: userConsults[0]?.attempt_date ?? null,
-      last_score: scores[0] ?? null,
+      last_score: lastNorm,
       last_module_attempted: (userConsults[0] as { module_attempted?: string } | undefined)?.module_attempted ?? null,
     };
   });

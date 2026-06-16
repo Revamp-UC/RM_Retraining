@@ -18,6 +18,30 @@ export interface ModuleConfig {
   adminOnly?: boolean; // when true, only admins can see and access this module
 }
 
+// Total max marks per task (sum of that task's rubric section max_scores).
+// Tasks have different totals, so any cross-task average must be normalised first.
+export const MODULE_MAX_SCORE: Record<string, number> = {
+  module_1_seepage: 45,
+  module_1_task2: 50,
+  module_1_task3: 45,
+  module_2_task1: 30,
+  module_2_task2: 20,
+  module_3_task1: 10,
+  module_3_task2: 10,
+  module_3_task3: 10,
+};
+
+// Common scale all scores are normalised onto for cross-task averaging.
+export const NORMALISED_MAX = 50;
+
+// Rescale a raw task score onto NORMALISED_MAX (e.g. 5/10 → 25/50).
+// Unknown tasks are left untouched so we never silently divide by an undefined max.
+export function normaliseScore(score: number, moduleAttempted: string): number {
+  const max = MODULE_MAX_SCORE[moduleAttempted];
+  if (!max || max <= 0) return score;
+  return (score / max) * NORMALISED_MAX;
+}
+
 export const MODULE_CONFIG: Record<string, ModuleConfig> = {
   module_2: {
     id: 'module_2',

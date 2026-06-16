@@ -133,6 +133,7 @@ export default async function AdminPage() {
   const adminSessions = allRM
     .filter(rm => ADMIN_MOBILES.has(rm.mobile_number))
     .reduce((sum, rm) => sum + rm.attempt_count, 0);
+  const totalSessions = rmSessions + adminSessions;
 
   // Overall average is RM-only (admin test runs excluded)
   const avgScores = attempted
@@ -183,13 +184,13 @@ export default async function AdminPage() {
           />
           <StatCard
             label="Total Sessions"
-            value={rmSessions}
-            sub={`RM sessions · ${adminSessions} admin`}
+            value={totalSessions}
+            sub={`${rmSessions} RM · ${adminSessions} admin`}
           />
           <StatCard
             label="Overall Avg"
-            value={overallAvg !== null ? overallAvg : '—'}
-            sub="across RMs (admins excluded)"
+            value={overallAvg !== null ? `${overallAvg}/50` : '—'}
+            sub="normalised to 50 · admins excluded"
             accent={
               overallAvg === null
                 ? 'text-[#f1f1f5]'
@@ -257,13 +258,13 @@ export default async function AdminPage() {
           <div className="flex items-center gap-2.5 px-5 py-4 border-b border-[#1e1e28]">
             <BarChart3 className="h-4 w-4 text-indigo-400" />
             <h2 className="text-sm font-bold text-[#f1f1f5]">All RMs</h2>
-            <span className="ml-1 text-xs text-[#60607a]">({allRM.length} total · sorted by best score)</span>
+            <span className="ml-1 text-xs text-[#60607a]">({allRM.length} total · sorted by best score · scores normalised to 50)</span>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-[#1a1a24]">
-                  {['#', 'Name', 'Attempts', 'Best', 'Avg', 'Last Task', 'Last Session', ''].map(h => (
+                  {['#', 'Name', 'Attempts', 'Best /50', 'Avg /50', 'Last Task', 'Last Session', ''].map(h => (
                     <th
                       key={h}
                       className="px-4 py-3 text-[10px] font-bold text-[#60607a] uppercase tracking-wider"

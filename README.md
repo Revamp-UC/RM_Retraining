@@ -154,6 +154,7 @@ server.ts         → Custom Node.js server with WebSocket support
 3. Add entry in `lib/prompts/registry.ts` (persona + rubric + sanitizer)
 4. Add section keys in `lib/gemini/evaluator.ts` → `MODULE_SECTIONS`
 5. Add task in `lib/config/modules.ts`
+6. **Add the task's total max marks to `MODULE_MAX_SCORE` in `lib/config/modules.ts`** — this is mandatory. All cross-task averages (admin "Overall Avg", personal "Avg Score") normalise every session to `/50` via this map. A new task with any max (10, 50, 100, anything) only averages correctly once its max is registered here; tasks missing from the map fall back to their raw score and skew every average.
 
 ---
 

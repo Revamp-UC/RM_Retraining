@@ -6,6 +6,7 @@ import { getRMConsultations, getRMName } from '@/lib/db/admin';
 import { TranscriptViewer } from '@/components/admin/TranscriptViewer';
 import { ArrowLeft, Trophy, RotateCcw, Clock, User, ChevronLeft, FileBarChart } from 'lucide-react';
 import type { AdminConsultation } from '@/lib/db/admin';
+import { normaliseScore, NORMALISED_MAX } from '@/lib/config/modules';
 
 export const dynamic = 'force-dynamic';
 
@@ -232,11 +233,15 @@ export default async function RMDetailPage({
   );
 
   const completed = consultations.filter(c => c.status === 'completed' || c.status === 'evaluation_pending');
-  const scores = completed.map(c => c.overall_score).filter((s): s is number => s !== null);
-  const bestScore = scores.length > 0 ? Math.max(...scores) : null;
+  // Aggregate Best/Avg are normalised to /50 (tasks have different max marks).
+  // Per-session scores below keep their real max via getSessionMax().
+  const normScores = completed
+    .filter(c => c.overall_score !== null)
+    .map(c => normaliseScore(c.overall_score as number, c.module_attempted));
+  const bestScore = normScores.length > 0 ? Math.round(Math.max(...normScores)) : null;
   const avgScore =
-    scores.length > 0
-      ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
+    normScores.length > 0
+      ? Math.round(normScores.reduce((a, b) => a + b, 0) / normScores.length)
       : null;
 
   const maskedMobile = mobile.slice(0, 5) + 'XXXXX';
@@ -279,6 +284,7 @@ export default async function RMDetailPage({
             </div>
             <p className={`text-2xl font-bold ${bestScore !== null && bestScore >= 36 ? 'text-green-400' : bestScore !== null && bestScore >= 27 ? 'text-amber-400' : bestScore !== null ? 'text-red-400' : 'text-[#60607a]'}`}>
               {bestScore !== null ? bestScore : '—'}
+              {bestScore !== null && <span className="text-sm font-normal text-[#60607a]">/{NORMALISED_MAX}</span>}
             </p>
           </div>
           <div className="rounded-xl border border-[#1e1e28] bg-[#13131a] px-4 py-3 text-center">
@@ -288,6 +294,7 @@ export default async function RMDetailPage({
             </div>
             <p className={`text-2xl font-bold ${avgScore !== null && avgScore >= 36 ? 'text-green-400' : avgScore !== null && avgScore >= 27 ? 'text-amber-400' : avgScore !== null ? 'text-red-400' : 'text-[#60607a]'}`}>
               {avgScore !== null ? avgScore : '—'}
+              {avgScore !== null && <span className="text-sm font-normal text-[#60607a]">/{NORMALISED_MAX}</span>}
             </p>
           </div>
         </div>
