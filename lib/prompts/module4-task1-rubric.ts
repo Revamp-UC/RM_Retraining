@@ -36,7 +36,7 @@ ${formattedTranscript}
 ## SCORING DIMENSIONS (30 points total)
 
 ### 1. Value Justification (max 21 pts)
-This is the core of the scenario. Below are the value/risk points the RM can earn credit for. Award credit when the RM conveys the MEANING of a point (exact wording not required). Each point = 1 mark unless stated. **Cap this section at 21 marks total — never exceed 21 even if every point is covered.**
+This is the core of the scenario. Below are the 21 value/risk points the RM can earn credit for — each worth 1 mark, for a section total of 21. Award credit when the RM conveys the MEANING of a point (exact wording not required).
 
 1. Delivery included — 1
 2. Premium packaging included — 1
@@ -46,7 +46,7 @@ This is the core of the scenario. Below are the value/risk points the RM can ear
 6. Installation included — 1
 7. Trained installation team — 1
 8. End-to-end ownership (company takes complete responsibility) — 1
-9. Warranty support — explained across Panels, Feature Lights, Decorative Lights, Woodwork — 2 total (0.5 each; give partial credit for each sub-item covered)
+9. Warranty support — explained across Panels, Feature Lights, Decorative Lights, Woodwork — 1 (give partial credit if only some sub-items are covered)
 10. Film peeling risk in local-market panels — 1
 11. Yellowing risk in local-market panels — 1
 12. Shade variation risk — 1
