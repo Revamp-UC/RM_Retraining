@@ -38,7 +38,7 @@ const TASK_CONFIG: Record<string, DetailConfig> = {
   // Module 4 — market comparison: design image + dimension + price only (no materials)
   module_4_task_1: {
     label: 'Task 1 · Module 4',
-    src: '/images/module4-task1-wall.png',
+    src: '/images/module4-task1-wall.jpg',
     dim: '9 ft × 9 ft',
     price: '₹29,999',
   },

@@ -98,13 +98,13 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
   module_4: {
     id: 'module_4',
     title: 'Market Comparison',
-    description: 'The design is selected and the customer thinks the market is much cheaper — justify the premium through value, not discounts',
+    description: 'The design is selected, but the customer thinks the market is much cheaper and wants to know why you cost more',
     adminOnly: true, // live for admins only for now
     tasks: [
       {
         id: 'task_1',
         title: 'Task 1 of Module 4',
-        description: 'The design is selected, but the customer believes similar panels are far cheaper in the market. Justify the premium pricing through value — service, accountability, logistics, warranty and risk reduction — without relying on discounts.',
+        description: 'The design is selected, but the customer believes similar panels are far cheaper in the market and keeps asking why your solution costs more. Address this and win their confidence to move ahead.',
         moduleAttempted: 'module_4_task1', // ← persona: module4-task1-persona.ts | rubric: module4-task1-rubric.ts
         status: 'active',
       },

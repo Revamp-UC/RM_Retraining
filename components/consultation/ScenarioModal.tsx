@@ -123,7 +123,7 @@ const CONTENT: Record<string, {
       'Design: selected · price ₹29,999',
       'Customer has explored the local market and thinks it is much cheaper',
     ],
-    stateText: 'The customer believes similar panels are far cheaper in the market and wants to know why your solution costs more. Your job is to justify the premium through value — service, accountability, logistics, warranty and risk reduction — NOT through discounts.',
+    stateText: 'The customer believes similar panels are far cheaper in the market and keeps asking why your solution costs so much more. Your job is to address this and win their confidence to move ahead.',
   },
 };
 
