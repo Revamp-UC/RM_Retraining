@@ -126,8 +126,17 @@ export default async function AdminPage() {
     .slice(0, 10);
   const needsAttention = attempted.filter(rm => (rm.best_score ?? 100) < 27);
 
-  const totalAttempts = allRM.reduce((sum, rm) => sum + rm.attempt_count, 0);
+  // Split sessions into RM-only vs admin-only
+  const rmSessions = allRM
+    .filter(rm => !ADMIN_MOBILES.has(rm.mobile_number))
+    .reduce((sum, rm) => sum + rm.attempt_count, 0);
+  const adminSessions = allRM
+    .filter(rm => ADMIN_MOBILES.has(rm.mobile_number))
+    .reduce((sum, rm) => sum + rm.attempt_count, 0);
+
+  // Overall average is RM-only (admin test runs excluded)
   const avgScores = attempted
+    .filter(rm => !ADMIN_MOBILES.has(rm.mobile_number))
     .map(rm => rm.avg_score)
     .filter((s): s is number => s !== null);
   const overallAvg =
@@ -174,13 +183,13 @@ export default async function AdminPage() {
           />
           <StatCard
             label="Total Sessions"
-            value={totalAttempts}
-            sub="completed consultations"
+            value={rmSessions}
+            sub={`RM sessions · ${adminSessions} admin`}
           />
           <StatCard
             label="Overall Avg"
             value={overallAvg !== null ? overallAvg : '—'}
-            sub="across all RMs"
+            sub="across RMs (admins excluded)"
             accent={
               overallAvg === null
                 ? 'text-[#f1f1f5]'
