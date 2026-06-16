@@ -66,7 +66,7 @@ Each task has its own scoring dimensions. Report cards include:
 |---|---|---|
 | Voice customer | `gemini-3.1-flash-live-preview` | Real-time bidirectional voice, Hinglish persona |
 | Evaluator | `gemini-2.5-flash` | Thinking enabled (`thinkingBudget: 1024`), constrained JSON output via `responseSchema` |
-| Evaluator fallback | `gemini-2.0-flash` | Used if 2.5-flash is overloaded (4 retries → fallback) |
+| Evaluator fallback | `gemini-2.5-flash-lite` | Used if 2.5-flash is overloaded (4 retries → fallback) |
 
 ### Evaluation reliability features
 - `responseSchema` constrained generation — Gemini is forced to output valid JSON at the token level

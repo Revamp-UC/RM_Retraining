@@ -48,16 +48,24 @@ function StatCard({
   value,
   sub,
   accent,
+  highlight,
 }: {
   label: string;
   value: string | number;
   sub?: string;
   accent?: string;
+  highlight?: boolean;
 }) {
   return (
-    <div className="rounded-xl border border-[#1e1e28] bg-[#13131a] px-5 py-4">
+    <div
+      className={`rounded-xl border px-5 py-4 ${
+        highlight
+          ? 'border-indigo-500/50 bg-indigo-600/10 ring-1 ring-indigo-500/20'
+          : 'border-[#1e1e28] bg-[#13131a]'
+      }`}
+    >
       <p className="text-xs font-semibold text-[#60607a] uppercase tracking-wider mb-1">{label}</p>
-      <p className={`text-2xl font-bold ${accent ?? 'text-[#f1f1f5]'}`}>{value}</p>
+      <p className={`text-2xl font-bold ${accent ?? (highlight ? 'text-indigo-300' : 'text-[#f1f1f5]')}`}>{value}</p>
       {sub && <p className="text-xs text-[#60607a] mt-0.5">{sub}</p>}
     </div>
   );
@@ -174,7 +182,13 @@ export default async function AdminPage() {
       <div className="max-w-6xl mx-auto px-6 py-8 space-y-8">
 
         {/* ── Stats strip ── */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+          <StatCard
+            label="Sessions by RM"
+            value={rmSessions}
+            sub="real RM attempts"
+            highlight
+          />
           <StatCard label="Total RMs" value={allRM.length} sub="in the programme" />
           <StatCard
             label="Attempted"
@@ -185,7 +199,7 @@ export default async function AdminPage() {
           <StatCard
             label="Total Sessions"
             value={totalSessions}
-            sub={`${rmSessions} RM · ${adminSessions} admin`}
+            sub={`incl. ${adminSessions} admin`}
           />
           <StatCard
             label="Overall Avg"

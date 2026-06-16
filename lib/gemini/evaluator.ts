@@ -90,6 +90,7 @@ export async function evaluateConsultation(params: {
       lastError = err;
       const status = (err as { status?: number })?.status ?? (err as { code?: number })?.code;
       console.error(`[Evaluator] gemini-2.5-flash attempt ${attempt} failed (status ${status ?? 'unknown'})`);
+      if (status === 404) break; // model retired/unavailable → skip straight to fallback model
       if (status !== 503 && status !== 429) throw err;
       if (attempt < 4) {
         console.log(`[Evaluator] Retrying in ${DELAYS_PRIMARY[attempt - 1]! / 1000}s…`);
@@ -98,15 +99,15 @@ export async function evaluateConsultation(params: {
     }
   }
 
-  // Phase 2: fallback to gemini-2.0-flash — no thinking, same schema (2 attempts, 3s gap)
-  console.log('[Evaluator] Falling back to gemini-2.0-flash…');
+  // Phase 2: fallback to gemini-2.5-flash-lite — no thinking, same schema (2 attempts, 3s gap)
+  console.log('[Evaluator] Falling back to gemini-2.5-flash-lite…');
   for (let attempt = 1; attempt <= 2; attempt++) {
     try {
-      return sanitizeReportCard(params.module, await callModel(ai, 'gemini-2.0-flash', prompt, schema, false));
+      return sanitizeReportCard(params.module, await callModel(ai, 'gemini-2.5-flash-lite', prompt, schema, false));
     } catch (err) {
       lastError = err;
       const status = (err as { status?: number })?.status ?? (err as { code?: number })?.code;
-      console.error(`[Evaluator] gemini-2.0-flash attempt ${attempt} failed (status ${status ?? 'unknown'})`);
+      console.error(`[Evaluator] gemini-2.5-flash-lite attempt ${attempt} failed (status ${status ?? 'unknown'})`);
       if (status !== 503 && status !== 429) throw err;
       if (attempt < 2) await new Promise((r) => setTimeout(r, 3000));
     }
