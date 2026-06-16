@@ -44,6 +44,9 @@ const SECTION_ICONS: Record<string, React.ReactNode> = {
   // Module 3 Task 3
   discovery_questions: <span className="text-sm">🔍</span>,
   discount_lever: <span className="text-sm">🏷️</span>,
+  // Module 4 Task 1
+  value_justification: <span className="text-sm">💎</span>,
+  personalisation: <span className="text-sm">🙏</span>,
 };
 
 const SECTION_TITLES: Record<string, string> = {
@@ -72,6 +75,9 @@ const SECTION_TITLES: Record<string, string> = {
   // Module 3 Task 3
   discovery_questions: 'Discovery Questions',
   discount_lever: 'Discount Lever Execution',
+  // Module 4 Task 1
+  value_justification: 'Value Justification',
+  personalisation: 'Personalisation',
 };
 
 export default async function ReportPage({ params }: ReportPageProps) {

@@ -242,6 +242,9 @@ function getKickOffText(moduleAttempted: string): string {
   if (moduleAttempted === 'module_3_task3') {
     return 'Start the conversation. Introduction, rapport building and budget discovery are already done. You have seen the final design for your wall and you genuinely love it — you do not want any changes. Begin speaking first with ONE short, natural opener (1-2 sentences total): briefly appreciate the design and, in the same breath, ask for a day or two before deciding. Say it ONCE — do not repeat, rephrase, restart, or re-state the same point — then stop and wait for the RM. Do not reveal upfront that the price feels high (the RM must discover it), and do not reveal that you are the actual decision maker.';
   }
+  if (moduleAttempted === 'module_4_task1') {
+    return 'Start the conversation. Introduction, rapport building and design discovery are already done. The design is selected for your wall and you are okay with it — your only concern is price versus the local market, which you have already explored. Begin speaking first with ONE short, natural opener (1-2 sentences) that goes straight to price — ask the rough cost of a single panel / the cheapest panel rate (in your own fresh words). Keep it brief, then stop and wait for the RM. Do not reveal upfront that you think the market is cheaper — that comes out only after the RM gives you a panel price.';
+  }
   return 'Start the conversation. The RM has just arrived at your door for the scheduled home consultation. Greet them naturally and lead them inside.';
 }
 

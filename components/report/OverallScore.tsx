@@ -43,6 +43,9 @@ const SECTION_SHORT: Record<string, string> = {
   // Module 3 Task 3
   discovery_questions: 'Discovery',
   discount_lever: 'Discount',
+  // Module 4 Task 1
+  value_justification: 'Value',
+  personalisation: 'Personalisation',
 };
 
 export function OverallScore({ score, maxScore = 45, tier, customerName, duration, sections }: OverallScoreProps) {

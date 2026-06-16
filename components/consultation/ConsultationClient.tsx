@@ -29,7 +29,8 @@ export function ConsultationClient({
 }: ConsultationClientProps) {
   const isModule2 = moduleId === 'module_2';
   const isModule3 = moduleId === 'module_3';
-  const showScenario = isModule2 || isModule3;
+  const isModule4 = moduleId === 'module_4';
+  const showScenario = isModule2 || isModule3 || isModule4;
   const [scenarioAcknowledged, setScenarioAcknowledged] = useState(false);
 
   const {
@@ -60,8 +61,8 @@ export function ConsultationClient({
         transition={{ duration: 0.3, delay: 0.05, ease: 'easeOut' }}
         className="w-full lg:w-1/2 h-[38vh] lg:h-full shrink-0"
       >
-        {isModule3 ? (
-          <DesignDetail className="h-full" taskId={taskId} />
+        {isModule3 || isModule4 ? (
+          <DesignDetail className="h-full" taskId={taskId} moduleId={moduleId} />
         ) : isModule2 ? (
           <DesignGallery className="h-full" taskId={taskId} />
         ) : (

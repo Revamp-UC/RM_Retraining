@@ -21,6 +21,7 @@ const MODULE_TASK_LABEL: Record<string, string> = {
   module_3_task1:   'M3 · T1',
   module_3_task2:   'M3 · T2',
   module_3_task3:   'M3 · T3',
+  module_4_task1:   'M4 · T1',
 };
 
 function toTaskLabel(m: string | null) {

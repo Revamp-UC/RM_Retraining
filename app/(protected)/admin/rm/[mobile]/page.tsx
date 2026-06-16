@@ -99,6 +99,7 @@ const MODULE_ID_MAP: Record<string, string> = {
   module_3_task1: 'module_3',
   module_3_task2: 'module_3',
   module_3_task3: 'module_3',
+  module_4_task1: 'module_4',
 };
 
 const MODULE_TASK_LABEL: Record<string, string> = {
@@ -109,6 +110,7 @@ const MODULE_TASK_LABEL: Record<string, string> = {
   module_3_task1: 'Module 3 · Task 1',
   module_3_task2: 'Module 3 · Task 2',
   module_3_task3: 'Module 3 · Task 3',
+  module_4_task1: 'Module 4 · Task 1',
 };
 
 const SECTION_LABELS: Record<string, string> = {

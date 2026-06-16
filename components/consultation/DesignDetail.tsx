@@ -10,7 +10,7 @@ interface DetailConfig {
   src: string;
   dim: string;
   price: string;
-  materials: string[];
+  materials?: string[]; // optional — Module 4 shows only image + dimension + price
 }
 
 const TASK_CONFIG: Record<string, DetailConfig> = {
@@ -35,16 +35,25 @@ const TASK_CONFIG: Record<string, DetailConfig> = {
     price: '₹77,499',
     materials: ['M5508', 'R5332', 'MONO CONSOLE', 'LUNA LIGHT'],
   },
+  // Module 4 — market comparison: design image + dimension + price only (no materials)
+  module_4_task_1: {
+    label: 'Task 1 · Module 4',
+    src: '/images/module4-task1-wall.png',
+    dim: '9 ft × 9 ft',
+    price: '₹29,999',
+  },
 };
 
 interface DesignDetailProps {
   className?: string;
   taskId?: string;
+  moduleId?: string;
 }
 
-export function DesignDetail({ className = '', taskId = 'task_1' }: DesignDetailProps) {
+export function DesignDetail({ className = '', taskId = 'task_1', moduleId }: DesignDetailProps) {
   const [expanded, setExpanded] = useState(false);
-  const cfg = TASK_CONFIG[taskId] ?? TASK_CONFIG['task_1']!;
+  // Prefer a module-specific composite key, then fall back to the bare taskId (Module 3)
+  const cfg = TASK_CONFIG[`${moduleId}_${taskId}`] ?? TASK_CONFIG[taskId] ?? TASK_CONFIG['task_1']!;
 
   return (
     <div className={`relative w-full h-full ${className}`}>
@@ -109,21 +118,23 @@ export function DesignDetail({ className = '', taskId = 'task_1' }: DesignDetail
           </div>
         </div>
 
-        {/* Materials row */}
-        <div className="flex items-center gap-2.5">
-          <Layers className="h-4 w-4 text-[#60607a] shrink-0" />
-          <span className="text-[10px] font-bold text-[#60607a] uppercase tracking-widest shrink-0">Materials</span>
-          <div className="flex flex-wrap gap-1.5">
-            {cfg.materials.map((m) => (
-              <span
-                key={m}
-                className="text-[11px] font-semibold text-[#c0c0d8] bg-[#1c1c26] border border-[#2a2a38] rounded-md px-2 py-0.5"
-              >
-                {m}
-              </span>
-            ))}
+        {/* Materials row — omitted when a task has no materials (e.g. Module 4) */}
+        {cfg.materials && cfg.materials.length > 0 && (
+          <div className="flex items-center gap-2.5">
+            <Layers className="h-4 w-4 text-[#60607a] shrink-0" />
+            <span className="text-[10px] font-bold text-[#60607a] uppercase tracking-widest shrink-0">Materials</span>
+            <div className="flex flex-wrap gap-1.5">
+              {cfg.materials.map((m) => (
+                <span
+                  key={m}
+                  className="text-[11px] font-semibold text-[#c0c0d8] bg-[#1c1c26] border border-[#2a2a38] rounded-md px-2 py-0.5"
+                >
+                  {m}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </motion.div>
 
       {/* Fullscreen lightbox */}

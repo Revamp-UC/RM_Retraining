@@ -43,6 +43,8 @@ const CUSTOMER_PROFILE: Record<string, { age: string; home: string; scope?: stri
   module_3_task_1: { age: 'Homeowner', home: 'Booking Stage', scope: 'Design Finalised · Postponing' },
   module_3_task_2: { age: 'Homeowner', home: 'Booking Stage', scope: 'Satisfied · Wants Time' },
   module_3_task_3: { age: 'Homeowner', home: 'Booking Stage', scope: 'Design Liked · Hesitating' },
+  // Module 4
+  module_4_task_1: { age: 'Homeowner', home: 'Design Selected', scope: 'Market Comparison · Price Objection' },
 };
 
 function formatTime(seconds: number): string {

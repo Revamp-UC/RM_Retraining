@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Palette, ShieldCheck, CalendarClock } from 'lucide-react';
+import { ArrowRight, Palette, ShieldCheck, CalendarClock, Tag } from 'lucide-react';
 
 interface ScenarioModalProps {
   onAcknowledge: () => void;
@@ -111,6 +111,19 @@ const CONTENT: Record<string, {
       'Booking: still pending',
     ],
     stateText: 'The customer likes the design and does not want any changes, but is hesitating on the booking. Your job is to help them confirm the booking today — without any pressure.',
+  },
+  // Module 4
+  module_4_task_1: {
+    icon: <Tag className="h-4 w-4 text-violet-400" />,
+    accent: 'violet',
+    title: 'Market Comparison',
+    intro: 'You have already completed the introduction, rapport building and design discovery with this customer.',
+    knowItems: [
+      'Wall: 9 ft × 9 ft',
+      'Design: selected · price ₹29,999',
+      'Customer has explored the local market and thinks it is much cheaper',
+    ],
+    stateText: 'The customer believes similar panels are far cheaper in the market and wants to know why your solution costs more. Your job is to justify the premium through value — service, accountability, logistics, warranty and risk reduction — NOT through discounts.',
   },
 };
 

@@ -41,6 +41,10 @@ import { buildEvaluationPrompt as m3t2Rubric } from './module3-task2-rubric';
 import { generateCustomerPersonaPrompt as m3t3Persona } from './module3-task3-persona';
 import { buildEvaluationPrompt as m3t3Rubric } from './module3-task3-rubric';
 
+// Module 4 · Task 1
+import { generateCustomerPersonaPrompt as m4t1Persona } from './module4-task1-persona';
+import { buildEvaluationPrompt as m4t1Rubric } from './module4-task1-rubric';
+
 // ─── Sanitizer helpers ────────────────────────────────────────────────────────
 
 function clamp(v: unknown, max: number): number {
@@ -252,6 +256,27 @@ function sanitizeM3Task3(raw: unknown): ReportCard {
   };
 }
 
+// Module 4 Task 1 sanitizer — 3 sections, max 30 (value 21 + personalisation 4 + trust 5)
+function sanitizeM4Task1(raw: unknown): ReportCard {
+  const c = raw as Partial<ReportCard> & { suggested_ideal_response?: string };
+  const value      = clamp(c.sections?.value_justification?.score, 21);
+  const personal   = clamp(c.sections?.personalisation?.score, 4);
+  const trust      = clamp(c.sections?.trust_confidence?.score, 5);
+  const overall    = value + personal + trust;
+  return {
+    overall_score: overall,
+    sections: {
+      value_justification: section(c.sections?.value_justification, value, 21),
+      personalisation:     section(c.sections?.personalisation, personal, 4),
+      trust_confidence:    section(c.sections?.trust_confidence, trust, 5),
+    },
+    critical_mistakes: c.critical_mistakes ?? [],
+    coaching_feedback: c.coaching_feedback ?? '',
+    performance_tier: tier2(overall),
+    suggested_ideal_response: c.suggested_ideal_response ?? '',
+  };
+}
+
 // ─── Registry ─────────────────────────────────────────────────────────────────
 
 interface PromptHandlers {
@@ -300,6 +325,11 @@ const PROMPT_REGISTRY: Record<string, PromptHandlers> = {
     persona:  m3t3Persona,
     rubric:   (transcript, customerName) => m3t3Rubric(transcript, customerName),
     sanitize: sanitizeM3Task3,
+  },
+  'module_4_task1': {
+    persona:  m4t1Persona,
+    rubric:   (transcript, customerName) => m4t1Rubric(transcript, customerName),
+    sanitize: sanitizeM4Task1,
   },
 };
 

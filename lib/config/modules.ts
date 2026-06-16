@@ -29,6 +29,7 @@ export const MODULE_MAX_SCORE: Record<string, number> = {
   module_3_task1: 10,
   module_3_task2: 10,
   module_3_task3: 10,
+  module_4_task1: 30,
 };
 
 // Common scale all scores are normalised onto for cross-task averaging.
@@ -92,6 +93,22 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
         moduleAttempted: 'module_3_task3', // ← persona: module3-task3-persona.ts | rubric: module3-task3-rubric.ts
         status: 'active',
       },
+    ],
+  },
+  module_4: {
+    id: 'module_4',
+    title: 'Market Comparison',
+    description: 'The design is selected and the customer thinks the market is much cheaper — justify the premium through value, not discounts',
+    adminOnly: true, // live for admins only for now
+    tasks: [
+      {
+        id: 'task_1',
+        title: 'Task 1 of Module 4',
+        description: 'The design is selected, but the customer believes similar panels are far cheaper in the market. Justify the premium pricing through value — service, accountability, logistics, warranty and risk reduction — without relying on discounts.',
+        moduleAttempted: 'module_4_task1', // ← persona: module4-task1-persona.ts | rubric: module4-task1-rubric.ts
+        status: 'active',
+      },
+      { id: 'task_2', title: 'Coming Soon', description: '', moduleAttempted: '', status: 'coming_soon' },
     ],
   },
   module_1: {
