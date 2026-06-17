@@ -9,6 +9,7 @@ import { ConsultationClient } from '@/components/consultation/ConsultationClient
 import { PreStartModal } from '@/components/consultation/PreStartModal';
 import { NIOBrandPanel } from '@/components/consultation/NIOBrandPanel';
 import { QuizClient } from '@/components/quiz/QuizClient';
+import { PlaybookViewer } from '@/components/playbook/PlaybookViewer';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
@@ -76,6 +77,41 @@ export default async function ConsultationPage({ params }: TaskPageProps) {
           <div className="flex-1 h-full overflow-y-auto">
             <QuizClient moduleId={moduleId} />
           </div>
+        </main>
+      </div>
+    );
+  }
+
+  // ─── Playbook task — static PDF reader, no DB record ─────────────────────
+  if (taskConfig.type === 'playbook') {
+    return (
+      <div className="h-screen bg-[#0a0a0f] flex flex-col overflow-hidden">
+        <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-20 h-[500px] w-[600px] rounded-full bg-emerald-900/10 blur-[120px]" />
+          <div className="absolute bottom-0 left-0 h-[400px] w-[500px] rounded-full bg-emerald-900/8 blur-[100px]" />
+        </div>
+
+        <header className="relative flex items-center justify-between px-4 lg:px-6 py-3 border-b border-[#2a2a38] bg-[#13131a]/90 backdrop-blur-sm shrink-0 z-10">
+          <div className="flex items-center gap-3">
+            <Link
+              href={`/module/${moduleId}`}
+              className="p-2 rounded-lg text-[#9090a8] hover:text-[#f1f1f5] hover:bg-[#1c1c26] transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+            <div>
+              <p className="text-xs text-emerald-400 font-medium">Module {moduleNumber}</p>
+              <h1 className="text-sm font-semibold text-[#f1f1f5]">Task {taskNumber} of Module {moduleNumber}</h1>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-xs text-[#60607a]">RM Retraining</p>
+            <p className="text-xs text-[#9090a8] font-medium">{user.name}</p>
+          </div>
+        </header>
+
+        <main className="relative flex-1 flex flex-col min-h-0 overflow-hidden">
+          <PlaybookViewer />
         </main>
       </div>
     );

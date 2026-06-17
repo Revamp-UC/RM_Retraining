@@ -8,7 +8,7 @@ export interface TaskConfig {
   description: string;
   moduleAttempted: string; // value stored in DB consultation_history.module_attempted
   status: 'active' | 'coming_soon';
-  type?: 'consultation' | 'quiz'; // defaults to 'consultation' when absent
+  type?: 'consultation' | 'quiz' | 'playbook'; // defaults to 'consultation' when absent
 }
 
 export interface ModuleConfig {
@@ -143,6 +143,14 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
         description: 'Test your NIO panel knowledge — pricing strategy, technical specs, objection handling, and sales positioning. 15 questions, instant feedback.',
         moduleAttempted: '', // quiz tasks do not create DB consultation records
         type: 'quiz',
+        status: 'active',
+      },
+      {
+        id: 'task_3',
+        title: 'NIO Pitch Playbook',
+        description: 'The complete guide to selling NIO panels like a world-class RM — customer psychology, ideal Hinglish responses, emotional levers, and the winning path.',
+        moduleAttempted: '',
+        type: 'playbook',
         status: 'active',
       },
     ],

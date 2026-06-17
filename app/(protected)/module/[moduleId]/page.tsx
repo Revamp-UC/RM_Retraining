@@ -31,7 +31,7 @@ export default async function ModuleTaskListPage({ params }: ModulePageProps) {
   // Fetch stats for each active consultation task (quiz tasks don't use DB)
   const statsMap: Record<string, ModuleStats | null> = {};
   for (const task of moduleConfig.tasks) {
-    if (task.status === 'active' && task.type !== 'quiz' && task.moduleAttempted) {
+    if (task.status === 'active' && task.type !== 'quiz' && task.type !== 'playbook' && task.moduleAttempted) {
       statsMap[task.id] = await getModuleStats(user.mobile_number, task.moduleAttempted);
     }
   }
@@ -97,13 +97,16 @@ export default async function ModuleTaskListPage({ params }: ModulePageProps) {
             }
 
             const isQuiz = task.type === 'quiz';
+            const isPlaybook = task.type === 'playbook';
 
             return (
               <Link
                 key={task.id}
                 href={`/module/${moduleId}/${task.id}`}
                 className={`block rounded-xl border bg-gradient-to-br from-[#13131a] to-[#1a1a28] active:scale-[0.99] transition-all duration-200 overflow-hidden p-5 ${
-                  isQuiz
+                  isPlaybook
+                    ? 'border-amber-500/40 hover:border-amber-500/70 hover:shadow-xl hover:shadow-amber-900/20'
+                    : isQuiz
                     ? 'border-emerald-500/40 hover:border-emerald-500/70 hover:shadow-xl hover:shadow-emerald-900/20'
                     : 'border-indigo-500/40 hover:border-indigo-500/70 hover:shadow-xl hover:shadow-indigo-900/25'
                 }`}
@@ -111,15 +114,20 @@ export default async function ModuleTaskListPage({ params }: ModulePageProps) {
                 <div className="flex items-start justify-between gap-3 mb-4">
                   <div className="flex items-center gap-3">
                     <div className={`flex items-center justify-center w-8 h-8 rounded-lg text-white font-bold text-sm shadow-lg shrink-0 ${
-                      isQuiz ? 'bg-emerald-600 shadow-emerald-900/40' : 'bg-indigo-600 shadow-indigo-900/40'
+                      isPlaybook ? 'bg-amber-600 shadow-amber-900/40' : isQuiz ? 'bg-emerald-600 shadow-emerald-900/40' : 'bg-indigo-600 shadow-indigo-900/40'
                     }`}>
-                      {isQuiz ? <BookOpen className="h-4 w-4" /> : taskNumber}
+                      {isPlaybook || isQuiz ? <BookOpen className="h-4 w-4" /> : taskNumber}
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-0.5">
-                        <p className={`text-[10px] font-bold uppercase tracking-widest ${isQuiz ? 'text-emerald-400' : 'text-indigo-400'}`}>
+                        <p className={`text-[10px] font-bold uppercase tracking-widest ${isPlaybook ? 'text-amber-400' : isQuiz ? 'text-emerald-400' : 'text-indigo-400'}`}>
                           Task {taskNumber}
                         </p>
+                        {isPlaybook && (
+                          <span className="text-[9px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-400 border border-amber-500/25 rounded-full px-2 py-0.5">
+                            Playbook
+                          </span>
+                        )}
                         {isQuiz && (
                           <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 rounded-full px-2 py-0.5">
                             Quiz
@@ -133,11 +141,15 @@ export default async function ModuleTaskListPage({ params }: ModulePageProps) {
                 </div>
 
                 <div className={`flex items-start gap-2.5 rounded-lg px-3.5 py-2.5 mb-4 ${
-                  isQuiz
+                  isPlaybook
+                    ? 'bg-amber-600/10 border border-amber-500/20'
+                    : isQuiz
                     ? 'bg-emerald-600/10 border border-emerald-500/20'
                     : 'bg-indigo-600/10 border border-indigo-500/20'
                 }`}>
-                  {isQuiz
+                  {isPlaybook
+                    ? <BookOpen className="h-3.5 w-3.5 text-amber-400 shrink-0 mt-0.5" />
+                    : isQuiz
                     ? <BookOpen className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
                     : <Target className="h-3.5 w-3.5 text-indigo-400 shrink-0 mt-0.5" />
                   }
@@ -145,7 +157,9 @@ export default async function ModuleTaskListPage({ params }: ModulePageProps) {
                 </div>
 
                 <div className="pt-3.5 border-t border-[#2a2a38]">
-                  {isQuiz ? (
+                  {isPlaybook ? (
+                    <p className="text-xs text-[#60607a]">15 pages · read & learn · open anytime</p>
+                  ) : isQuiz ? (
                     <p className="text-xs text-[#60607a]">15 questions · instant feedback · retake anytime</p>
                   ) : taskStats && taskStats.attempt_count > 0 ? (
                     <div className="flex items-center gap-5 flex-wrap">
