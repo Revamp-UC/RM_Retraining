@@ -40,7 +40,7 @@ Three tasks, each with a different customer type and wall scenario. Core objecti
 | Task 2 | New flat — aesthetic upgrade, handle market price comparisons | 50 pts |
 | Task 3 | Value-focused customer — extreme budget resistance, scope negotiation | 45 pts |
 
-### Module 2 — Design Finalisation: Objection Handling *(Admin only)*
+### Module 2 — Design Finalisation: Objection Handling
 Customer has already been shown designs. Core objective: guide the customer from confusion/hesitation to a confident decision.
 
 | Task | Scenario | Max Score |
@@ -82,7 +82,7 @@ Admins can:
 - View all RMs and their full session history
 - See scores, session duration, and attempt dates per RM
 - Open any RM's detailed report card and full transcript
-- Access Module 2 (admin-only modules)
+- Access all modules and RM performance data
 
 Admin access is controlled by a fixed allowlist of mobile numbers in the codebase.
 

@@ -30,6 +30,7 @@ const MODULE_SECTIONS: Record<string, { keys: string[]; hasIdealResponse: boolea
   'module_3_task2':   { keys: ['lever_used', 'confidence_objection', 'personalization'], hasIdealResponse: true },
   'module_3_task3':   { keys: ['discovery_questions', 'discount_lever', 'trust_confidence'], hasIdealResponse: true },
   'module_4_task1':   { keys: ['value_justification', 'personalisation', 'trust_confidence'], hasIdealResponse: true },
+  'module_5_task1':   { keys: ['discovery_diagnosis', 'value_anchoring', 'tailored_differentiation', 'objection_handling', 'curated_design_value', 'conviction_no_discount'], hasIdealResponse: true },
 };
 
 function buildResponseSchema(module: string): unknown {

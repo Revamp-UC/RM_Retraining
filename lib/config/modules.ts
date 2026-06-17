@@ -30,6 +30,7 @@ export const MODULE_MAX_SCORE: Record<string, number> = {
   module_3_task2: 10,
   module_3_task3: 10,
   module_4_task1: 30,
+  module_5_task1: 20,
 };
 
 // Common scale all scores are normalised onto for cross-task averaging.
@@ -117,6 +118,22 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
         title: 'Task 1 of Module 4',
         description: 'The design is selected, but the customer believes similar panels are far cheaper in the market and keeps asking why your solution costs more. Address this and win their confidence to move ahead.',
         moduleAttempted: 'module_4_task1', // ← persona: module4-task1-persona.ts | rubric: module4-task1-rubric.ts
+        status: 'active',
+      },
+      { id: 'task_2', title: 'Coming Soon', description: '', moduleAttempted: '', status: 'coming_soon' },
+    ],
+  },
+  module_5: {
+    id: 'module_5',
+    title: 'NIO Premium Panels',
+    description: 'The quality you always wanted at the price you never expected — sell the premium and justify the 5X price gap',
+    adminOnly: true,
+    tasks: [
+      {
+        id: 'task_1',
+        title: 'Task 1 of Module 5',
+        description: 'Introduce NIO panels to a curious, price-conscious homeowner comparing NIO (₹1150/panel) to PVC (₹250–300/panel). Justify the premium through value differentiation — no discounts.',
+        moduleAttempted: 'module_5_task1',
         status: 'active',
       },
       { id: 'task_2', title: 'Coming Soon', description: '', moduleAttempted: '', status: 'coming_soon' },

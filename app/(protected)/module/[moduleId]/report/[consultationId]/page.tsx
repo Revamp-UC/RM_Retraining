@@ -47,6 +47,13 @@ const SECTION_ICONS: Record<string, React.ReactNode> = {
   // Module 4 Task 1
   value_justification: <span className="text-sm">💎</span>,
   personalisation: <span className="text-sm">🙏</span>,
+  // Module 5 Task 1
+  discovery_diagnosis: <span className="text-sm">🔍</span>,
+  value_anchoring: <span className="text-sm">⚓</span>,
+  tailored_differentiation: <span className="text-sm">🎯</span>,
+  objection_handling: <span className="text-sm">🛡️</span>,
+  curated_design_value: <span className="text-sm">✨</span>,
+  conviction_no_discount: <span className="text-sm">💪</span>,
 };
 
 const SECTION_TITLES: Record<string, string> = {
@@ -78,6 +85,13 @@ const SECTION_TITLES: Record<string, string> = {
   // Module 4 Task 1
   value_justification: 'Value Justification',
   personalisation: 'Personalisation',
+  // Module 5 Task 1
+  discovery_diagnosis: 'Discovery & Diagnosis',
+  value_anchoring: 'Price Anchoring',
+  tailored_differentiation: 'Tailored Differentiation',
+  objection_handling: 'Objection Handling',
+  curated_design_value: 'Curated Design Value',
+  conviction_no_discount: 'Conviction & No Discount',
 };
 
 export default async function ReportPage({ params }: ReportPageProps) {

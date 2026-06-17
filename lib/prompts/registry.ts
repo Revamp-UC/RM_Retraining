@@ -45,6 +45,10 @@ import { buildEvaluationPrompt as m3t3Rubric } from './module3-task3-rubric';
 import { generateCustomerPersonaPrompt as m4t1Persona } from './module4-task1-persona';
 import { buildEvaluationPrompt as m4t1Rubric } from './module4-task1-rubric';
 
+// Module 5 · Task 1
+import { generateCustomerPersonaPrompt as m5t1Persona } from './module5-task1-persona';
+import { buildEvaluationPrompt as m5t1Rubric } from './module5-task1-rubric';
+
 // ─── Sanitizer helpers ────────────────────────────────────────────────────────
 
 function clamp(v: unknown, max: number): number {
@@ -277,6 +281,33 @@ function sanitizeM4Task1(raw: unknown): ReportCard {
   };
 }
 
+// Module 5 Task 1 sanitizer — 6 sections, max 20 (4+4+4+4+2+2)
+function sanitizeM5Task1(raw: unknown): ReportCard {
+  const c = raw as Partial<ReportCard> & { suggested_ideal_response?: string };
+  const discovery   = clamp(c.sections?.discovery_diagnosis?.score, 4);
+  const anchoring   = clamp(c.sections?.value_anchoring?.score, 4);
+  const diffn       = clamp(c.sections?.tailored_differentiation?.score, 4);
+  const objection   = clamp(c.sections?.objection_handling?.score, 4);
+  const curation    = clamp(c.sections?.curated_design_value?.score, 2);
+  const conviction  = clamp(c.sections?.conviction_no_discount?.score, 2);
+  const overall     = discovery + anchoring + diffn + objection + curation + conviction;
+  return {
+    overall_score: overall,
+    sections: {
+      discovery_diagnosis:      section(c.sections?.discovery_diagnosis, discovery, 4),
+      value_anchoring:          section(c.sections?.value_anchoring, anchoring, 4),
+      tailored_differentiation: section(c.sections?.tailored_differentiation, diffn, 4),
+      objection_handling:       section(c.sections?.objection_handling, objection, 4),
+      curated_design_value:     section(c.sections?.curated_design_value, curation, 2),
+      conviction_no_discount:   section(c.sections?.conviction_no_discount, conviction, 2),
+    },
+    critical_mistakes: c.critical_mistakes ?? [],
+    coaching_feedback: c.coaching_feedback ?? '',
+    performance_tier: tier3(overall),
+    suggested_ideal_response: c.suggested_ideal_response ?? '',
+  };
+}
+
 // ─── Registry ─────────────────────────────────────────────────────────────────
 
 interface PromptHandlers {
@@ -330,6 +361,11 @@ const PROMPT_REGISTRY: Record<string, PromptHandlers> = {
     persona:  m4t1Persona,
     rubric:   (transcript, customerName) => m4t1Rubric(transcript, customerName),
     sanitize: sanitizeM4Task1,
+  },
+  'module_5_task1': {
+    persona:  m5t1Persona,
+    rubric:   (transcript, customerName) => m5t1Rubric(transcript, customerName),
+    sanitize: sanitizeM5Task1,
   },
 };
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Palette, ShieldCheck, CalendarClock, Tag } from 'lucide-react';
+import { ArrowRight, Palette, ShieldCheck, CalendarClock, Tag, Gem } from 'lucide-react';
 
 interface ScenarioModalProps {
   onAcknowledge: () => void;
@@ -10,7 +10,7 @@ interface ScenarioModalProps {
   taskId: string;
 }
 
-type Accent = 'violet' | 'indigo' | 'amber';
+type Accent = 'violet' | 'indigo' | 'amber' | 'emerald';
 
 const ACCENT: Record<Accent, {
   text: string;
@@ -39,6 +39,13 @@ const ACCENT: Record<Accent, {
     dot: 'bg-amber-400',
     stateBox: 'border border-amber-500/20 bg-amber-500/5',
     btn: 'bg-amber-600 hover:bg-amber-500',
+  },
+  emerald: {
+    text: 'text-emerald-400',
+    iconBg: 'bg-emerald-500/15 border border-emerald-500/25',
+    dot: 'bg-emerald-400',
+    stateBox: 'border border-emerald-500/20 bg-emerald-500/5',
+    btn: 'bg-emerald-600 hover:bg-emerald-500',
   },
 };
 
@@ -124,6 +131,19 @@ const CONTENT: Record<string, {
       'Customer has explored the local market and thinks it is much cheaper',
     ],
     stateText: 'The customer believes similar panels are far cheaper in the market and keeps asking why your solution costs so much more. Your job is to address this and win their confidence to move ahead.',
+  },
+  // Module 5
+  module_5_task_1: {
+    icon: <Gem className="h-4 w-4 text-emerald-400" />,
+    accent: 'emerald',
+    title: 'NIO Premium Panels',
+    intro: 'You are introducing NIO wall panels to a homeowner who is exploring options for a feature wall in their living room.',
+    knowItems: [
+      'Product: NIO panels — premium structured wall panel',
+      'NIO price: ~₹1,150 per panel',
+      'Customer knows market PVC panels are ₹250–300 per panel',
+    ],
+    stateText: 'The customer is curious but price-conscious — they want to understand what makes NIO worth 5X the price. Your job is to discover their needs first, anchor value before revealing price, and justify the premium with confidence. No discounts.',
   },
 };
 
