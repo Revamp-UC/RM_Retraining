@@ -76,7 +76,7 @@ function useCountUp(target: number, active: boolean): number {
 }
 
 const TOPICS = ['Pricing Pitch', 'WPC vs NIO', 'Technical Specs', 'Objection Handling', 'Installation', 'Sales Strategy'];
-const QUESTION_DURATION = 25;
+const QUESTION_DURATION = 30;
 
 export function QuizClient({ moduleId }: { moduleId: string }) {
   const [phase, setPhase] = useState<Phase>('intro');
@@ -207,7 +207,7 @@ export function QuizClient({ moduleId }: { moduleId: string }) {
                 {[
                   { value: String(total), label: 'Questions' },
                   { value: '4', label: 'Options Each' },
-                  { value: '~5 min', label: 'Est. Time' },
+                  { value: '~8 min', label: 'Est. Time' },
                 ].map(s => (
                   <div key={s.label} className="rounded-xl border border-[#1e1e28] bg-[#0f0f17] py-3 text-center">
                     <p className="text-sm font-bold text-[#f1f1f5]">{s.value}</p>
@@ -477,6 +477,11 @@ export function QuizClient({ moduleId }: { moduleId: string }) {
   // ─── QUESTION ────────────────────────────────────────────────────────────
   const isAnswered = selectedId !== null;
   const isCorrect = selectedId === question.correctId;
+  const timerR = 15;
+  const timerCircumference = 2 * Math.PI * timerR;
+  const timerDashOffset = timerCircumference * (1 - timeLeft / QUESTION_DURATION);
+  const timerStroke = timeLeft <= 5 ? '#f87171' : timeLeft <= 10 ? '#fbbf24' : '#34d399';
+  const timerTextColor = timeLeft <= 5 ? 'text-red-400' : timeLeft <= 10 ? 'text-amber-400' : 'text-emerald-400';
 
   return (
     <div className="flex items-start justify-center min-h-full py-6 px-4">
@@ -504,21 +509,32 @@ export function QuizClient({ moduleId }: { moduleId: string }) {
                   {isCorrect ? '✓ Correct' : '✗ Incorrect'}
                 </motion.span>
               ) : (
-                <motion.span
+                <motion.div
                   key="timer"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className={`text-xs font-mono font-bold tabular-nums ${
-                    timeLeft <= 5
-                      ? 'text-red-400 animate-pulse'
-                      : timeLeft <= 10
-                        ? 'text-amber-400'
-                        : 'text-[#60607a]'
-                  }`}
+                  initial={{ opacity: 0, scale: 0.7 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.7 }}
+                  className={`relative flex items-center justify-center ${timeLeft <= 5 ? 'animate-pulse' : ''}`}
+                  style={{ width: 44, height: 44 }}
                 >
-                  {String(timeLeft).padStart(2, '0')}s
-                </motion.span>
+                  <svg width="44" height="44" viewBox="0 0 44 44" className="absolute inset-0">
+                    <circle cx="22" cy="22" r={timerR} fill="none" stroke="#1c1c26" strokeWidth="3.5" />
+                    <circle
+                      cx="22" cy="22" r={timerR}
+                      fill="none"
+                      stroke={timerStroke}
+                      strokeWidth="3.5"
+                      strokeLinecap="round"
+                      strokeDasharray={timerCircumference}
+                      strokeDashoffset={timerDashOffset}
+                      transform="rotate(-90 22 22)"
+                      style={{ transition: 'stroke-dashoffset 0.85s linear, stroke 0.3s ease' }}
+                    />
+                  </svg>
+                  <span className={`relative z-10 text-[11px] font-mono font-black tabular-nums ${timerTextColor}`}>
+                    {timeLeft}
+                  </span>
+                </motion.div>
               )}
             </AnimatePresence>
           </div>
