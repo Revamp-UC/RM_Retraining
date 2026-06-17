@@ -33,7 +33,7 @@ INTENT-MATCHING RULE (VERY IMPORTANT): Do NOT require the RM to use exact words.
 4. Long-term longevity — NIO panels last 10+ years vs PVC which typically shows yellowing and wear in 2-3 years
 5. Professional UC installation — trained team, proper alignment, no DIY joint mismatches
 6. Curated design library — 35 carefully selected designs instead of overwhelming 350+ choices
-7. Daily cost reframe — a 9-ft feature wall is roughly ₹10,000–11,000 total; spread over 10 years = less than ₹3 per day
+7. Daily cost reframe — a 9-ft feature wall is roughly ₹14,000–15,000 total; spread over 10 years = approx ₹4 per day
 8. Project reframe — total wall cost is a small share of any home renovation budget; per-panel price is not the useful unit
 
 ## CRITICAL FRAMING — READ BEFORE SCORING
@@ -61,7 +61,7 @@ In missed_opportunities, explain what discovery the RM should have done and why 
 
 ### 2. Price Anchoring (max 4 pts)
 Did the RM set up value context BEFORE revealing ₹1150 — so the number landed in a value frame rather than naked against ₹250?
-Methods that count: total project cost (₹10,000–11,000 for a 9ft wall), daily cost (₹3/day over 10 years), share-of-renovation framing.
+Methods that count: total project cost (₹14,000–15,000 for a 9ft wall), daily cost (₹4/day over 10 years), share-of-renovation framing.
 
 Scoring:
 - 4: Gave value context BEFORE the number — customer heard the framing first, then ₹1150 as a consequence
@@ -102,15 +102,17 @@ Scoring:
 In missed_opportunities, for each objection that was not handled well, explain exactly what the RM should have said.
 
 ### 5. Curated Design Value (max 2 pts)
-Did the RM turn the "limited design options" concern into an advantage?
-The ideal frame: "We did not give you 350 designs because that leads to decision fatigue and mediocre choices — we curated the best 35 so you get quality without overwhelm."
+The customer challenged the RM on limited design choices — "Sirf itne designs? Mujhe 1,000-2,000 mein se choose karna tha."
+Score ONLY on how well the RM handled this pushback — not on whether they quoted a specific number of designs.
+
+The ideal response turns the objection around: Urban Company deliberately curated the best designs so the customer gets quality without being overwhelmed by thousands of mediocre options. The limitation is the point — it saves time and ensures a better outcome.
 
 Scoring:
-- 2: Flipped the concern into a curation advantage — customer felt the limitation is actually a premium experience
-- 1: Addressed design options but neutrally ("hamare paas 35 designs hain") without the curation angle
-- 0: Never addressed design options, or made the customer feel restricted
+- 2: Flipped the customer's concern — made limited choice feel like a curated, premium experience rather than a restriction. Customer felt valued, not shortchanged.
+- 1: Addressed the design question but without reframing — just listed available options or assured "enough hai" without the curation angle.
+- 0: Ignored the design concern, or left the customer feeling the options were too few without any recovery.
 
-In missed_opportunities, explain the curation reframe the RM should have used.
+In missed_opportunities, explain the curation reframe the RM should have used and how it connects to the customer's interest.
 
 ### 6. Conviction & No Discount (max 2 pts)
 Did the RM maintain calm price confidence throughout with zero discount, zero apology?
@@ -196,7 +198,7 @@ Return valid JSON matching this exact structure:
   },
   "critical_mistakes": ["<only include if RM made a clear, significant error — e.g. offered a discount, pitched before any discovery, or gave ₹1150 raw with no framing — leave empty if none>"],
   "coaching_feedback": "<2–3 sentence overall summary — the RM's main strength and the single most important area to improve. For the most important improvement, include one concrete example of what the RM could have said.>",
-  "suggested_ideal_response": "<A model response showing how the RM should sell NIO — in natural Hinglish (Roman script) as the RM would actually say it. Must: start with 1 discovery question, then anchor price before revealing it (total project or daily cost), then name 2-3 specific NIO differentiators connected to what the customer mentioned (seamless, structural strength, long-term finish), then handle the 'temporary' objection with a longevity reframe, then close with conviction and no discount using the customer's name + Ji. Example style: '${customer_name} Ji, pehle batao — living room mein guests aate hain na regularly? (discovery) ... dekho ${customer_name} Ji, ek 9-foot wall ke liye total ₹10,000-11,000 ki baat hai — poore 10 saal ke liye teen rupaye roz ka hisaab hai. NIO ka panel ek hi piece mein hota hai, koi joint nahi dikhti, surface pe koi dent nahi padti jaise hollow PVC mein padti hai, aur 10 saal baad bhi wahi colour rehta hai — PVC panels 2-3 saal mein yellow ho jaate hain. Temporary samajh rahe ho, lekin 4-5 saal bhi toh aap roz uss wall ko dekhoge — satisfaction chahiye ya regret? Discount? Nahi ${customer_name} Ji, main discount offer karne ke liye nahi aaya — main chaahta hoon ki aap sahi decision lo jiske liye regret na ho.'",
+  "suggested_ideal_response": "<A model response showing how the RM should sell NIO — in natural Hinglish (Roman script) as the RM would actually say it. Must: start with 1 discovery question, then anchor price before revealing it (total project or daily cost), then name 2-3 specific NIO differentiators connected to what the customer mentioned (seamless, structural strength, long-term finish), then handle the 'temporary' objection with a longevity reframe, then close with conviction and no discount using the customer's name + Ji. Example style: '${customer_name} Ji, pehle batao — living room mein guests aate hain na regularly? (discovery) ... dekho ${customer_name} Ji, ek 9-foot wall ke liye total ₹14,000-15,000 ki baat hai — poore 10 saal ke liye chaar rupaye roz ka hisaab hai. NIO ka panel ek hi piece mein hota hai, koi joint nahi dikhti, surface pe koi dent nahi padti jaise hollow PVC mein padti hai, aur 10 saal baad bhi wahi colour rehta hai — PVC panels 2-3 saal mein yellow ho jaate hain. Temporary samajh rahe ho, lekin 4-5 saal bhi toh aap roz uss wall ko dekhoge — satisfaction chahiye ya regret? Discount? Nahi ${customer_name} Ji, main discount offer karne ke liye nahi aaya — main chaahta hoon ki aap sahi decision lo jiske liye regret na ho.'",
   "performance_tier": "<Excellent if >=17 | Good if >=13 | Average if >=9 | Needs Improvement if <9>"
 }
 
