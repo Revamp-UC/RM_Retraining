@@ -29,10 +29,10 @@ INTENT-MATCHING RULE (VERY IMPORTANT): Do NOT require the RM to use exact words.
 ## KEY NIO DIFFERENTIATORS (RM can earn credit for any of these)
 1. One-piece seamless panel — no visible joints, no breakage at corners or edges (PVC panels show joints)
 2. Hexagonal internal structure — structurally stronger than hollow PVC; does not dent or crack easily
-3. Superior finish — anti-scratch, waterproof, UV-resistant; PVC yellows and fades over time
-4. Long-term longevity — NIO panels last 10+ years vs PVC which typically shows yellowing and wear in 2-3 years
+3. Superior finish — anti-scratch, waterproof, UV-resistant; market PVC fades and loses its colour over time
+4. Long-term longevity — NIO panels last 10+ years; market PVC starts fading and the colour goes dull in 2-3 years
 5. Professional UC installation — trained team, proper alignment, no DIY joint mismatches
-6. Curated design library — 35 carefully selected designs instead of overwhelming 350+ choices
+6. Curated design library — a deliberately curated set of designs, each hand-picked for quality and visual outcome; not a dump of hundreds of mediocre options
 7. Daily cost reframe — a 9-ft feature wall is roughly ₹14,000–15,000 total; spread over 10 years = approx ₹4 per day
 8. Project reframe — total wall cost is a small share of any home renovation budget; per-panel price is not the useful unit
 
@@ -49,6 +49,7 @@ ${formattedTranscript}
 ### 1. Discovery & Diagnosis (max 4 pts)
 Did the RM understand the customer's actual situation BEFORE pitching NIO?
 Key questions that count: What room? Who uses it? Do guests visit? Why now? Who decides (spouse/family)?
+Hinglish examples of questions the RM could have asked: "Kaun sa room hai yeh wall ke liye — living room hai?" / "Ghar mein guests aate hain na regularly?" / "Yeh decision aap akele lenge ya ghar mein koi aur bhi involved hai?" / "Abhi specifically kyun soch rahe ho is baare mein, koi occasion hai kya?"
 
 Scoring:
 - 4: Asked about room purpose, who uses it, why now, and at least one other discovery angle — created a real picture before any pitch
@@ -57,7 +58,7 @@ Scoring:
 - 1: Half-asked one question then pivoted to product pitch without listening to the answer
 - 0: Zero discovery — launched straight into NIO features
 
-In missed_opportunities, explain what discovery the RM should have done and why it matters for the pitch.
+In missed_opportunities: list the specific discovery questions the RM skipped and explain why each one mattered for the pitch. Include 1-2 example Hinglish lines showing how the RM should have asked them.
 
 ### 2. Price Anchoring (max 4 pts)
 Did the RM set up value context BEFORE revealing ₹1150 — so the number landed in a value frame rather than naked against ₹250?
@@ -70,7 +71,7 @@ Scoring:
 - 1: Just said ₹1150 with no context, no anchoring
 - 0: Refused to give price at all despite the customer repeatedly asking
 
-In missed_opportunities, explain the specific framing the RM should have used.
+In missed_opportunities: explain which framing the RM missed and give a short Hinglish example of how they should have said it — e.g. "Sir, pehle ek baat batata hoon — ek poori 9-foot wall sirf ₹14,000–15,000 mein ho jaati hai. Aur 10 saal ke liye calculate karo toh roz ka kharch sirf ₹4 hai. Ab ₹1,150 per panel sunne ke baad decide karna." NOT just "framing should have been used."
 
 ### 3. Tailored Differentiation (max 4 pts)
 Did the RM connect NIO's advantages specifically to what THIS customer mentioned — rather than giving a generic product pitch?
@@ -82,7 +83,7 @@ Scoring:
 - 1: Only one vague differentiator, or "NIO bahut acha hai" without any specific proof
 - 0: Never explained what makes NIO different from market PVC
 
-In missed_opportunities, name the specific differentiators the RM did not cover and explain how they should have been linked to this customer's situation.
+In missed_opportunities: name the specific differentiators the RM missed and give a Hinglish example of how they should have connected each one to what the customer said. Example style: "Aapne bataya ki guests aate hain — toh yeh sunna chahiye tha: NIO ka panel ek hi piece mein hota hai, koi joint nahi dikhti, surface pe finger marks ya dents bhi nahi padte. Aur market wala PVC 2-3 saal mein fade ho jaata hai — NIO 10 saal baad bhi waisa hi dikhega." Do NOT repeat missed differentiators that are already covered in the objection handling section.
 
 ### 4. Objection Handling (max 4 pts)
 The customer raised 3 key objections — evaluate how well the RM handled each.
@@ -90,16 +91,16 @@ The customer raised 3 key objections — evaluate how well the RM handled each.
 The 3 objections:
 a) **Price shock** — customer comparing ₹1150 to ₹250-300 PVC
 b) **"5X kyun?"** — asking for specific proof of why NIO justifies 5X the price
-c) **"Temporary requirement"** — "mujhe 4-5 saal baad waise bhi badlana hai, premium kyun chahiye?"
+c) **"Temporary requirement"** — customer says they'll redo it in 3-4 years anyway, so why spend more now
 
 Scoring:
-- 4: Handled all 3 objections well — price shock (reframed to project/daily unit), "5X kyun" (gave specific structural/finish/longevity proof), "temporary" (decade reality + daily regret vs satisfaction contrast)
+- 4: Handled all 3 objections well — price shock (reframed to project/daily unit), "5X kyun" (gave specific structural/finish/longevity proof), "temporary" (daily satisfaction angle — roz uss wall ko dekhoge, satisfaction chahiye ya regret)
 - 3: Handled 2 of 3 well; the third was either missed or handled with only a generic line
 - 2: Handled price shock only, or addressed "5X kyun" but got defensive; "temporary" objection not meaningfully handled
 - 1: Gave only one generic response to one objection without specifics
 - 0: Avoided, dismissed, or ignored the objections
 
-In missed_opportunities, for each objection that was not handled well, explain exactly what the RM should have said.
+In missed_opportunities: for each objection handled poorly, write a short Hinglish example of what the RM should have said — e.g. for "5X kyun": "Sir, yeh sirf strong nahi hai — iski andar hexagonal structure hai jo isse itna mazboot banata hai ki jaldi dent nahi hota. Aur finish anti-scratch aur UV-resistant hai, matlab market wala PVC 2-3 saal mein fade ho jaata hai, colour kharaab ho jaata hai — NIO ka 10 saal baad bhi waisa hi rahega." For "temporary": "Sir, 4-5 saal bhi toh roz uss wall ko dekhoge — satisfaction chahiye ya ek aisi wall jo pehle saal se hi dull lagti ho?" Do NOT repeat differentiators already mentioned in the tailored differentiation section.
 
 ### 5. Curated Design Value (max 2 pts)
 The customer challenged the RM on limited design choices — "Sirf itne designs? Mujhe 1,000-2,000 mein se choose karna tha."
@@ -112,7 +113,7 @@ Scoring:
 - 1: Addressed the design question but without reframing — just listed available options or assured "enough hai" without the curation angle.
 - 0: Ignored the design concern, or left the customer feeling the options were too few without any recovery.
 
-In missed_opportunities, explain the curation reframe the RM should have used and how it connects to the customer's interest.
+In missed_opportunities: explain the curation reframe the RM should have used. Include a short Hinglish example — e.g. "Sir, humne jaan-boojhkar sirf best designs rakhe hain. Hazaron options mein se bekar wale hata ke sirf woh rakhe jo aapke ghar mein actually accha lagega — aapka time bhi bachta hai aur result bhi sahi aata hai." The key point: fewer options is the feature, not the bug.
 
 ### 6. Conviction & No Discount (max 2 pts)
 Did the RM maintain calm price confidence throughout with zero discount, zero apology?
@@ -198,7 +199,7 @@ Return valid JSON matching this exact structure:
   },
   "critical_mistakes": ["<only include if RM made a clear, significant error — e.g. offered a discount, pitched before any discovery, or gave ₹1150 raw with no framing — leave empty if none>"],
   "coaching_feedback": "<2–3 sentence overall summary — the RM's main strength and the single most important area to improve. For the most important improvement, include one concrete example of what the RM could have said.>",
-  "suggested_ideal_response": "<A model response showing how the RM should sell NIO — in natural Hinglish (Roman script) as the RM would actually say it. Must: start with 1 discovery question, then anchor price before revealing it (total project or daily cost), then name 2-3 specific NIO differentiators connected to what the customer mentioned (seamless, structural strength, long-term finish), then handle the 'temporary' objection with a longevity reframe, then close with conviction and no discount using the customer's name + Ji. Example style: '${customer_name} Ji, pehle batao — living room mein guests aate hain na regularly? (discovery) ... dekho ${customer_name} Ji, ek 9-foot wall ke liye total ₹14,000-15,000 ki baat hai — poore 10 saal ke liye chaar rupaye roz ka hisaab hai. NIO ka panel ek hi piece mein hota hai, koi joint nahi dikhti, surface pe koi dent nahi padti jaise hollow PVC mein padti hai, aur 10 saal baad bhi wahi colour rehta hai — PVC panels 2-3 saal mein yellow ho jaate hain. Temporary samajh rahe ho, lekin 4-5 saal bhi toh aap roz uss wall ko dekhoge — satisfaction chahiye ya regret? Discount? Nahi ${customer_name} Ji, main discount offer karne ke liye nahi aaya — main chaahta hoon ki aap sahi decision lo jiske liye regret na ho.'",
+  "suggested_ideal_response": "<A model response showing how the RM should sell NIO — in natural Hinglish (Roman script) as the RM would actually say it. Must: start with 1 discovery question, then anchor price before revealing it (total project or daily cost), then name 2-3 specific NIO differentiators connected to what the customer mentioned (seamless, structural strength, long-term finish), then handle the 'temporary' objection with a longevity reframe, then close with conviction and no discount using the customer's name + Ji. Example style: '${customer_name} Ji, pehle batao — living room mein guests aate hain na regularly? (discovery) ... dekho ${customer_name} Ji, ek 9-foot wall ke liye total ₹14,000-15,000 ki baat hai — poore 10 saal ke liye chaar rupaye roz ka hisaab hai. NIO ka panel ek hi piece mein hota hai, koi joint nahi dikhti, surface pe koi dent nahi padti jaise hollow PVC mein padti hai, aur 10 saal baad bhi wahi colour rehta hai — market wala PVC 2-3 saal mein fade ho jaata hai, colour hi kharaab ho jaata hai. Temporary samajh rahe ho, lekin 4-5 saal bhi toh aap roz uss wall ko dekhoge — satisfaction chahiye ya regret? Discount? Nahi ${customer_name} Ji, main discount offer karne ke liye nahi aaya — main chaahta hoon ki aap sahi decision lo jiske liye regret na ho.'",
   "performance_tier": "<Excellent if >=17 | Good if >=13 | Average if >=9 | Needs Improvement if <9>"
 }
 
