@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   CheckCircle2, XCircle, ChevronRight, RotateCcw,
@@ -76,6 +76,7 @@ function useCountUp(target: number, active: boolean): number {
 }
 
 const TOPICS = ['Pricing Pitch', 'WPC vs NIO', 'Technical Specs', 'Objection Handling', 'Installation', 'Sales Strategy'];
+const QUESTION_DURATION = 25;
 
 export function QuizClient({ moduleId }: { moduleId: string }) {
   const [phase, setPhase] = useState<Phase>('intro');
@@ -83,6 +84,7 @@ export function QuizClient({ moduleId }: { moduleId: string }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [answers, setAnswers] = useState<string[]>([]);
   const [shaking, setShaking] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(QUESTION_DURATION);
 
   const questions = QUIZ_QUESTIONS;
   const total = questions.length;
@@ -111,11 +113,43 @@ export function QuizClient({ moduleId }: { moduleId: string }) {
     }
   }
 
+  const handleAutoSkip = useCallback(() => {
+    const next = [...answers, ''];
+    setAnswers(next);
+    setSelectedId(null);
+    setShaking(false);
+    if (currentIndex + 1 >= total) {
+      setPhase('results');
+    } else {
+      setCurrentIndex(i => i + 1);
+    }
+  }, [answers, currentIndex, total]);
+
+  // Reset timer on new question or when quiz starts
+  useEffect(() => {
+    if (phase === 'question') setTimeLeft(QUESTION_DURATION);
+  }, [currentIndex, phase]);
+
+  // Countdown — pause when answered
+  useEffect(() => {
+    if (phase !== 'question' || selectedId !== null || timeLeft <= 0) return;
+    const id = setTimeout(() => setTimeLeft(t => t - 1), 1000);
+    return () => clearTimeout(id);
+  }, [phase, selectedId, timeLeft]);
+
+  // Auto-skip at 0
+  useEffect(() => {
+    if (phase === 'question' && selectedId === null && timeLeft === 0) {
+      handleAutoSkip();
+    }
+  }, [timeLeft, phase, selectedId, handleAutoSkip]);
+
   function handleRetake() {
     setCurrentIndex(0);
     setSelectedId(null);
     setAnswers([]);
     setShaking(false);
+    setTimeLeft(QUESTION_DURATION);
     setPhase('intro');
   }
 
@@ -471,13 +505,19 @@ export function QuizClient({ moduleId }: { moduleId: string }) {
                 </motion.span>
               ) : (
                 <motion.span
-                  key="idle"
+                  key="timer"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="text-xs text-[#3a3a4a]"
+                  className={`text-xs font-mono font-bold tabular-nums ${
+                    timeLeft <= 5
+                      ? 'text-red-400 animate-pulse'
+                      : timeLeft <= 10
+                        ? 'text-amber-400'
+                        : 'text-[#60607a]'
+                  }`}
                 >
-                  Select an answer
+                  {String(timeLeft).padStart(2, '0')}s
                 </motion.span>
               )}
             </AnimatePresence>
