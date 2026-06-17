@@ -36,7 +36,7 @@ ${formattedTranscript}
 ## SCORING DIMENSIONS (30 points total)
 
 ### 1. Value Justification (max 21 pts)
-This is the core of the scenario. Below are the 21 value/risk points the RM can earn credit for — each worth 1 mark, for a section total of 21. Award credit when the RM conveys the MEANING of a point (exact wording not required).
+This is the core of the scenario. Below are the 20 value/risk points the RM can earn credit for — each worth 1 mark, EXCEPT the yellowing & shade-variation point which is worth 2 — for a section total of 21. Award credit when the RM conveys the MEANING of a point (exact wording not required).
 
 1. Delivery included — 1
 2. Premium packaging included — 1
@@ -48,17 +48,16 @@ This is the core of the scenario. Below are the 21 value/risk points the RM can 
 8. End-to-end ownership (company takes complete responsibility) — 1
 9. Warranty support — explained across Panels, Feature Lights, Decorative Lights, Woodwork — 1 (give partial credit if only some sub-items are covered)
 10. Film peeling risk in local-market panels — 1
-11. Yellowing risk in local-market panels — 1
-12. Shade variation risk — 1
-13. Panel height advantage & visible-joint problem (market panels are often shorter → visible joints → look gets compromised) — 1
-14. Material procurement burden (customer may have to coordinate material separately with local vendors) — 1
-15. Safety stock availability — 1
-16. Replacement assurance — 1
-17. Single point of contact — 1
-18. Hassle-free service (no need to coordinate between multiple people) — 1
-19. Risk reduction & accountability — 1
-20. Brand trust & professional execution — 1
-21. Local-vendor failure examples (RM may use gallery examples of poor local installations; customer reacts positively if shown) — 1
+11. Yellowing & shade variation risk in local-market panels (cheap panels yellow/fade over time, and shades often don't match across panels) — 2 (give 1 mark if the RM covers only one of the two, full 2 if both are conveyed)
+12. Panel height advantage & visible-joint problem (market panels are often shorter → visible joints → look gets compromised) — 1
+13. Material procurement burden (customer may have to coordinate material separately with local vendors) — 1
+14. Safety stock availability — 1
+15. Replacement assurance — 1
+16. Single point of contact — 1
+17. Hassle-free service (no need to coordinate between multiple people) — 1
+18. Risk reduction & accountability — 1
+19. Brand trust & professional execution — 1
+20. Local-vendor failure examples (RM may use gallery examples of poor local installations; customer reacts positively if shown) — 1
 
 Scoring guidance:
 - Sum the per-point credit the RM genuinely earned (by intent), then cap at 21.

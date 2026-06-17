@@ -42,9 +42,10 @@ export function ConsultationClient({
     noiseWarning,
     dismissNoiseWarning,
     timeWarning,
+    limitMinutes,
     startSession,
     endConsultation,
-  } = useConsultationState({ consultationId, wsToken, moduleId });
+  } = useConsultationState({ consultationId, wsToken, moduleId, taskId });
 
   return (
     <div className="flex flex-col lg:flex-row lg:h-full gap-4 lg:gap-6 p-4 lg:p-6 relative">
@@ -106,7 +107,7 @@ export function ConsultationClient({
           >
             <Timer className="h-4 w-4 text-red-400 shrink-0 animate-pulse" />
             <p className="text-sm text-red-200/90 flex-1 leading-snug">
-              1 minute left — session ends at 8 minutes. Wrap up now.
+              1 minute left — session ends at {limitMinutes} minutes. Wrap up now.
             </p>
           </motion.div>
         )}

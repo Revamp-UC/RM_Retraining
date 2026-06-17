@@ -43,6 +43,17 @@ export function normaliseScore(score: number, moduleAttempted: string): number {
   return (score / max) * NORMALISED_MAX;
 }
 
+// Per-scenario session time limit in minutes, keyed by `${moduleId}/${taskId}`.
+// Anything not listed uses DEFAULT_SESSION_MINUTES. The on-screen "1 minute left"
+// warning fires 1 minute before the limit, and the session auto-ends at the limit.
+export const DEFAULT_SESSION_MINUTES = 8;
+export const SESSION_MINUTES: Record<string, number> = {
+  'module_4/task_1': 12,
+};
+export function getSessionMinutes(moduleId: string, taskId: string): number {
+  return SESSION_MINUTES[`${moduleId}/${taskId}`] ?? DEFAULT_SESSION_MINUTES;
+}
+
 export const MODULE_CONFIG: Record<string, ModuleConfig> = {
   module_2: {
     id: 'module_2',

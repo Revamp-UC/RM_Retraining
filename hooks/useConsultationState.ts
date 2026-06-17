@@ -5,20 +5,26 @@ import { useRouter } from 'next/navigation';
 import { useConsultationSocket } from './useConsultationSocket';
 import { useAudioCapture } from './useAudioCapture';
 import { useAudioPlayback } from './useAudioPlayback';
+import { getSessionMinutes } from '@/lib/config/modules';
 import type { ConnectionStatus } from '@/types/gemini';
 
 interface UseConsultationStateOptions {
   consultationId: string;
   wsToken: string;
   moduleId: string;
+  taskId: string;
 }
 
 export function useConsultationState({
   consultationId,
   wsToken,
   moduleId,
+  taskId,
 }: UseConsultationStateOptions) {
   const router = useRouter();
+  const limitMinutes = getSessionMinutes(moduleId, taskId);
+  const limitSeconds = limitMinutes * 60;
+  const warnSeconds = limitSeconds - 60;
   const [status, setStatus] = useState<ConnectionStatus>('idle');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isEnding, setIsEnding] = useState(false);
@@ -120,12 +126,12 @@ export function useConsultationState({
     }
   }, [isEnding, stopMic, sendEndSignal, disconnect, stopPlayback, consultationId, moduleId, router]);
 
-  // 8-minute session limit: warn at 7 min, auto-end at 8 min
+  // Per-scenario session limit: warn 1 min before, auto-end at the limit.
   useEffect(() => {
     if (status !== 'connected') return;
-    if (elapsedSeconds === 420) setTimeWarning(true);
-    if (elapsedSeconds === 480) endConsultation();
-  }, [elapsedSeconds, status, endConsultation]);
+    if (elapsedSeconds === warnSeconds) setTimeWarning(true);
+    if (elapsedSeconds === limitSeconds) endConsultation();
+  }, [elapsedSeconds, status, endConsultation, warnSeconds, limitSeconds]);
 
   // Cleanup on unmount
   useEffect(() => {
@@ -147,6 +153,7 @@ export function useConsultationState({
     noiseWarning,
     dismissNoiseWarning,
     timeWarning,
+    limitMinutes,
     startSession,
     endConsultation,
   };
