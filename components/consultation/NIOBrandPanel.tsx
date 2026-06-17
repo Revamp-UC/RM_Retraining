@@ -1,14 +1,77 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Gem, ShieldCheck, Clock, Zap } from 'lucide-react';
+import Image from 'next/image';
 
-const DIFFERENTIATORS = [
-  { icon: ShieldCheck, title: 'Hexagonal Structure', desc: '5× stronger than standard PVC — built to last' },
-  { icon: Clock,       title: '10+ Year Durability', desc: 'UV resistant, scratch proof, zero maintenance' },
-  { icon: Zap,         title: '55% vs Premium WPC',  desc: 'Same luxury finish at nearly half the price' },
-  { icon: Gem,         title: 'UC Exclusive · 35 Designs', desc: 'Not available anywhere else in India' },
+interface RoomCard {
+  src: string;
+  label: string;
+  subLabel?: string;
+  position?: string; // object-position for fine-tuning crop
+}
+
+const ROOMS: RoomCard[] = [
+  {
+    src: '/images/nio-room-1.jpg',
+    label: 'Traditional panels',
+    subLabel: 'Wood with touch of gold',
+    position: 'center top',
+  },
+  {
+    src: '/images/nio-room-2.jpg',
+    label: 'Terracotta red panels',
+    subLabel: 'Real wood textures',
+    position: 'center top',
+  },
+  {
+    src: '/images/nio-room-3.jpg',
+    label: 'Green limewash',
+    subLabel: 'Fabric panels',
+    position: 'center',
+  },
+  {
+    src: '/images/nio-room-4.jpg',
+    label: 'Refined Natural',
+    subLabel: 'Soft Hues',
+    position: 'center',
+  },
 ];
+
+function RoomCard({ room, delay }: { room: RoomCard; delay: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.96 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+      className="relative rounded-xl overflow-hidden bg-[#1a1a22] aspect-[4/3]"
+    >
+      <Image
+        src={room.src}
+        alt={room.label}
+        fill
+        className="object-cover"
+        style={{ objectPosition: room.position ?? 'center' }}
+        sizes="(max-width: 1024px) 50vw, 25vw"
+        onError={() => {/* silently keep bg fallback */}}
+      />
+
+      {/* Gradient overlay for readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+      {/* Labels — stacked like reference */}
+      <div className="absolute bottom-0 left-0 right-0 p-2.5 flex flex-col gap-1">
+        {room.subLabel && (
+          <span className="self-start text-[10px] font-semibold text-[#2a1f14] bg-white/85 rounded-full px-2.5 py-0.5 leading-none backdrop-blur-sm">
+            {room.subLabel}
+          </span>
+        )}
+        <span className="self-start text-[10px] font-semibold text-[#2a1f14] bg-white/85 rounded-full px-2.5 py-0.5 leading-none backdrop-blur-sm">
+          {room.label}
+        </span>
+      </div>
+    </motion.div>
+  );
+}
 
 export function NIOBrandPanel({ className = '' }: { className?: string }) {
   return (
@@ -22,16 +85,15 @@ export function NIOBrandPanel({ className = '' }: { className?: string }) {
         style={{ background: 'radial-gradient(ellipse 70% 40% at 30% 0%, rgba(52,211,153,0.10) 0%, transparent 60%)' }}
       />
 
-      <div className="relative flex flex-col h-full p-7">
+      <div className="relative flex flex-col h-full p-6 lg:p-7">
 
-        {/* ── Brand ── */}
+        {/* ── Brand mark (unchanged) ── */}
         <motion.div
           initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-8"
+          className="mb-5"
         >
-          {/* Wordmark */}
           <p
             className="font-black leading-none tracking-[-0.04em] select-none mb-4"
             style={{ fontSize: 64, color: 'rgba(255,255,255,0.07)' }}
@@ -43,42 +105,37 @@ export function NIOBrandPanel({ className = '' }: { className?: string }) {
             Urban Company Exclusive
           </span>
 
-          <p className="text-[17px] font-semibold text-[#b8b8cc] leading-snug">
+          <p className="text-[16px] font-semibold text-[#b8b8cc] leading-snug">
             The quality you always wanted<br />
             <span className="text-[#f1f1f5] font-bold">at a price you never expected</span>
           </p>
         </motion.div>
 
         {/* Divider */}
-        <div className="h-px mb-7" style={{ background: 'linear-gradient(90deg, rgba(52,211,153,0.3) 0%, rgba(52,211,153,0.05) 60%, transparent 100%)' }} />
+        <div
+          className="h-px mb-5"
+          style={{ background: 'linear-gradient(90deg, rgba(52,211,153,0.3) 0%, rgba(52,211,153,0.05) 60%, transparent 100%)' }}
+        />
 
-        {/* ── Key differentiators ── */}
-        <div className="flex-1 flex flex-col justify-center gap-4">
-          {DIFFERENTIATORS.map(({ icon: Icon, title, desc }, i) => (
-            <motion.div
-              key={title}
-              initial={{ opacity: 0, x: -12 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.15 + i * 0.08, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="flex items-start gap-3.5"
-            >
-              <div className="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center shrink-0">
-                <Icon className="h-4 w-4 text-emerald-400" />
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-[#e8e8f4] leading-tight">{title}</p>
-                <p className="text-xs text-[#60607a] mt-0.5 leading-relaxed">{desc}</p>
-              </div>
-            </motion.div>
-          ))}
+        {/* ── Room image grid ── */}
+        <div className="flex-1 flex flex-col justify-between">
+          <p className="text-[9px] font-bold text-[#60607a] uppercase tracking-[0.18em] mb-3">
+            35 Curated Designs · See What&apos;s Possible
+          </p>
+
+          <div className="grid grid-cols-2 gap-2 flex-1">
+            {ROOMS.map((room, i) => (
+              <RoomCard key={room.label} room={room} delay={0.12 + i * 0.07} />
+            ))}
+          </div>
         </div>
 
         {/* ── Bottom tag ── */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.55 }}
-          className="mt-7 pt-5 border-t border-[#1a1a24]"
+          transition={{ delay: 0.5 }}
+          className="mt-4 pt-4 border-t border-[#1a1a24]"
         >
           <p className="text-[10px] text-[#3a3a4a] uppercase tracking-widest text-center">
             Premium Structured Wall Panel · India&apos;s First
