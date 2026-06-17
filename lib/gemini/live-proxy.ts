@@ -245,6 +245,9 @@ function getKickOffText(moduleAttempted: string): string {
   if (moduleAttempted === 'module_4_task1') {
     return 'Start the conversation. Introduction, rapport building and design discovery are already done. The design is selected for your wall and you are okay with it — your only concern is price versus the local market, which you have already explored. Begin speaking first with ONE short, natural opener (1-2 sentences) that goes straight to price — ask the rough cost of a single panel / the cheapest panel rate (in your own fresh words). Keep it brief, then stop and wait for the RM. Do not reveal upfront that you think the market is cheaper — that comes out only after the RM gives you a panel price.';
   }
+  if (moduleAttempted === 'module_5_task1') {
+    return 'The conversation is already in progress — you are mid-discussion with the RM. DO NOT greet, DO NOT say aiye, aaiye, come in, please sit, or any welcome phrase. The RM is already in front of you. Start DIRECTLY with a product question about NIO panels — ask what they are and how they differ from regular PVC panels in the market. One sentence only, then stop.';
+  }
   return 'Start the conversation. The RM has just arrived at your door for the scheduled home consultation. Greet them naturally and lead them inside.';
 }
 
