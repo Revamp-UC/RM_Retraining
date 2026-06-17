@@ -101,7 +101,7 @@ export default async function ConsultationPage({ params }: TaskPageProps) {
 
   return (
     <div className="h-screen bg-[#0a0a0f] flex flex-col overflow-hidden">
-      <PreStartModal rmName={user.name} />
+      <PreStartModal rmName={user.name} moduleId={moduleId} />
       {/* Top bar */}
       <header className="flex items-center justify-between px-4 lg:px-6 py-3 border-b border-[#2a2a38] bg-[#13131a] shrink-0">
         <div className="flex items-center gap-3">

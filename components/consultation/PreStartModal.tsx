@@ -6,9 +6,10 @@ import { ArrowRight } from 'lucide-react';
 
 interface PreStartModalProps {
   rmName: string;
+  moduleId?: string;
 }
 
-export function PreStartModal({ rmName }: PreStartModalProps) {
+export function PreStartModal({ rmName, moduleId }: PreStartModalProps) {
   const [visible, setVisible] = useState(true);
 
   return (
@@ -30,7 +31,7 @@ export function PreStartModal({ rmName }: PreStartModalProps) {
           >
             {/* Heading */}
             <div className="mb-4">
-              <p className="text-xs font-semibold text-indigo-400 uppercase tracking-widest mb-1">Before you begin</p>
+              <p className={`text-xs font-semibold uppercase tracking-widest mb-1 ${moduleId === 'module_5' ? 'text-emerald-400' : 'text-indigo-400'}`}>Before you begin</p>
               <h2 className="text-xl font-bold text-[#f1f1f5]">
                 All the best, {rmName}! 🎯
               </h2>
@@ -44,14 +45,17 @@ export function PreStartModal({ rmName }: PreStartModalProps) {
               Treat this like a real home visit — not a test.
             </p>
             <ul className="space-y-2 mb-6">
-              {[
-                'Study the wall photo carefully before you speak',
-                'Note the dimensions',
-                'Read the customer\'s context from the sidebar',
-                'The AI customer behaves like a real homeowner. Make it count.',
-              ].map((line, i) => (
+              {(moduleId === 'module_5'
+                ? ['The customer already knows PVC panels — your job is to make them understand why NIO is worth the price.']
+                : [
+                    'Study the wall photo carefully before you speak',
+                    'Note the dimensions',
+                    "Read the customer's context from the sidebar",
+                    'The AI customer behaves like a real homeowner. Make it count.',
+                  ]
+              ).map((line, i) => (
                 <li key={i} className="flex items-start gap-2.5">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-indigo-400 shrink-0" />
+                  <span className={`mt-1 h-1.5 w-1.5 rounded-full shrink-0 ${moduleId === 'module_5' ? 'bg-emerald-400' : 'bg-indigo-400'}`} />
                   <span className="text-sm text-[#c0c0d8] leading-snug">{line}</span>
                 </li>
               ))}
@@ -60,7 +64,7 @@ export function PreStartModal({ rmName }: PreStartModalProps) {
             {/* CTA */}
             <button
               onClick={() => setVisible(false)}
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-[0.98] transition-all text-white font-semibold text-sm py-3"
+              className={`w-full flex items-center justify-center gap-2 rounded-xl active:scale-[0.98] transition-all text-white font-semibold text-sm py-3 ${moduleId === 'module_5' ? 'bg-emerald-600 hover:bg-emerald-500' : 'bg-indigo-600 hover:bg-indigo-500'}`}
             >
               Got it, let&apos;s go
               <ArrowRight className="h-4 w-4" />

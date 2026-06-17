@@ -141,7 +141,7 @@ const CONTENT: Record<string, {
     knowItems: [
       'Product: NIO panels — premium structured wall panel',
     ],
-    stateText: 'The customer is curious but price-conscious — they want to understand what makes NIO price higher. Your job is to discover their needs first, anchor value before revealing price, and justify the premium with confidence.',
+    stateText: 'The customer is curious but price-conscious. Your job is to convince them through your confidence and reasoning.',
   },
 };
 
