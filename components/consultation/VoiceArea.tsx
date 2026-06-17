@@ -45,6 +45,8 @@ const CUSTOMER_PROFILE: Record<string, { age: string; home: string; scope?: stri
   module_3_task_3: { age: 'Homeowner', home: 'Booking Stage', scope: 'Design Liked · Hesitating' },
   // Module 4
   module_4_task_1: { age: 'Homeowner', home: 'Design Selected', scope: 'Market Comparison · Price Objection' },
+  // Module 5
+  module_5_task_1: { age: 'Homeowner', home: 'Feature Wall · Living Room', scope: 'Exploring NIO Premium Panels' },
 };
 
 function formatTime(seconds: number): string {
@@ -67,6 +69,31 @@ export function VoiceArea({
   errorMessage,
 }: VoiceAreaProps) {
   const isIdle = status === 'idle';
+  const isModule5 = moduleId === 'module_5';
+  // accent colours — emerald for Module 5, indigo for everything else
+  const accent = isModule5
+    ? {
+        label:   'text-emerald-400',
+        avatar:  'from-emerald-600 to-teal-700',
+        profile: 'border-emerald-500/25 bg-emerald-500/[0.06]',
+        profBadge: 'text-emerald-400/60',
+        icon:    'text-emerald-400',
+        ending:  'bg-emerald-600/15 border-emerald-500/25 shadow-emerald-900/20',
+        endIcon: 'text-emerald-400',
+        endLabel: 'text-emerald-400/60',
+        button:  'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-900/40',
+      }
+    : {
+        label:   'text-indigo-400',
+        avatar:  'from-indigo-600 to-purple-700',
+        profile: 'border-indigo-500/25 bg-indigo-500/[0.06]',
+        profBadge: 'text-indigo-400/60',
+        icon:    'text-indigo-400',
+        ending:  'bg-indigo-600/15 border-indigo-500/25 shadow-indigo-900/20',
+        endIcon: 'text-indigo-400',
+        endLabel: 'text-indigo-400/60',
+        button:  'bg-indigo-600 hover:bg-indigo-500 shadow-indigo-900/40',
+      };
   const [quoteIndex, setQuoteIndex] = useState(0);
   // Use module-specific composite key first, fallback to taskId
   const profileKey = moduleId !== 'module_1' ? `${moduleId}_${taskId}` : taskId;
@@ -85,9 +112,9 @@ export function VoiceArea({
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <p className="text-xs font-semibold text-indigo-400 uppercase tracking-widest mb-1">Live Consultation</p>
+          <p className={`text-xs font-semibold ${accent.label} uppercase tracking-widest mb-1`}>Live Consultation</p>
           <div className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-indigo-600 to-purple-700 flex items-center justify-center shadow-lg">
+            <div className={`w-9 h-9 rounded-full bg-gradient-to-br ${accent.avatar} flex items-center justify-center shadow-lg`}>
               <User className="h-5 w-5 text-white" />
             </div>
             <div>
@@ -110,21 +137,21 @@ export function VoiceArea({
       </div>
 
       {/* Customer overview */}
-      <div className="mb-4 rounded-lg border border-indigo-500/25 bg-indigo-500/[0.06] px-3.5 py-2.5">
-        <p className="text-[9px] font-bold text-indigo-400/60 uppercase tracking-[0.16em] mb-2">Customer Profile</p>
+      <div className={`mb-4 rounded-lg border ${accent.profile} px-3.5 py-2.5`}>
+        <p className={`text-[9px] font-bold ${accent.profBadge} uppercase tracking-[0.16em] mb-2`}>Customer Profile</p>
         <div className="flex items-center gap-2 mb-1.5">
-          <User className="h-3 w-3 text-indigo-400 shrink-0" />
+          <User className={`h-3 w-3 ${accent.icon} shrink-0`} />
           <span className="text-xs text-[#c8c8e0] font-medium">
             {profile.age} {customerGender === 'female' ? 'Woman' : 'Man'}
           </span>
         </div>
         <div className="flex items-center gap-2">
-          <Home className="h-3 w-3 text-indigo-400 shrink-0" />
+          <Home className={`h-3 w-3 ${accent.icon} shrink-0`} />
           <span className="text-xs text-[#c8c8e0] font-medium">{profile.home}</span>
         </div>
         {profile.scope && (
           <div className="flex items-center gap-2 mt-1.5">
-            <Layers className="h-3 w-3 text-indigo-400 shrink-0" />
+            <Layers className={`h-3 w-3 ${accent.icon} shrink-0`} />
             <span className="text-xs text-[#c8c8e0] font-medium">{profile.scope}</span>
           </div>
         )}
@@ -157,11 +184,11 @@ export function VoiceArea({
             transition={{ duration: 0.35 }}
             className="flex flex-col items-center w-full"
           >
-            <div className="mb-4 w-11 h-11 rounded-full bg-indigo-600/15 border border-indigo-500/25 flex items-center justify-center shadow-lg shadow-indigo-900/20">
-              <Sparkles className="h-5 w-5 text-indigo-400" />
+            <div className={`mb-4 w-11 h-11 rounded-full ${accent.ending} flex items-center justify-center shadow-lg`}>
+              <Sparkles className={`h-5 w-5 ${accent.endIcon}`} />
             </div>
 
-            <p className="text-[10px] font-bold text-indigo-400/60 uppercase tracking-[0.18em] mb-5">
+            <p className={`text-[10px] font-bold ${accent.endLabel} uppercase tracking-[0.18em] mb-5`}>
               Wall Design Insight
             </p>
 
@@ -212,7 +239,7 @@ export function VoiceArea({
             </div>
             <button
               onClick={onStart}
-              className="mt-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-[0.98] text-white font-semibold text-base px-8 py-3.5 transition-all duration-200 shadow-xl shadow-indigo-900/40"
+              className={`mt-2 rounded-xl ${accent.button} active:scale-[0.98] text-white font-semibold text-base px-8 py-3.5 transition-all duration-200 shadow-xl`}
             >
               Start Consultation
             </button>
