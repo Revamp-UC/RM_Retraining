@@ -7,6 +7,7 @@ import { createWsToken } from '@/lib/auth/session';
 import { getTaskConfig, getModuleConfig } from '@/lib/config/modules';
 import { ConsultationClient } from '@/components/consultation/ConsultationClient';
 import { PreStartModal } from '@/components/consultation/PreStartModal';
+import { NIOBrandPanel } from '@/components/consultation/NIOBrandPanel';
 import { QuizClient } from '@/components/quiz/QuizClient';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -36,11 +37,17 @@ export default async function ConsultationPage({ params }: TaskPageProps) {
   const moduleNumber = moduleId.replace('module_', '');
   const taskNumber = taskId.replace('task_', '');
 
-  // ─── Quiz task — no DB record, no WS, just render the quiz ───────────────
+  // ─── Quiz task — no DB record, no WS, two-column layout with NIO brand panel ─
   if (taskConfig.type === 'quiz') {
     return (
-      <div className="min-h-screen bg-[#0a0a0f] flex flex-col">
-        <header className="flex items-center justify-between px-4 lg:px-6 py-3 border-b border-[#2a2a38] bg-[#13131a] shrink-0">
+      <div className="h-screen bg-[#0a0a0f] flex flex-col overflow-hidden">
+        {/* Ambient glows */}
+        <div aria-hidden className="pointer-events-none fixed inset-0 overflow-hidden">
+          <div className="absolute -top-40 -left-20 h-[500px] w-[600px] rounded-full bg-emerald-900/12 blur-[120px]" />
+          <div className="absolute bottom-0 right-0 h-[400px] w-[500px] rounded-full bg-emerald-900/8 blur-[100px]" />
+        </div>
+
+        <header className="relative flex items-center justify-between px-4 lg:px-6 py-3 border-b border-[#2a2a38] bg-[#13131a]/90 backdrop-blur-sm shrink-0 z-10">
           <div className="flex items-center gap-3">
             <Link
               href={`/module/${moduleId}`}
@@ -58,8 +65,17 @@ export default async function ConsultationPage({ params }: TaskPageProps) {
             <p className="text-xs text-[#9090a8] font-medium">{user.name}</p>
           </div>
         </header>
-        <main className="flex-1">
-          <QuizClient moduleId={moduleId} />
+
+        <main className="relative flex-1 flex flex-col lg:flex-row gap-4 lg:gap-6 p-4 lg:p-6 min-h-0 overflow-hidden">
+          {/* Left: NIO brand panel — hidden on mobile */}
+          <div className="hidden lg:block lg:w-[380px] shrink-0 h-full">
+            <NIOBrandPanel className="h-full" />
+          </div>
+
+          {/* Right: Quiz — scrollable */}
+          <div className="flex-1 h-full overflow-y-auto">
+            <QuizClient moduleId={moduleId} />
+          </div>
         </main>
       </div>
     );
