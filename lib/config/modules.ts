@@ -8,6 +8,7 @@ export interface TaskConfig {
   description: string;
   moduleAttempted: string; // value stored in DB consultation_history.module_attempted
   status: 'active' | 'coming_soon';
+  type?: 'consultation' | 'quiz'; // defaults to 'consultation' when absent
 }
 
 export interface ModuleConfig {
@@ -136,7 +137,14 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
         moduleAttempted: 'module_5_task1',
         status: 'active',
       },
-      { id: 'task_2', title: 'Coming Soon', description: '', moduleAttempted: '', status: 'coming_soon' },
+      {
+        id: 'task_2',
+        title: 'NIO Product Knowledge Quiz',
+        description: 'Test your NIO panel knowledge — pricing strategy, technical specs, objection handling, and sales positioning. 15 questions, instant feedback.',
+        moduleAttempted: '', // quiz tasks do not create DB consultation records
+        type: 'quiz',
+        status: 'active',
+      },
     ],
   },
   module_1: {

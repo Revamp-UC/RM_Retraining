@@ -7,6 +7,7 @@ import { createWsToken } from '@/lib/auth/session';
 import { getTaskConfig, getModuleConfig } from '@/lib/config/modules';
 import { ConsultationClient } from '@/components/consultation/ConsultationClient';
 import { PreStartModal } from '@/components/consultation/PreStartModal';
+import { QuizClient } from '@/components/quiz/QuizClient';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
@@ -32,6 +33,39 @@ export default async function ConsultationPage({ params }: TaskPageProps) {
   const moduleConfig = getModuleConfig(moduleId);
   if (moduleConfig?.adminOnly && !ADMIN_MOBILES.has(user.mobile_number)) notFound();
 
+  const moduleNumber = moduleId.replace('module_', '');
+  const taskNumber = taskId.replace('task_', '');
+
+  // ─── Quiz task — no DB record, no WS, just render the quiz ───────────────
+  if (taskConfig.type === 'quiz') {
+    return (
+      <div className="min-h-screen bg-[#0a0a0f] flex flex-col">
+        <header className="flex items-center justify-between px-4 lg:px-6 py-3 border-b border-[#2a2a38] bg-[#13131a] shrink-0">
+          <div className="flex items-center gap-3">
+            <Link
+              href={`/module/${moduleId}`}
+              className="p-2 rounded-lg text-[#9090a8] hover:text-[#f1f1f5] hover:bg-[#1c1c26] transition-colors"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+            <div>
+              <p className="text-xs text-emerald-400 font-medium">Module {moduleNumber}</p>
+              <h1 className="text-sm font-semibold text-[#f1f1f5]">Task {taskNumber} of Module {moduleNumber}</h1>
+            </div>
+          </div>
+          <div className="text-right">
+            <p className="text-xs text-[#60607a]">RM Retraining</p>
+            <p className="text-xs text-[#9090a8] font-medium">{user.name}</p>
+          </div>
+        </header>
+        <main className="flex-1">
+          <QuizClient moduleId={moduleId} />
+        </main>
+      </div>
+    );
+  }
+
+  // ─── Consultation task — existing flow ────────────────────────────────────
   const { name: customerName, gender: customerGender } = generateCustomer();
 
   const consultation = await createConsultation({
@@ -48,9 +82,6 @@ export default async function ConsultationPage({ params }: TaskPageProps) {
     customer_gender: customerGender,
     module_attempted: taskConfig.moduleAttempted,
   });
-
-  const moduleNumber = moduleId.replace('module_', '');
-  const taskNumber = taskId.replace('task_', '');
 
   return (
     <div className="h-screen bg-[#0a0a0f] flex flex-col overflow-hidden">

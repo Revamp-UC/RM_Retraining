@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { validateSession } from '@/lib/auth/session';
 import { getModuleStats } from '@/lib/db/consultations';
 import { getModuleConfig } from '@/lib/config/modules';
-import { ArrowLeft, ChevronRight, Lock, Trophy, RotateCcw, Target } from 'lucide-react';
+import { ArrowLeft, ChevronRight, Lock, Trophy, RotateCcw, Target, BookOpen } from 'lucide-react';
 import { formatScore, formatDate } from '@/lib/utils/formatters';
 import type { ModuleStats } from '@/types/consultation';
 
@@ -28,10 +28,10 @@ export default async function ModuleTaskListPage({ params }: ModulePageProps) {
   const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965']);
   if (moduleConfig.adminOnly && !ADMIN_MOBILES.has(user.mobile_number)) notFound();
 
-  // Fetch stats for each active task
+  // Fetch stats for each active consultation task (quiz tasks don't use DB)
   const statsMap: Record<string, ModuleStats | null> = {};
   for (const task of moduleConfig.tasks) {
-    if (task.status === 'active') {
+    if (task.status === 'active' && task.type !== 'quiz' && task.moduleAttempted) {
       statsMap[task.id] = await getModuleStats(user.mobile_number, task.moduleAttempted);
     }
   }
@@ -96,56 +96,82 @@ export default async function ModuleTaskListPage({ params }: ModulePageProps) {
               );
             }
 
+            const isQuiz = task.type === 'quiz';
+
             return (
               <Link
                 key={task.id}
                 href={`/module/${moduleId}/${task.id}`}
-                className="block rounded-xl border border-indigo-500/40 bg-gradient-to-br from-[#13131a] to-[#1a1a28] hover:border-indigo-500/70 hover:shadow-xl hover:shadow-indigo-900/25 active:scale-[0.99] transition-all duration-200 overflow-hidden p-5"
+                className={`block rounded-xl border bg-gradient-to-br from-[#13131a] to-[#1a1a28] active:scale-[0.99] transition-all duration-200 overflow-hidden p-5 ${
+                  isQuiz
+                    ? 'border-emerald-500/40 hover:border-emerald-500/70 hover:shadow-xl hover:shadow-emerald-900/20'
+                    : 'border-indigo-500/40 hover:border-indigo-500/70 hover:shadow-xl hover:shadow-indigo-900/25'
+                }`}
               >
                 <div className="flex items-start justify-between gap-3 mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-600 text-white font-bold text-sm shadow-lg shadow-indigo-900/40 shrink-0">
-                      {taskNumber}
+                    <div className={`flex items-center justify-center w-8 h-8 rounded-lg text-white font-bold text-sm shadow-lg shrink-0 ${
+                      isQuiz ? 'bg-emerald-600 shadow-emerald-900/40' : 'bg-indigo-600 shadow-indigo-900/40'
+                    }`}>
+                      {isQuiz ? <BookOpen className="h-4 w-4" /> : taskNumber}
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-indigo-400 uppercase tracking-widest mb-0.5">Task {taskNumber}</p>
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <p className={`text-[10px] font-bold uppercase tracking-widest ${isQuiz ? 'text-emerald-400' : 'text-indigo-400'}`}>
+                          Task {taskNumber}
+                        </p>
+                        {isQuiz && (
+                          <span className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 rounded-full px-2 py-0.5">
+                            Quiz
+                          </span>
+                        )}
+                      </div>
                       <h3 className="text-base font-bold text-[#f1f1f5]">{task.title}</h3>
                     </div>
                   </div>
                   <ChevronRight className="h-4 w-4 text-[#60607a] shrink-0 mt-1" />
                 </div>
 
-                <div className="flex items-start gap-2.5 bg-indigo-600/10 border border-indigo-500/20 rounded-lg px-3.5 py-2.5 mb-4">
-                  <Target className="h-3.5 w-3.5 text-indigo-400 shrink-0 mt-0.5" />
+                <div className={`flex items-start gap-2.5 rounded-lg px-3.5 py-2.5 mb-4 ${
+                  isQuiz
+                    ? 'bg-emerald-600/10 border border-emerald-500/20'
+                    : 'bg-indigo-600/10 border border-indigo-500/20'
+                }`}>
+                  {isQuiz
+                    ? <BookOpen className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                    : <Target className="h-3.5 w-3.5 text-indigo-400 shrink-0 mt-0.5" />
+                  }
                   <p className="text-xs text-[#c8c8e0]">{task.description}</p>
                 </div>
 
-                {taskStats && taskStats.attempt_count > 0 ? (
-                  <div className="pt-3.5 border-t border-[#2a2a38] flex items-center gap-5 flex-wrap">
-                    <div className="flex items-center gap-1.5">
-                      <RotateCcw className="h-3.5 w-3.5 text-[#9090a8]" />
-                      <span className="text-xs text-[#9090a8]">
-                        <span className="text-[#f1f1f5] font-semibold">{taskStats.attempt_count}</span>{' '}
-                        attempt{taskStats.attempt_count !== 1 ? 's' : ''}
-                      </span>
-                    </div>
-                    {taskStats.last_score !== null && (
+                <div className="pt-3.5 border-t border-[#2a2a38]">
+                  {isQuiz ? (
+                    <p className="text-xs text-[#60607a]">15 questions · instant feedback · retake anytime</p>
+                  ) : taskStats && taskStats.attempt_count > 0 ? (
+                    <div className="flex items-center gap-5 flex-wrap">
                       <div className="flex items-center gap-1.5">
-                        <Trophy className="h-3.5 w-3.5 text-amber-400" />
+                        <RotateCcw className="h-3.5 w-3.5 text-[#9090a8]" />
                         <span className="text-xs text-[#9090a8]">
-                          Last: <span className="text-amber-400 font-semibold">{formatScore(taskStats.last_score)}</span>
+                          <span className="text-[#f1f1f5] font-semibold">{taskStats.attempt_count}</span>{' '}
+                          attempt{taskStats.attempt_count !== 1 ? 's' : ''}
                         </span>
                       </div>
-                    )}
-                    {taskStats.last_attempt_date && (
-                      <span className="text-xs text-[#60607a]">{formatDate(taskStats.last_attempt_date)}</span>
-                    )}
-                  </div>
-                ) : (
-                  <div className="pt-3.5 border-t border-[#2a2a38]">
+                      {taskStats.last_score !== null && (
+                        <div className="flex items-center gap-1.5">
+                          <Trophy className="h-3.5 w-3.5 text-amber-400" />
+                          <span className="text-xs text-[#9090a8]">
+                            Last: <span className="text-amber-400 font-semibold">{formatScore(taskStats.last_score)}</span>
+                          </span>
+                        </div>
+                      )}
+                      {taskStats.last_attempt_date && (
+                        <span className="text-xs text-[#60607a]">{formatDate(taskStats.last_attempt_date)}</span>
+                      )}
+                    </div>
+                  ) : (
                     <p className="text-xs text-[#60607a]">No attempts yet — tap to start your first session</p>
-                  </div>
-                )}
+                  )}
+                </div>
               </Link>
             );
           })}
