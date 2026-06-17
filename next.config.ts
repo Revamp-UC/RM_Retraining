@@ -21,6 +21,13 @@ const nextConfig: NextConfig = {
         { key: 'Permissions-Policy', value: 'microphone=(self), camera=()' },
       ],
     },
+    // Allow the playbook PDF to be embedded via iframe from the same origin
+    {
+      source: '/playbook/(.*)',
+      headers: [
+        { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+      ],
+    },
   ],
 };
 
