@@ -3,76 +3,6 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-interface RoomCard {
-  src: string;
-  label: string;
-  subLabel?: string;
-  position?: string; // object-position for fine-tuning crop
-}
-
-const ROOMS: RoomCard[] = [
-  {
-    src: '/images/nio-room-1.jpg',
-    label: 'Traditional panels',
-    subLabel: 'Wood with touch of gold',
-    position: 'center top',
-  },
-  {
-    src: '/images/nio-room-2.jpg',
-    label: 'Terracotta red panels',
-    subLabel: 'Real wood textures',
-    position: 'center top',
-  },
-  {
-    src: '/images/nio-room-3.jpg',
-    label: 'Green limewash',
-    subLabel: 'Fabric panels',
-    position: 'center',
-  },
-  {
-    src: '/images/nio-room-4.jpg',
-    label: 'Refined Natural',
-    subLabel: 'Soft Hues',
-    position: 'center',
-  },
-];
-
-function RoomCard({ room, delay }: { room: RoomCard; delay: number }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.96 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="relative rounded-xl overflow-hidden bg-[#1a1a22] aspect-[4/3]"
-    >
-      <Image
-        src={room.src}
-        alt={room.label}
-        fill
-        className="object-cover"
-        style={{ objectPosition: room.position ?? 'center' }}
-        sizes="(max-width: 1024px) 50vw, 25vw"
-        onError={() => {/* silently keep bg fallback */}}
-      />
-
-      {/* Gradient overlay for readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-      {/* Labels — stacked like reference */}
-      <div className="absolute bottom-0 left-0 right-0 p-2.5 flex flex-col gap-1">
-        {room.subLabel && (
-          <span className="self-start text-[10px] font-semibold text-[#2a1f14] bg-white/85 rounded-full px-2.5 py-0.5 leading-none backdrop-blur-sm">
-            {room.subLabel}
-          </span>
-        )}
-        <span className="self-start text-[10px] font-semibold text-[#2a1f14] bg-white/85 rounded-full px-2.5 py-0.5 leading-none backdrop-blur-sm">
-          {room.label}
-        </span>
-      </div>
-    </motion.div>
-  );
-}
-
 export function NIOBrandPanel({ className = '' }: { className?: string }) {
   return (
     <div
@@ -117,18 +47,32 @@ export function NIOBrandPanel({ className = '' }: { className?: string }) {
           style={{ background: 'linear-gradient(90deg, rgba(52,211,153,0.3) 0%, rgba(52,211,153,0.05) 60%, transparent 100%)' }}
         />
 
-        {/* ── Room image grid ── */}
-        <div className="flex-1 flex flex-col justify-between">
-          <p className="text-[9px] font-bold text-[#60607a] uppercase tracking-[0.18em] mb-3">
-            35 Curated Designs · See What&apos;s Possible
-          </p>
-
-          <div className="grid grid-cols-2 gap-2 flex-1">
-            {ROOMS.map((room, i) => (
-              <RoomCard key={room.label} room={room} delay={0.12 + i * 0.07} />
-            ))}
+        {/* ── Room image ── */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          className="flex-1 relative rounded-xl overflow-hidden min-h-0"
+        >
+          <Image
+            src="/images/nio-rooms.jpg"
+            alt="NIO Panel Designs"
+            fill
+            className="object-cover"
+            style={{ objectPosition: 'center 15%' }}
+            sizes="380px"
+          />
+          {/* Gradient — top to let brand mark breathe, bottom for label */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/40" />
+          <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
+            <span className="text-[9px] font-bold text-white/60 uppercase tracking-[0.15em]">
+              35 Curated Designs
+            </span>
+            <span className="text-[9px] font-bold text-white/40 uppercase tracking-[0.12em]">
+              Urban Company
+            </span>
           </div>
-        </div>
+        </motion.div>
 
         {/* ── Bottom tag ── */}
         <motion.div
