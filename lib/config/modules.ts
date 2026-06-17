@@ -127,13 +127,13 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
   module_5: {
     id: 'module_5',
     title: 'NIO Premium Panels',
-    description: 'The quality you always wanted at the price you never expected — sell the premium and justify the 5X price gap',
+    description: 'The quality you always wanted at the price you never expected',
     adminOnly: true,
     tasks: [
       {
         id: 'task_1',
         title: 'Task 1 of Module 5',
-        description: 'Introduce NIO panels to a curious, price-conscious homeowner comparing NIO (₹1150/panel) to PVC (₹250–300/panel). Justify the premium through value differentiation — no discounts.',
+        description: 'Introduce NIO panels to a curious, price-conscious homeowner comparing NIO panels.',
         moduleAttempted: 'module_5_task1',
         status: 'active',
       },

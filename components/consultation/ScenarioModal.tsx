@@ -140,10 +140,8 @@ const CONTENT: Record<string, {
     intro: 'You are introducing NIO wall panels to a homeowner who is exploring options for a feature wall in their living room.',
     knowItems: [
       'Product: NIO panels — premium structured wall panel',
-      'NIO price: ~₹1,150 per panel',
-      'Customer knows market PVC panels are ₹250–300 per panel',
     ],
-    stateText: 'The customer is curious but price-conscious — they want to understand what makes NIO worth 5X the price. Your job is to discover their needs first, anchor value before revealing price, and justify the premium with confidence. No discounts.',
+    stateText: 'The customer is curious but price-conscious — they want to understand what makes NIO price higher. Your job is to discover their needs first, anchor value before revealing price, and justify the premium with confidence.',
   },
 };
 
