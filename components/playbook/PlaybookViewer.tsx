@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BookOpen, Sparkles, ArrowRight, Layers, Zap, Trophy, ArrowLeft, Download, ExternalLink } from 'lucide-react';
 
-const PDF_PATH = '/playbook/nio-premium-playbook.pdf';
+const PDF_PATH = '/playbook/nio-premium-playbook.pdf?v=2';
 
 const HIGHLIGHTS = [
   { Icon: Layers, label: '8 Sales Stages', desc: 'Frame to close' },
