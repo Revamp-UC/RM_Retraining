@@ -6,7 +6,7 @@ import { evaluateConsultation } from '@/lib/gemini/evaluator';
 
 export const runtime = 'nodejs';
 
-const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965', '8393005909']);
+const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965', '8393005909', '9034002226']);
 
 export async function POST(req: NextRequest) {
   const token = req.cookies.get('rm_session')?.value;

@@ -10,7 +10,7 @@ import { TopPerformers } from '@/components/admin/TopPerformers';
 
 export const dynamic = 'force-dynamic';
 
-const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965', '8393005909']);
+const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965', '8393005909', '9034002226']);
 
 const MODULE_TASK_LABEL: Record<string, string> = {
   module_1_seepage: 'M1 · T1',
