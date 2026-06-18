@@ -3,11 +3,11 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { validateSession } from '@/lib/auth/session';
 import { getAllRMPerformance, getModule1SkillGaps } from '@/lib/db/admin';
-import { ArrowLeft, AlertTriangle, BarChart3, ChevronRight } from 'lucide-react';
+import { ArrowLeft, BarChart3, ChevronRight } from 'lucide-react';
 import type { RMPerformance } from '@/lib/db/admin';
 import { BroadcastControl } from '@/components/admin/BroadcastControl';
 import { TopPerformers } from '@/components/admin/TopPerformers';
-import { ModuleSkillGaps } from '@/components/admin/ModuleSkillGaps';
+import { ModuleGrid } from '@/components/admin/ModuleGrid';
 
 export const dynamic = 'force-dynamic';
 
@@ -128,9 +128,10 @@ export default async function AdminPage() {
     getModule1SkillGaps(),
   ]);
 
-  // Skill-gap lists are for coaching real RMs — drop admin test runs.
-  const m1IntroGaps = skillGaps.introduction.filter(rm => !ADMIN_MOBILES.has(rm.mobile_number));
-  const m1BudgetGaps = skillGaps.budget_discovery.filter(rm => !ADMIN_MOBILES.has(rm.mobile_number));
+  // Distinct real RMs needing practice in Module 1 (union of both sub-skills) — drives the tile badge.
+  const m1Intro = skillGaps.introduction.filter(rm => !ADMIN_MOBILES.has(rm.mobile_number));
+  const m1Budget = skillGaps.budget_discovery.filter(rm => !ADMIN_MOBILES.has(rm.mobile_number));
+  const m1Count = new Set([...m1Intro, ...m1Budget].map(rm => rm.mobile_number)).size;
 
   const attempted = allRM
     .filter(rm => rm.attempt_count > 0)
@@ -141,7 +142,6 @@ export default async function AdminPage() {
   const topPerformers = attempted
     .filter(rm => !ADMIN_MOBILES.has(rm.mobile_number))
     .slice(0, 10);
-  const needsAttention = attempted.filter(rm => (rm.best_score ?? 100) < 27);
 
   // Split sessions into RM-only vs admin-only
   const rmSessions = allRM
@@ -229,54 +229,11 @@ export default async function AdminPage() {
         {/* ── Broadcast ── */}
         <BroadcastControl />
 
-        {/* ── Top Performers + Needs Attention ── */}
-        <div className="grid lg:grid-cols-2 gap-6">
+        {/* ── Top Performers ── */}
+        <TopPerformers performers={topPerformers} />
 
-          {/* Top Performers */}
-          <TopPerformers performers={topPerformers} />
-
-          {/* Needs Attention */}
-          <div className="rounded-xl border border-[#1e1e28] bg-[#13131a] overflow-hidden">
-            <div className="flex items-center gap-2.5 px-5 py-4 border-b border-[#1e1e28]">
-              <AlertTriangle className="h-4 w-4 text-red-400" />
-              <h2 className="text-sm font-bold text-[#f1f1f5]">Needs Practice</h2>
-              {needsAttention.length > 0 && (
-                <span className="ml-auto text-xs text-red-400/60">best score &lt; 27</span>
-              )}
-            </div>
-            {needsAttention.length === 0 ? (
-              <div className="px-5 py-8 text-center text-xs text-[#60607a]">
-                {attempted.length === 0
-                  ? 'No consultations yet.'
-                  : 'No RMs below threshold. Great work!'}
-              </div>
-            ) : (
-              <ul className="divide-y divide-[#1a1a24]">
-                {needsAttention.map(rm => (
-                  <li key={rm.mobile_number}>
-                    <Link
-                      href={`/admin/rm/${rm.mobile_number}`}
-                      className="flex items-center gap-3 px-5 py-3.5 hover:bg-[#16161f] transition-colors group"
-                    >
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-semibold text-[#f1f1f5] truncate">{rm.name}</p>
-                        <p className="text-xs text-[#60607a]">
-                          {rm.attempt_count} attempt{rm.attempt_count !== 1 ? 's' : ''}
-                          {rm.last_module_attempted ? ` · ${toTaskLabel(rm.last_module_attempted)}` : ''}
-                        </p>
-                      </div>
-                      <ScoreChip score={rm.best_score} />
-                      <ChevronRight className="h-3.5 w-3.5 text-[#2a2a38] group-hover:text-[#60607a] transition-colors" />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
-
-        {/* ── Module-wise skill gaps ── */}
-        <ModuleSkillGaps introduction={m1IntroGaps} budget_discovery={m1BudgetGaps} />
+        {/* ── These RMs Need Practice — module grid (click a module → detail page) ── */}
+        <ModuleGrid m1Count={m1Count} />
 
 
         {/* ── All RMs table ── */}
