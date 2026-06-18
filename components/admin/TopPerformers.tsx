@@ -90,7 +90,7 @@ export function TopPerformers({ performers }: { performers: RM[] }) {
           Only RMs
         </span>
         {performers.length > 0 && (
-          <span className="ml-auto text-xs text-[#60607a]">by best score</span>
+          <span className="ml-auto text-xs text-[#60607a]">by avg score</span>
         )}
       </div>
 
@@ -131,18 +131,18 @@ export function TopPerformers({ performers }: { performers: RM[] }) {
                       </p>
                       <p className="text-xs text-[#60607a] mt-0.5">
                         {rm.attempt_count} attempt{rm.attempt_count !== 1 ? 's' : ''}
-                        {rm.avg_score !== null ? <span className="text-[#9090a8]"> · avg <span className={scoreColor(rm.avg_score)}>{rm.avg_score}</span></span> : ''}
+                        {rm.best_score !== null ? <span className="text-[#9090a8]"> · best <span className={scoreColor(rm.best_score)}>{rm.best_score}</span></span> : ''}
                         {rm.last_module_attempted ? ` · ${toTaskLabel(rm.last_module_attempted)}` : ''}
                       </p>
                     </div>
 
-                    {/* Score */}
-                    {rm.best_score !== null && (
+                    {/* Score — avg is now the primary highlighted number */}
+                    {rm.avg_score !== null && (
                       <div className={`rounded-xl border px-3 py-1 shrink-0 ${
-                        isTop3 ? `${cfg.scoreBg}` : scoreBg(rm.best_score)
+                        isTop3 ? `${cfg.scoreBg}` : scoreBg(rm.avg_score)
                       }`}>
-                        <span className={`text-base font-bold ${isTop3 ? cfg.scoreColor : scoreColor(rm.best_score)}`}>
-                          {rm.best_score}
+                        <span className={`text-base font-bold ${isTop3 ? cfg.scoreColor : scoreColor(rm.avg_score)}`}>
+                          {rm.avg_score}
                         </span>
                       </div>
                     )}
@@ -172,13 +172,13 @@ export function TopPerformers({ performers }: { performers: RM[] }) {
                           <p className="text-sm font-bold text-[#d4d4e8] truncate">{rm.name}</p>
                           <p className="text-xs text-[#60607a] mt-0.5">
                             {rm.attempt_count} attempt{rm.attempt_count !== 1 ? 's' : ''}
-                            {rm.avg_score !== null ? ` · avg ${rm.avg_score}` : ''}
+                            {rm.best_score !== null ? ` · best ${rm.best_score}` : ''}
                             {rm.last_module_attempted ? ` · ${toTaskLabel(rm.last_module_attempted)}` : ''}
                           </p>
                         </div>
-                        {rm.best_score !== null && (
-                          <div className={`rounded-xl border px-3 py-1 shrink-0 ${scoreBg(rm.best_score)}`}>
-                            <span className={`text-base font-bold ${scoreColor(rm.best_score)}`}>{rm.best_score}</span>
+                        {rm.avg_score !== null && (
+                          <div className={`rounded-xl border px-3 py-1 shrink-0 ${scoreBg(rm.avg_score)}`}>
+                            <span className={`text-base font-bold ${scoreColor(rm.avg_score)}`}>{rm.avg_score}</span>
                           </div>
                         )}
                         <ChevronRight className="h-3.5 w-3.5 text-[#2a2a38] group-hover:text-[#60607a] transition-colors shrink-0" />

@@ -88,10 +88,10 @@ function RMTableRow({ rm, rank }: { rm: RMPerformance; rank: number }) {
       </td>
       <td className="px-4 py-3 text-sm text-[#9090a8]">{rm.attempt_count}</td>
       <td className="px-4 py-3">
-        <ScoreChip score={rm.best_score} />
+        <ScoreChip score={rm.avg_score} />
       </td>
       <td className="px-4 py-3">
-        <ScoreChip score={rm.avg_score} />
+        <ScoreChip score={rm.best_score} />
       </td>
       <td className="px-4 py-3">
         <span className="text-[10px] font-semibold text-[#9090a8] bg-[#1c1c26] border border-[#2a2a38] rounded px-1.5 py-0.5 whitespace-nowrap">
@@ -126,7 +126,7 @@ export default async function AdminPage() {
 
   const attempted = allRM
     .filter(rm => rm.attempt_count > 0)
-    .sort((a, b) => (b.best_score ?? -1) - (a.best_score ?? -1));
+    .sort((a, b) => (b.avg_score ?? -1) - (a.avg_score ?? -1));
 
   const notAttempted = allRM.filter(rm => rm.attempt_count === 0);
   // Exclude admins from top performers
@@ -154,7 +154,7 @@ export default async function AdminPage() {
       ? Math.round(avgScores.reduce((a, b) => a + b, 0) / avgScores.length)
       : null;
 
-  const allSorted = [...allRM].sort((a, b) => (b.best_score ?? -1) - (a.best_score ?? -1));
+  const allSorted = [...allRM].sort((a, b) => (b.avg_score ?? -1) - (a.avg_score ?? -1));
 
 
   return (
@@ -273,13 +273,13 @@ export default async function AdminPage() {
           <div className="flex items-center gap-2.5 px-5 py-4 border-b border-[#1e1e28]">
             <BarChart3 className="h-4 w-4 text-indigo-400" />
             <h2 className="text-sm font-bold text-[#f1f1f5]">All RMs</h2>
-            <span className="ml-1 text-xs text-[#60607a]">({allRM.length} total · sorted by best score · scores normalised to 50)</span>
+            <span className="ml-1 text-xs text-[#60607a]">({allRM.length} total · sorted by avg score · scores normalised to 50)</span>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-[#1a1a24]">
-                  {['#', 'Name', 'Attempts', 'Best /50', 'Avg /50', 'Last Task', 'Last Session', ''].map(h => (
+                  {['#', 'Name', 'Attempts', 'Avg /50', 'Best /50', 'Last Task', 'Last Session', ''].map(h => (
                     <th
                       key={h}
                       className="px-4 py-3 text-[10px] font-bold text-[#60607a] uppercase tracking-wider"
