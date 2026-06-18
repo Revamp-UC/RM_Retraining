@@ -2,11 +2,12 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { validateSession } from '@/lib/auth/session';
-import { getAllRMPerformance } from '@/lib/db/admin';
+import { getAllRMPerformance, getModule1SkillGaps } from '@/lib/db/admin';
 import { ArrowLeft, AlertTriangle, BarChart3, ChevronRight } from 'lucide-react';
 import type { RMPerformance } from '@/lib/db/admin';
 import { BroadcastControl } from '@/components/admin/BroadcastControl';
 import { TopPerformers } from '@/components/admin/TopPerformers';
+import { ModuleSkillGaps } from '@/components/admin/ModuleSkillGaps';
 
 export const dynamic = 'force-dynamic';
 
@@ -122,7 +123,14 @@ export default async function AdminPage() {
     redirect('/dashboard');
   }
 
-  const allRM = await getAllRMPerformance();
+  const [allRM, skillGaps] = await Promise.all([
+    getAllRMPerformance(),
+    getModule1SkillGaps(),
+  ]);
+
+  // Skill-gap lists are for coaching real RMs — drop admin test runs.
+  const m1IntroGaps = skillGaps.introduction.filter(rm => !ADMIN_MOBILES.has(rm.mobile_number));
+  const m1BudgetGaps = skillGaps.budget_discovery.filter(rm => !ADMIN_MOBILES.has(rm.mobile_number));
 
   const attempted = allRM
     .filter(rm => rm.attempt_count > 0)
@@ -266,6 +274,9 @@ export default async function AdminPage() {
             )}
           </div>
         </div>
+
+        {/* ── Module-wise skill gaps ── */}
+        <ModuleSkillGaps introduction={m1IntroGaps} budget_discovery={m1BudgetGaps} />
 
 
         {/* ── All RMs table ── */}
