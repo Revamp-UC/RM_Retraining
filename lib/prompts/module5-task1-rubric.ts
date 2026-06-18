@@ -47,22 +47,26 @@ ${formattedTranscript}
 ## SCORING DIMENSIONS (20 points total)
 
 ### 1. Personalisation & Rapport (max 4 pts)
-The room, wall size, and general context have already been discovered before this conversation. Score ONLY on whether the RM personalised the pitch — using the customer's name, saying "ji", reflecting back what the customer shared during this conversation, making it feel like a tailored recommendation rather than a generic product presentation.
+Score ONLY on two specific behaviours — name + "ji" usage and avoiding "sir/mam" after the opening.
 
-Key moves that count:
-- Used the customer's name (e.g. "[Name] Ji, aapne bataya...") at least once
-- Said "ji" appropriately to show respect
-- Referenced something the customer said earlier in this conversation ("aapne guests ka zikr kiya — toh NIO ka finish aapke liye especially important hai")
-- Made the customer feel understood and personally served, not just pitched to
+**2 marks — Name + Ji (at least once)**
+Did the RM address the customer using their name followed by "ji" at any point in the conversation? (e.g. "Rakesh ji", "Priya ji"). Even a single instance earns these 2 marks.
+- 2: Used customer's name + "ji" at least once anywhere in the conversation
+- 0: Never used the customer's name with "ji" — only used "sir", "mam", or no address at all
 
-Scoring:
-- 4: Used name + ji naturally multiple times; reflected the customer's own words back at least twice; conversation felt consultative and personal throughout — not a product presentation
-- 3: Used name or ji, reflected context once — personalised but didn't sustain it throughout
-- 2: Used "sir" generically but never the customer's name; some attempt to connect but mostly a generic pitch
-- 1: No name used, only occasional "sir", zero reflection of what the customer shared
-- 0: No personalisation at all — could have been pitching to anyone
+**2 marks — Sustained respect, no sir/mam after opening**
+Did the RM continue using name + "ji" (at least once more after the initial greeting) AND avoid falling back to "sir" or "mam" for the rest of the conversation?
+- 2: After the initial greeting, the RM used name + "ji" at least once more AND never used "sir" or "mam" at any point after the first 1–2 lines of the conversation
+- 1: Used name + "ji" again but also slipped into "sir/mam" once or twice mid-conversation
+- 0: Went back to "sir/mam" after the opening and stopped using the customer's name
 
-In missed_opportunities: give a specific moment in the conversation where the RM could have used the customer's name or reflected their words back, and show exactly how it should have sounded. E.g. "Rahul Ji, aapne guests ka zikr kiya — Nio ka panel ek hi seamless piece mein hota hai, koi joint nahi dikhta — exactly woh wall jo aap chahte hain jab log aate hain."
+Total scoring:
+- 4/4: Name + ji used at least twice; no "sir/mam" after opening
+- 3/4: Name + ji used at least twice; but slipped into "sir/mam" once or twice
+- 2/4: Name + ji used only once (at any point) — no sustained personalisation
+- 0/4: Never used customer's name with "ji" at any point
+
+In missed_opportunities: give a specific line from the conversation where the RM said "sir" or missed the customer's name, and show exactly how it should have sounded — e.g. "Instead of 'Sir, yeh NIO panel hai' → '${customer_name} ji, yeh NIO panel hai — aapke living room ke liye exactly sahi choice hai.'"
 
 ### 2. Price Anchoring (max 4 pts)
 Did the RM set up value context BEFORE revealing ₹1150 — so the number landed in a value frame rather than naked against ₹250?
@@ -89,7 +93,7 @@ Scoring:
 - 1: Only one vague differentiator, or "NIO bahut acha hai" without any specific proof
 - 0: Never explained what makes NIO different from market PVC
 
-In missed_opportunities: name the specific differentiators the RM missed and give a Hinglish example of how they should have connected each one to what the customer said. Example style: "Aapne bataya ki guests aate hain — toh yeh sunna chahiye tha: NIO ka panel ek hi piece mein hota hai, koi joint nahi dikhti, surface pe finger marks ya dents bhi nahi padte. Aur market wala PVC 2-3 saal mein fade ho jaata hai — NIO 10 saal baad bhi waisa hi dikhega." Do NOT repeat missed differentiators that are already covered in the objection handling section.
+In missed_opportunities: keep it short and emotional — 1–2 lines max per missed point. Just name what was missed and land the emotional consequence. Do NOT write a full script or example dialogue. Hit the feeling: e.g. "RM ne longevity miss kiya — market PVC 2-3 saal mein fade ho jaata hai, same wall jo aaj acchi lagti hai, kal dull ho jaayegi." Or: "Guests angle miss hua — seamless finish ka matlab tha koi joint nahi dikhti, guests ke saamne wall premium lagti." Do NOT repeat differentiators already covered in the objection handling section.
 
 ### 4. Objection Handling (max 4 pts)
 The customer raised 3 key objections — evaluate how well the RM handled each.
@@ -161,9 +165,9 @@ Return valid JSON matching this exact structure:
       "score": <0–4>,
       "max_score": 4,
       "label": "<Excellent|Good|Average|Poor>",
-      "strengths": ["<specific personalisation moves — name used, ji said, customer context reflected back>"],
-      "missed_opportunities": ["<specific moment where personalisation was missing and exactly how it should have sounded>"],
-      "feedback": "<1–2 sentence summary of this dimension>"
+      "strengths": ["<did the RM use name+ji? How many times? Did they avoid sir/mam after the opening?>"],
+      "missed_opportunities": ["<specific line where RM said sir/mam or missed name+ji, and what they should have said instead>"],
+      "feedback": "<1–2 sentence summary of name+ji usage and sir/mam avoidance>"
     },
     "value_anchoring": {
       "score": <0–4>,

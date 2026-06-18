@@ -249,7 +249,7 @@ export default async function RMDetailPage({
   // Aggregate Best/Avg are normalised to /50 (tasks have different max marks).
   // Per-session scores below keep their real max via getSessionMax().
   const normScores = completed
-    .filter(c => c.overall_score !== null)
+    .filter(c => c.overall_score !== null && c.customer_name !== 'Quiz')
     .map(c => normaliseScore(c.overall_score as number, c.module_attempted));
   const bestScore = normScores.length > 0 ? Math.round(Math.max(...normScores)) : null;
   const avgScore =

@@ -68,7 +68,7 @@ export default async function DashboardPage() {
     ...(m3task3Stats ? { module_3_task3: m3task3Stats } : {}),
     ...(m4task1Stats ? { module_4_task1: m4task1Stats } : {}),
     ...(m5task1Stats ? { module_5_task1: m5task1Stats } : {}),
-    ...(m5task2Stats ? { module_5_task2: m5task2Stats } : {}),
+    // module_5_task2 (quiz) intentionally excluded — quiz scores are shown separately, not averaged with roleplay scores
   };
 
   // Combined per-module for the module card (attempt count across all tasks).

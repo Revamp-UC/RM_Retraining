@@ -47,6 +47,7 @@ const SECTION_SHORT: Record<string, string> = {
   value_justification: 'Value',
   personalisation: 'Personalisation',
   // Module 5 Task 1
+  discovery_diagnosis: 'Personalisation',
   personalisation_rapport: 'Personalisation',
   value_anchoring: 'Anchoring',
   tailored_differentiation: 'Tailored Pitch',
