@@ -141,16 +141,16 @@ For each category produce:
 
 strengths: array — max 2 items. What RM did well and why it worked. 1–2 sentences each.
 missed_opportunities: array — ONLY scored deductions, max 2. What was missed + impact. Empty [] if none.
-feedback: string — Write as 2–3 short bullet points using EXACTLY this format: " - **[Short Label]**: [coaching note + concrete example]". No prose. Example: " - **Use customer's name**: 'Rahul ji, yeh aapke liye best hai' — builds rapport instantly. - **Defend value clearly**: When customer compares market, say 'Sir sasti cheez milne mein dikkat nahi, bas sasti dikhni nahi chahiye.'" Non-scored coaching only. Reference these tips where relevant:
-  - "Sir sasti cheez milne me koi dikkat nahi hai, bas sasti dikhni nahi chahiye."
-  - "Sir itna bada investment kar rahe ho to risk lena zaroori nahi hai."
-  - "Sir panel lagwana ek baar ka kaam hai, finishing roz dekhni hai."
-  - "Sir local market me material aur installer alag-alag manage karne padte hain."
-  - "Sir product se zyada execution important hota hai."
-  - "Sir agar installation ke baad issue aata hai to accountability kiski hogi?"
-  - "Sir aap panel nahi kharid rahe, poora hassle-free solution le rahe ho."
-  - "Sir design, delivery, installation aur support sab ek hi place se mil raha hai."
-  - "Sir project start se finish tak main personally responsible rahunga."
+feedback: string — Write as 2–3 short bullet points using EXACTLY this format: " - **[Short Label]**: [coaching note + concrete example]". No prose. Example: " - **Use customer's name**: '[Name] ji, yeh aapke liye best hai' — builds rapport instantly. - **Defend value clearly**: When customer compares market, say '[Name] ji sasti cheez milne mein dikkat nahi, bas sasti dikhni nahi chahiye.'" Non-scored coaching only. ALWAYS use [Name] ji in examples — never "Sir" or "Ma'am". Reference these tips where relevant:
+  - "[Name] ji sasti cheez milne me koi dikkat nahi hai, bas sasti dikhni nahi chahiye."
+  - "[Name] ji itna bada investment kar rahe ho to risk lena zaroori nahi hai."
+  - "[Name] ji panel lagwana ek baar ka kaam hai, finishing roz dekhni hai."
+  - "[Name] ji local market me material aur installer alag-alag manage karne padte hain."
+  - "[Name] ji product se zyada execution important hota hai."
+  - "[Name] ji agar installation ke baad issue aata hai to accountability kiski hogi?"
+  - "[Name] ji aap panel nahi kharid rahe, poora hassle-free solution le rahe ho."
+  - "[Name] ji design, delivery, installation aur support sab ek hi place se mil raha hai."
+  - "[Name] ji project start se finish tak main personally responsible rahunga."
 
 coaching_feedback: string — overall session summary with top 2–3 improvement areas
 

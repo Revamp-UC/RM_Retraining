@@ -81,7 +81,7 @@ Scoring:
 - 1: Just said ₹1150 with no context, no anchoring
 - 0: Refused to give price at all despite the customer repeatedly asking
 
-In missed_opportunities: explain which framing the RM missed and give a short Hinglish example — e.g. "Sir, pehle ek baat batata hoon — ek poori 9-foot wall sirf ₹14,000–15,000 mein ho jaati hai. Yeh 10 saal chalega aur saal ka kharch ₹1,500 se bhi kam padta hai. Ab ₹1,150 per panel sunne ke baad decide karna." NOT just "framing should have been used."
+In missed_opportunities: explain which framing the RM missed and give a short Hinglish example — e.g. "${customer_name} ji, pehle ek baat batata hoon — ek poori 9-foot wall sirf ₹14,000–15,000 mein ho jaati hai. Yeh 10 saal chalega aur saal ka kharch ₹1,500 se bhi kam padta hai. Ab ₹1,150 per panel sunne ke baad decide karna." NOT just "framing should have been used."
 
 ### 3. Tailored Differentiation (max 4 pts)
 Did the RM connect NIO's advantages specifically to what THIS customer mentioned — rather than giving a generic product pitch?
@@ -110,7 +110,7 @@ Scoring:
 - 1: Gave only one generic response to one objection without specifics
 - 0: Avoided, dismissed, or ignored the objections
 
-In missed_opportunities: for each objection handled poorly, write a short Hinglish example of what the RM should have said — e.g. for "5X kyun": "Sir, yeh sirf strong nahi hai — iski andar hexagonal structure hai jo isse itna mazboot banata hai ki jaldi dent nahi hota. Aur finish anti-scratch aur UV-resistant hai, matlab market wala PVC 2-3 saal mein fade ho jaata hai, colour kharaab ho jaata hai — NIO ka 10 saal baad bhi waisa hi rahega." For "temporary": "Sir, 4-5 saal bhi toh roz uss wall ko dekhoge — satisfaction chahiye ya ek aisi wall jo pehle saal se hi dull lagti ho?" Do NOT repeat differentiators already mentioned in the tailored differentiation section.
+In missed_opportunities: for each objection handled poorly, write a short Hinglish example of what the RM should have said — e.g. for "5X kyun": "${customer_name} ji, yeh sirf strong nahi hai — iski andar hexagonal structure hai jo isse itna mazboot banata hai ki jaldi dent nahi hota. Aur finish anti-scratch aur UV-resistant hai, matlab market wala PVC 2-3 saal mein fade ho jaata hai, colour kharaab ho jaata hai — NIO ka 10 saal baad bhi waisa hi rahega." For "temporary": "${customer_name} ji, 4-5 saal bhi toh roz uss wall ko dekhoge — satisfaction chahiye ya ek aisi wall jo pehle saal se hi dull lagti ho?" Do NOT repeat differentiators already mentioned in the tailored differentiation section.
 
 ### 5. Curated Design Value (max 2 pts)
 The customer challenged the RM on limited design choices — "Sirf itne designs? Mujhe 1,000-2,000 mein se choose karna tha."
@@ -123,7 +123,7 @@ Scoring:
 - 1: Addressed the design question but without reframing — just listed available options or assured "enough hai" without the curation angle.
 - 0: Ignored the design concern, or left the customer feeling the options were too few without any recovery.
 
-In missed_opportunities: explain the curation reframe the RM should have used. Include a short Hinglish example — e.g. "Sir, humne jaan-boojhkar sirf best designs rakhe hain. Hazaron options mein se bekar wale hata ke sirf woh rakhe jo aapke ghar mein actually accha lagega — aapka time bhi bachta hai aur result bhi sahi aata hai." The key point: fewer options is the feature, not the bug.
+In missed_opportunities: explain the curation reframe the RM should have used. Include a short Hinglish example — e.g. "${customer_name} ji, humne jaan-boojhkar sirf best designs rakhe hain. Hazaron options mein se bekar wale hata ke sirf woh rakhe jo aapke ghar mein actually accha lagega — aapka time bhi bachta hai aur result bhi sahi aata hai." The key point: fewer options is the feature, not the bug.
 
 ### 6. Conviction & No Discount (max 2 pts)
 Did the RM maintain calm price confidence throughout with zero discount, zero apology?
