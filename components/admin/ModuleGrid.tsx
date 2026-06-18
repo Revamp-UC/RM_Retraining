@@ -45,11 +45,12 @@ export function ModuleGrid({ m1Count }: { m1Count: number }) {
               </div>
 
               <div className="mt-3">
-                <p className={`text-sm font-bold ${mod.live ? 'text-[#f1f1f5]' : 'text-[#4a4a5a]'}`}>
+                <p className={`text-[10px] font-bold uppercase tracking-wider ${mod.live ? 'text-indigo-300/70' : 'text-[#52526a]'}`}>
                   Module {mod.num}
                 </p>
-                <p className={`text-[11px] mt-0.5 line-clamp-2 ${mod.live ? 'text-[#60607a]' : 'text-[#3a3a4a]'}`}>
-                  {mod.live ? mod.title : 'Data will be visible soon'}
+                {/* Task/module name — highlighted on every tile */}
+                <p className={`text-sm font-bold mt-0.5 line-clamp-2 ${mod.live ? 'text-[#f1f1f5]' : 'text-[#9a9ab0]'}`}>
+                  {mod.title}
                 </p>
               </div>
 
