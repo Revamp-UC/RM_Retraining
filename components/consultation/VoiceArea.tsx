@@ -46,7 +46,7 @@ const CUSTOMER_PROFILE: Record<string, { age: string; home: string; scope?: stri
   // Module 4
   module_4_task_1: { age: 'Homeowner', home: 'Design Selected', scope: 'Market Comparison · Price Objection' },
   // Module 5
-  module_5_task_1: { age: 'Homeowner', home: 'Feature Wall · Living Room', scope: 'Exploring NIO Premium Panels' },
+  module_5_task_2: { age: 'Homeowner', home: 'Feature Wall · Living Room', scope: 'Exploring NIO Premium Panels' },
 };
 
 function formatTime(seconds: number): string {

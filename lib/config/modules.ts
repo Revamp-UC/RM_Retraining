@@ -132,17 +132,17 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
     tasks: [
       {
         id: 'task_1',
-        title: 'Task 1 of Module 5',
-        description: 'Introduce NIO panels to a curious, price-conscious homeowner comparing NIO panels.',
-        moduleAttempted: 'module_5_task1',
-        status: 'active',
-      },
-      {
-        id: 'task_2',
         title: 'NIO Product Knowledge Quiz',
         description: 'Test your NIO panel knowledge — pricing strategy, technical specs, objection handling, and sales positioning. 15 questions, instant feedback.',
         moduleAttempted: '', // quiz tasks do not create DB consultation records
         type: 'quiz',
+        status: 'active',
+      },
+      {
+        id: 'task_2',
+        title: 'Task 2 of Module 5',
+        description: 'Introduce NIO panels to a curious, price-conscious homeowner comparing NIO panels.',
+        moduleAttempted: 'module_5_task1',
         status: 'active',
       },
       {

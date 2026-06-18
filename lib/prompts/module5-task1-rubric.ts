@@ -46,32 +46,38 @@ ${formattedTranscript}
 
 ## SCORING DIMENSIONS (20 points total)
 
-### 1. Discovery & Diagnosis (max 4 pts)
-Did the RM understand the customer's actual situation BEFORE pitching NIO?
-Key questions that count: What room? Who uses it? Do guests visit? Why now? Who decides (spouse/family)?
-Hinglish examples of questions the RM could have asked: "Kaun sa room hai yeh wall ke liye — living room hai?" / "Ghar mein guests aate hain na regularly?" / "Yeh decision aap akele lenge ya ghar mein koi aur bhi involved hai?" / "Abhi specifically kyun soch rahe ho is baare mein, koi occasion hai kya?"
+### 1. Personalisation & Rapport (max 4 pts)
+The room, wall size, and general context have already been discovered before this conversation. Score ONLY on whether the RM personalised the pitch — using the customer's name, saying "ji", reflecting back what the customer shared during this conversation, making it feel like a tailored recommendation rather than a generic product presentation.
+
+Key moves that count:
+- Used the customer's name (e.g. "[Name] Ji, aapne bataya...") at least once
+- Said "ji" appropriately to show respect
+- Referenced something the customer said earlier in this conversation ("aapne guests ka zikr kiya — toh NIO ka finish aapke liye especially important hai")
+- Made the customer feel understood and personally served, not just pitched to
 
 Scoring:
-- 4: Asked about room purpose, who uses it, why now, and at least one other discovery angle — created a real picture before any pitch
-- 3: Asked 2-3 solid discovery questions but missed one key angle (e.g. never asked about guests, or skipped the decision-maker angle)
-- 2: Only 1 surface question ("kaun sa room hai?") without any follow-through or depth
-- 1: Half-asked one question then pivoted to product pitch without listening to the answer
-- 0: Zero discovery — launched straight into NIO features
+- 4: Used name + ji naturally multiple times; reflected the customer's own words back at least twice; conversation felt consultative and personal throughout — not a product presentation
+- 3: Used name or ji, reflected context once — personalised but didn't sustain it throughout
+- 2: Used "sir" generically but never the customer's name; some attempt to connect but mostly a generic pitch
+- 1: No name used, only occasional "sir", zero reflection of what the customer shared
+- 0: No personalisation at all — could have been pitching to anyone
 
-In missed_opportunities: list the specific discovery questions the RM skipped and explain why each one mattered for the pitch. Include 1-2 example Hinglish lines showing how the RM should have asked them.
+In missed_opportunities: give a specific moment in the conversation where the RM could have used the customer's name or reflected their words back, and show exactly how it should have sounded. E.g. "Rahul Ji, aapne guests ka zikr kiya — Nio ka panel ek hi seamless piece mein hota hai, koi joint nahi dikhta — exactly woh wall jo aap chahte hain jab log aate hain."
 
 ### 2. Price Anchoring (max 4 pts)
 Did the RM set up value context BEFORE revealing ₹1150 — so the number landed in a value frame rather than naked against ₹250?
-Methods that count: total project cost (₹14,000–15,000 for a 9ft wall), daily cost (₹4/day over 10 years), share-of-renovation framing.
+Methods that count: total project cost (₹14,000–15,000 for a 9ft wall), annual cost (less than ₹1,500/year over 10 years), share-of-renovation framing, WPC comparison (see below).
+ALSO VALID — WPC comparison: if the RM anchors against WPC panels (priced higher than NIO at ₹200–250+ per sq ft), this is a smart anchoring move. It makes NIO look like the same quality at a better price point. This counts as strong anchoring and should be credited.
+NOTE: Per-day framing (₹4/day) is NOT the preferred frame — it feels too personal and micro. Prefer per-year or per-project framing.
 
 Scoring:
-- 4: Gave value context BEFORE the number — customer heard the framing first, then ₹1150 as a consequence
-- 3: Gave ₹1150 first but immediately followed with a project-cost or per-day reframe — partially recovered
+- 4: Gave value context BEFORE the number — customer heard the framing first (project total, annual cost, or WPC comparison), then ₹1150 as a natural consequence
+- 3: Gave ₹1150 first but immediately followed with a project-cost or annual reframe — partially recovered
 - 2: Gave the price with only a verbal buffer ("yeh thoda premium range mein hai") but no real unit reframe
 - 1: Just said ₹1150 with no context, no anchoring
 - 0: Refused to give price at all despite the customer repeatedly asking
 
-In missed_opportunities: explain which framing the RM missed and give a short Hinglish example of how they should have said it — e.g. "Sir, pehle ek baat batata hoon — ek poori 9-foot wall sirf ₹14,000–15,000 mein ho jaati hai. Aur 10 saal ke liye calculate karo toh roz ka kharch sirf ₹4 hai. Ab ₹1,150 per panel sunne ke baad decide karna." NOT just "framing should have been used."
+In missed_opportunities: explain which framing the RM missed and give a short Hinglish example — e.g. "Sir, pehle ek baat batata hoon — ek poori 9-foot wall sirf ₹14,000–15,000 mein ho jaati hai. Yeh 10 saal chalega aur saal ka kharch ₹1,500 se bhi kam padta hai. Ab ₹1,150 per panel sunne ke baad decide karna." NOT just "framing should have been used."
 
 ### 3. Tailored Differentiation (max 4 pts)
 Did the RM connect NIO's advantages specifically to what THIS customer mentioned — rather than giving a generic product pitch?
@@ -118,6 +124,8 @@ In missed_opportunities: explain the curation reframe the RM should have used. I
 ### 6. Conviction & No Discount (max 2 pts)
 Did the RM maintain calm price confidence throughout with zero discount, zero apology?
 
+IMPORTANT: Comparing NIO against WPC panels is NOT a lack of conviction — it is a smart anchoring technique (anchor high with WPC, then position NIO as better value). Do NOT penalize WPC comparison. Only penalize actual hedging ("thoda zyada hai lekin..."), discount offers, or apologetic language about price.
+
 Scoring:
 - 2: Full conviction — never apologized for price, never hinted at discount, never got defensive; communicated "yeh value hai" energy throughout
 - 1: Mostly confident but slipped into mild defensiveness at least once ("haan thoda zyada hai lekin...") without genuinely recovering
@@ -128,7 +136,7 @@ In missed_opportunities, describe the moment the RM's conviction slipped and wha
 ## SCORING PHILOSOPHY
 
 ### When to deduct
-- RM pitches before discovering the customer's room/need/context.
+- RM never uses the customer's name or says "ji" — pitch feels cold and generic.
 - RM gives ₹1150 raw without any anchoring frame.
 - RM uses generic "quality" claims without specific NIO differentiators.
 - RM offers a discount, apologizes for price, or negotiates on price.
@@ -137,6 +145,7 @@ In missed_opportunities, describe the moment the RM's conviction slipped and wha
 ### When NOT to deduct
 - RM is concise — brevity is fine if the value point's meaning clearly landed.
 - RM used their own words instead of exact phrasing — credit the intent.
+- RM compared NIO to WPC panels — this is a valid premium anchoring move, not a sign of hesitation or confusion.
 - Customer pushed back multiple times before softening — that is the scenario working as designed.
 
 ## OUTPUT FORMAT
@@ -148,12 +157,12 @@ Return valid JSON matching this exact structure:
 {
   "overall_score": <sum of all 6 section scores, 0–20>,
   "sections": {
-    "discovery_diagnosis": {
+    "personalisation_rapport": {
       "score": <0–4>,
       "max_score": 4,
       "label": "<Excellent|Good|Average|Poor>",
-      "strengths": ["<specific discovery moves the RM made well>"],
-      "missed_opportunities": ["<what discovery the RM skipped and why it mattered>"],
+      "strengths": ["<specific personalisation moves — name used, ji said, customer context reflected back>"],
+      "missed_opportunities": ["<specific moment where personalisation was missing and exactly how it should have sounded>"],
       "feedback": "<1–2 sentence summary of this dimension>"
     },
     "value_anchoring": {
@@ -161,7 +170,7 @@ Return valid JSON matching this exact structure:
       "max_score": 4,
       "label": "<Excellent|Good|Average|Poor>",
       "strengths": [],
-      "missed_opportunities": ["<the specific frame the RM should have used — e.g. total project cost, daily cost>"],
+      "missed_opportunities": ["<the specific frame the RM should have used — e.g. total project cost, annual cost, WPC comparison>"],
       "feedback": ""
     },
     "tailored_differentiation": {
@@ -199,7 +208,7 @@ Return valid JSON matching this exact structure:
   },
   "critical_mistakes": ["<only include if RM made a clear, significant error — e.g. offered a discount, pitched before any discovery, or gave ₹1150 raw with no framing — leave empty if none>"],
   "coaching_feedback": "<2–3 sentence overall summary — the RM's main strength and the single most important area to improve. For the most important improvement, include one concrete example of what the RM could have said.>",
-  "suggested_ideal_response": "<A model response showing how the RM should sell NIO — in natural Hinglish (Roman script) as the RM would actually say it. Must: start with 1 discovery question, then anchor price before revealing it (total project or daily cost), then name 2-3 specific NIO differentiators connected to what the customer mentioned (seamless, structural strength, long-term finish), then handle the 'temporary' objection with a longevity reframe, then close with conviction and no discount using the customer's name + Ji. Example style: '${customer_name} Ji, pehle batao — living room mein guests aate hain na regularly? (discovery) ... dekho ${customer_name} Ji, ek 9-foot wall ke liye total ₹14,000-15,000 ki baat hai — poore 10 saal ke liye chaar rupaye roz ka hisaab hai. NIO ka panel ek hi piece mein hota hai, koi joint nahi dikhti, surface pe koi dent nahi padti jaise hollow PVC mein padti hai, aur 10 saal baad bhi wahi colour rehta hai — market wala PVC 2-3 saal mein fade ho jaata hai, colour hi kharaab ho jaata hai. Temporary samajh rahe ho, lekin 4-5 saal bhi toh aap roz uss wall ko dekhoge — satisfaction chahiye ya regret? Discount? Nahi ${customer_name} Ji, main discount offer karne ke liye nahi aaya — main chaahta hoon ki aap sahi decision lo jiske liye regret na ho.'",
+  "suggested_ideal_response": "<A model response showing how the RM should sell NIO — in natural Hinglish (Roman script) as the RM would actually say it. Discovery is already done — do NOT add a discovery question. Must: open with the customer's name + ji to establish personalisation, anchor price BEFORE revealing it (total project cost or annual cost — NOT per-day framing), then name 2-3 specific NIO differentiators connected to what the customer mentioned (seamless, structural strength, long-term finish), then handle the 'temporary' objection with a longevity reframe, then close with conviction and no discount. Example style: '${customer_name} Ji, ek poori 9-foot wall ₹14,000–15,000 mein ho jaati hai — aur yeh 10 saal chalti hai matlab saal ka ₹1,500 se bhi kam padta hai. Ab ₹1,150 per panel sun ke dekhiye — NIO ka panel ek hi piece mein hota hai, koi joint nahi dikhti, surface pe dent nahi padta jaise hollow PVC mein padta hai, aur 10 saal baad bhi wahi colour rehta hai — market wala PVC 2-3 saal mein fade ho jaata hai. ${customer_name} Ji, 4-5 saal bhi toh aap roz uss wall ko dekhoge — satisfaction chahiye ya regret? Discount nahi dunga — main chaahta hoon aap sahi decision lo.'",
   "performance_tier": "<Excellent if >=17 | Good if >=13 | Average if >=9 | Needs Improvement if <9>"
 }
 

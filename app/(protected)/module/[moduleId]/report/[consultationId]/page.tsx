@@ -48,7 +48,7 @@ const SECTION_ICONS: Record<string, React.ReactNode> = {
   value_justification: <span className="text-sm">💎</span>,
   personalisation: <span className="text-sm">🙏</span>,
   // Module 5 Task 1
-  discovery_diagnosis: <span className="text-sm">🔍</span>,
+  personalisation_rapport: <span className="text-sm">🙏</span>,
   value_anchoring: <span className="text-sm">⚓</span>,
   tailored_differentiation: <span className="text-sm">🎯</span>,
   objection_handling: <span className="text-sm">🛡️</span>,
@@ -86,7 +86,7 @@ const SECTION_TITLES: Record<string, string> = {
   value_justification: 'Value Justification',
   personalisation: 'Personalisation',
   // Module 5 Task 1
-  discovery_diagnosis: 'Discovery & Diagnosis',
+  personalisation_rapport: 'Personalisation & Rapport',
   value_anchoring: 'Price Anchoring',
   tailored_differentiation: 'Tailored Differentiation',
   objection_handling: 'Objection Handling',

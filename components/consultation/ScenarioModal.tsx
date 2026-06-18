@@ -133,12 +133,15 @@ const CONTENT: Record<string, {
     stateText: 'The customer believes similar panels are far cheaper in the market and keeps asking why your solution costs so much more. Your job is to address this and win their confidence to move ahead.',
   },
   // Module 5
-  module_5_task_1: {
+  module_5_task_2: {
     icon: <Gem className="h-4 w-4 text-emerald-400" />,
     accent: 'emerald',
     title: 'NIO Premium Panels',
-    intro: 'You are introducing NIO wall panels to a homeowner who is exploring options for a feature wall in their living room.',
+    intro: 'Introduction is done and home discovery is complete — the customer is ready to hear about panel options for their living room wall.',
     knowItems: [
+      'Introduction: completed',
+      'Home discovery: done',
+      'Customer profile: Living room feature wall',
       'Product: NIO panels — premium structured wall panel',
     ],
     stateText: 'The customer is curious but price-conscious. Your job is to convince them through your confidence and reasoning.',
