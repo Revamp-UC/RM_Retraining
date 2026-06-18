@@ -25,7 +25,7 @@ export default async function ModuleTaskListPage({ params }: ModulePageProps) {
   const user = await validateSession(token);
   if (!user) redirect('/login');
 
-  const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965']);
+  const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965', '8393005909']);
   if (moduleConfig.adminOnly && !ADMIN_MOBILES.has(user.mobile_number)) notFound();
 
   // Fetch stats for each active task that writes to the DB (consultation + quiz; not playbook)

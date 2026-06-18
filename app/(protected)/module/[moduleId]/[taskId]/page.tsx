@@ -31,7 +31,7 @@ export default async function ConsultationPage({ params }: TaskPageProps) {
   const user = await validateSession(token);
   if (!user) redirect('/login');
 
-  const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965']);
+  const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965', '8393005909']);
   const moduleConfig = getModuleConfig(moduleId);
   if (moduleConfig?.adminOnly && !ADMIN_MOBILES.has(user.mobile_number)) notFound();
 
