@@ -28,6 +28,7 @@ function formatDate(dateStr: string): string {
 }
 
 function getSessionMax(c: AdminConsultation): number {
+  if (c.customer_name === 'Quiz') return 15;
   const s = c.report_card_json?.sections;
   if (!s) return 45;
   return Object.values(s).reduce((sum, section) => sum + (section?.max_score ?? 0), 0);
@@ -96,10 +97,12 @@ const MODULE_ID_MAP: Record<string, string> = {
   module_1_task2: 'module_1',
   module_1_task3: 'module_1',
   module_2_task1: 'module_2',
+  module_2_task2: 'module_2',
   module_3_task1: 'module_3',
   module_3_task2: 'module_3',
   module_3_task3: 'module_3',
   module_4_task1: 'module_4',
+  module_5_task1: 'module_5',
 };
 
 const MODULE_TASK_LABEL: Record<string, string> = {
@@ -107,10 +110,13 @@ const MODULE_TASK_LABEL: Record<string, string> = {
   module_1_task2: 'Module 1 · Task 2',
   module_1_task3: 'Module 1 · Task 3',
   module_2_task1: 'Module 2 · Task 1',
+  module_2_task2: 'Module 2 · Task 2',
   module_3_task1: 'Module 3 · Task 1',
   module_3_task2: 'Module 3 · Task 2',
   module_3_task3: 'Module 3 · Task 3',
   module_4_task1: 'Module 4 · Task 1',
+  module_5_task1: 'Module 5 · Roleplay',
+  module_5_task2: 'Module 5 · Quiz',
 };
 
 const SECTION_LABELS: Record<string, string> = {
@@ -142,6 +148,7 @@ function toTaskLabel(moduleAttempted: string): string {
 }
 
 function ConsultationCard({ c, index }: { c: AdminConsultation; index: number }) {
+  const isQuiz = c.customer_name === 'Quiz';
   const gender = c.customer_gender === 'female' ? 'F' : 'M';
   const sessionMax = getSessionMax(c);
   const s = c.report_card_json?.sections;
@@ -159,7 +166,7 @@ function ConsultationCard({ c, index }: { c: AdminConsultation; index: number })
               {toTaskLabel(c.module_attempted)}
             </span>
             <StatusBadge status={c.status} />
-            {(c.status === 'completed' || c.status === 'evaluation_pending') && (
+            {!isQuiz && (c.status === 'completed' || c.status === 'evaluation_pending') && (
               <Link
                 href={`/module/${toModuleId(c.module_attempted)}/report/${c.id}`}
                 className="flex items-center gap-1 rounded-md border border-indigo-500/30 bg-indigo-600/10 px-2 py-0.5 text-[10px] font-semibold text-indigo-400 hover:bg-indigo-600/20 hover:border-indigo-500/45 transition-colors"
@@ -170,14 +177,18 @@ function ConsultationCard({ c, index }: { c: AdminConsultation; index: number })
             )}
           </div>
           <div className="flex flex-wrap items-center gap-3 text-xs text-[#60607a] mt-1">
-            <span className="flex items-center gap-1">
-              <User className="h-3 w-3" />
-              {c.customer_name ?? 'Customer'} ({gender})
-            </span>
-            <span className="flex items-center gap-1">
-              <Clock className="h-3 w-3" />
-              {formatDuration(c.duration_seconds)}
-            </span>
+            {!isQuiz && (
+              <span className="flex items-center gap-1">
+                <User className="h-3 w-3" />
+                {c.customer_name ?? 'Customer'} ({gender})
+              </span>
+            )}
+            {!isQuiz && (
+              <span className="flex items-center gap-1">
+                <Clock className="h-3 w-3" />
+                {formatDuration(c.duration_seconds)}
+              </span>
+            )}
             <span>{formatDate(c.attempt_date)} · {c.attempt_time?.slice(0, 5)}</span>
           </div>
         </div>

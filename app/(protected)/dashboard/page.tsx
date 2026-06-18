@@ -40,7 +40,7 @@ export default async function DashboardPage() {
 
   const isAdmin = ADMIN_MOBILES.has(user.mobile_number);
 
-  const [task1Stats, task2Stats, task3Stats, m2task1Stats, m2task2Stats, m3task1Stats, m3task2Stats, m3task3Stats, m4task1Stats, m5task1Stats, history] = await Promise.all([
+  const [task1Stats, task2Stats, task3Stats, m2task1Stats, m2task2Stats, m3task1Stats, m3task2Stats, m3task3Stats, m4task1Stats, m5task1Stats, m5task2Stats, history] = await Promise.all([
     getModuleStats(user.mobile_number, 'module_1_seepage'),
     getModuleStats(user.mobile_number, 'module_1_task2'),
     getModuleStats(user.mobile_number, 'module_1_task3'),
@@ -52,6 +52,7 @@ export default async function DashboardPage() {
     isAdmin ? getModuleStats(user.mobile_number, 'module_3_task3') : Promise.resolve(null),
     isAdmin ? getModuleStats(user.mobile_number, 'module_4_task1') : Promise.resolve(null),
     isAdmin ? getModuleStats(user.mobile_number, 'module_5_task1') : Promise.resolve(null),
+    isAdmin ? getModuleStats(user.mobile_number, 'module_5_task2') : Promise.resolve(null),
     getConsultationHistory(user.mobile_number),
   ]);
 
@@ -67,6 +68,7 @@ export default async function DashboardPage() {
     ...(m3task3Stats ? { module_3_task3: m3task3Stats } : {}),
     ...(m4task1Stats ? { module_4_task1: m4task1Stats } : {}),
     ...(m5task1Stats ? { module_5_task1: m5task1Stats } : {}),
+    ...(m5task2Stats ? { module_5_task2: m5task2Stats } : {}),
   };
 
   // Combined per-module for the module card (attempt count across all tasks).
@@ -94,7 +96,7 @@ export default async function DashboardPage() {
     module_2: aggregateTasks([m2task1Stats, m2task2Stats]),
     ...(m3task1Stats && m3task2Stats && m3task3Stats ? { module_3: aggregateTasks([m3task1Stats, m3task2Stats, m3task3Stats]) } : {}),
     ...(m4task1Stats ? { module_4: aggregateTasks([m4task1Stats]) } : {}),
-    ...(m5task1Stats ? { module_5: aggregateTasks([m5task1Stats]) } : {}),
+    ...(m5task1Stats || m5task2Stats ? { module_5: aggregateTasks(([m5task1Stats, m5task2Stats] as (typeof task1Stats | null)[]).filter((s): s is typeof task1Stats => s !== null)) } : {}),
   };
 
   const completedHistory = history.filter(

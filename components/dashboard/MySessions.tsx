@@ -18,10 +18,26 @@ const MODULE_TASK_LABEL: Record<string, string> = {
   module_1_task2:   'M1 · T2',
   module_1_task3:   'M1 · T3',
   module_2_task1:   'M2 · T1',
+  module_2_task2:   'M2 · T2',
   module_3_task1:   'M3 · T1',
   module_3_task2:   'M3 · T2',
   module_3_task3:   'M3 · T3',
   module_4_task1:   'M4 · T1',
+  module_5_task1:   'M5 · Roleplay',
+  module_5_task2:   'M5 · Quiz',
+};
+
+const MODULE_ID_MAP: Record<string, string> = {
+  module_1_seepage: 'module_1',
+  module_1_task2:   'module_1',
+  module_1_task3:   'module_1',
+  module_2_task1:   'module_2',
+  module_2_task2:   'module_2',
+  module_3_task1:   'module_3',
+  module_3_task2:   'module_3',
+  module_3_task3:   'module_3',
+  module_4_task1:   'module_4',
+  module_5_task1:   'module_5',
 };
 
 export function MySessions({ sessions }: { sessions: Session[] }) {
@@ -59,6 +75,9 @@ export function MySessions({ sessions }: { sessions: Session[] }) {
               const date = new Date(session.attempt_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
               const isPending = session.status === 'evaluation_pending';
               const score = session.overall_score;
+              const isQuiz = session.customer_name === 'Quiz';
+              const moduleId = MODULE_ID_MAP[session.module_attempted];
+              const hasReport = !isQuiz && !!moduleId;
               const scoreColor = score === null
                 ? ''
                 : score >= 36
@@ -67,30 +86,42 @@ export function MySessions({ sessions }: { sessions: Session[] }) {
                     ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
                     : 'bg-red-500/10 border-red-500/30 text-red-400';
 
+              const inner = (
+                <>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-[10px] font-bold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 rounded px-1.5 py-0.5 shrink-0">{label}</span>
+                      <span className="text-xs text-[#60607a] shrink-0">{date}</span>
+                      {!isQuiz && session.customer_name && (
+                        <span className="text-xs text-[#9090a8] truncate">· {session.customer_name}</span>
+                      )}
+                    </div>
+                  </div>
+                  {isPending ? (
+                    <span className="flex items-center gap-1 text-[10px] font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/25 rounded-full px-2 py-0.5 shrink-0">
+                      <Clock className="h-3 w-3" /> Pending
+                    </span>
+                  ) : score !== null ? (
+                    <span className={`inline-block rounded-lg border px-2.5 py-0.5 text-xs font-bold shrink-0 ${scoreColor}`}>{score}</span>
+                  ) : null}
+                  {hasReport && <ChevronRight className="h-3.5 w-3.5 text-[#2a2a38] group-hover/row:text-indigo-400 transition-colors shrink-0" />}
+                </>
+              );
+
               return (
                 <li key={session.id}>
-                  <Link
-                    href={`/module/module_1/report/${session.id}`}
-                    className="flex items-center gap-3 px-4 py-3.5 hover:bg-[#13131a] transition-colors group/row"
-                  >
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-[10px] font-bold text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 rounded px-1.5 py-0.5 shrink-0">{label}</span>
-                        <span className="text-xs text-[#60607a] shrink-0">{date}</span>
-                        {session.customer_name && (
-                          <span className="text-xs text-[#9090a8] truncate">· {session.customer_name}</span>
-                        )}
-                      </div>
+                  {hasReport ? (
+                    <Link
+                      href={`/module/${moduleId}/report/${session.id}`}
+                      className="flex items-center gap-3 px-4 py-3.5 hover:bg-[#13131a] transition-colors group/row"
+                    >
+                      {inner}
+                    </Link>
+                  ) : (
+                    <div className="flex items-center gap-3 px-4 py-3.5">
+                      {inner}
                     </div>
-                    {isPending ? (
-                      <span className="flex items-center gap-1 text-[10px] font-semibold text-amber-400 bg-amber-500/10 border border-amber-500/25 rounded-full px-2 py-0.5 shrink-0">
-                        <Clock className="h-3 w-3" /> Pending
-                      </span>
-                    ) : score !== null ? (
-                      <span className={`inline-block rounded-lg border px-2.5 py-0.5 text-xs font-bold shrink-0 ${scoreColor}`}>{score}</span>
-                    ) : null}
-                    <ChevronRight className="h-3.5 w-3.5 text-[#2a2a38] group-hover/row:text-indigo-400 transition-colors shrink-0" />
-                  </Link>
+                  )}
                 </li>
               );
             })}
