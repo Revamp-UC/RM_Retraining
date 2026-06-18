@@ -28,10 +28,10 @@ export default async function ModuleTaskListPage({ params }: ModulePageProps) {
   const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965']);
   if (moduleConfig.adminOnly && !ADMIN_MOBILES.has(user.mobile_number)) notFound();
 
-  // Fetch stats for each active consultation task (quiz tasks don't use DB)
+  // Fetch stats for each active task that writes to the DB (consultation + quiz; not playbook)
   const statsMap: Record<string, ModuleStats | null> = {};
   for (const task of moduleConfig.tasks) {
-    if (task.status === 'active' && task.type !== 'quiz' && task.type !== 'playbook' && task.moduleAttempted) {
+    if (task.status === 'active' && task.type !== 'playbook' && task.moduleAttempted) {
       statsMap[task.id] = await getModuleStats(user.mobile_number, task.moduleAttempted);
     }
   }
@@ -159,6 +159,27 @@ export default async function ModuleTaskListPage({ params }: ModulePageProps) {
                 <div className="pt-3.5 border-t border-[#2a2a38]">
                   {isPlaybook ? (
                     <p className="text-xs text-[#60607a]">15 pages · read & learn · open anytime</p>
+                  ) : isQuiz && taskStats && taskStats.attempt_count > 0 ? (
+                    <div className="flex items-center gap-5 flex-wrap">
+                      <div className="flex items-center gap-1.5">
+                        <RotateCcw className="h-3.5 w-3.5 text-[#9090a8]" />
+                        <span className="text-xs text-[#9090a8]">
+                          <span className="text-[#f1f1f5] font-semibold">{taskStats.attempt_count}</span>{' '}
+                          attempt{taskStats.attempt_count !== 1 ? 's' : ''}
+                        </span>
+                      </div>
+                      {taskStats.last_score !== null && (
+                        <div className="flex items-center gap-1.5">
+                          <Trophy className="h-3.5 w-3.5 text-emerald-400" />
+                          <span className="text-xs text-[#9090a8]">
+                            Last: <span className="text-emerald-400 font-semibold">{taskStats.last_score}/{15}</span>
+                          </span>
+                        </div>
+                      )}
+                      {taskStats.last_attempt_date && (
+                        <span className="text-xs text-[#60607a]">{formatDate(taskStats.last_attempt_date)}</span>
+                      )}
+                    </div>
                   ) : isQuiz ? (
                     <p className="text-xs text-[#60607a]">15 questions · instant feedback · retake anytime</p>
                   ) : taskStats && taskStats.attempt_count > 0 ? (

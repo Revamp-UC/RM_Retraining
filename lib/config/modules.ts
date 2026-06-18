@@ -32,6 +32,7 @@ export const MODULE_MAX_SCORE: Record<string, number> = {
   module_3_task3: 10,
   module_4_task1: 30,
   module_5_task1: 20,
+  module_5_task2: 15,
 };
 
 // Common scale all scores are normalised onto for cross-task averaging.
@@ -134,7 +135,7 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
         id: 'task_1',
         title: 'NIO Product Knowledge Quiz',
         description: 'Test your NIO panel knowledge — pricing strategy, technical specs, objection handling, and sales positioning. 15 questions, instant feedback.',
-        moduleAttempted: '', // quiz tasks do not create DB consultation records
+        moduleAttempted: 'module_5_task2',
         type: 'quiz',
         status: 'active',
       },

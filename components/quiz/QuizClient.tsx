@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   CheckCircle2, XCircle, ChevronRight, RotateCcw,
@@ -78,13 +78,14 @@ function useCountUp(target: number, active: boolean): number {
 const TOPICS = ['Pricing Pitch', 'WPC vs NIO', 'Technical Specs', 'Objection Handling', 'Installation', 'Sales Strategy'];
 const QUESTION_DURATION = 30;
 
-export function QuizClient({ moduleId }: { moduleId: string }) {
+export function QuizClient({ moduleId, moduleAttempted }: { moduleId: string; moduleAttempted: string }) {
   const [phase, setPhase] = useState<Phase>('intro');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [answers, setAnswers] = useState<string[]>([]);
   const [shaking, setShaking] = useState(false);
   const [timeLeft, setTimeLeft] = useState(QUESTION_DURATION);
+  const submitted = useRef(false);
 
   const questions = QUIZ_QUESTIONS;
   const total = questions.length;
@@ -124,6 +125,17 @@ export function QuizClient({ moduleId }: { moduleId: string }) {
       setCurrentIndex(i => i + 1);
     }
   }, [answers, currentIndex, total]);
+
+  // Submit score once when results phase begins
+  useEffect(() => {
+    if (phase !== 'results' || submitted.current || !moduleAttempted) return;
+    submitted.current = true;
+    fetch('/api/quiz/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ module_attempted: moduleAttempted, score: finalScore }),
+    }).catch(() => { /* fire-and-forget */ });
+  }, [phase, moduleAttempted, finalScore]);
 
   // Reset timer on new question or when quiz starts
   useEffect(() => {

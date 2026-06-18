@@ -75,7 +75,7 @@ export default async function ConsultationPage({ params }: TaskPageProps) {
 
           {/* Right: Quiz — scrollable */}
           <div className="flex-1 h-full overflow-y-auto">
-            <QuizClient moduleId={moduleId} />
+            <QuizClient moduleId={moduleId} moduleAttempted={taskConfig.moduleAttempted} />
           </div>
         </main>
       </div>

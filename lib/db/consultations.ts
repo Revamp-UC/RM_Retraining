@@ -157,6 +157,32 @@ export async function abandonConsultation(id: string): Promise<void> {
   } catch { /* DB not configured */ }
 }
 
+export async function saveQuizAttempt(params: {
+  mobile_number: string;
+  module_attempted: string;
+  score: number;
+}): Promise<void> {
+  const now = new Date();
+  const ist = new Date(now.getTime() + 5.5 * 60 * 60 * 1000);
+  const attempt_date = ist.toISOString().split('T')[0];
+  const attempt_time = ist.toISOString().split('T')[1].split('.')[0];
+
+  try {
+    await db
+      .from('consultation_history')
+      .insert({
+        mobile_number: params.mobile_number,
+        module_attempted: params.module_attempted,
+        customer_name: 'Quiz',
+        customer_gender: 'male',
+        attempt_date,
+        attempt_time,
+        status: 'completed',
+        overall_score: params.score,
+      });
+  } catch { /* DB not configured */ }
+}
+
 export async function getConsultationHistory(mobile_number: string): Promise<ConsultationHistoryItem[]> {
   try {
     const { data, error } = await db
