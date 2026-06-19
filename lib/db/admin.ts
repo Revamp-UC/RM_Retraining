@@ -112,6 +112,7 @@ export interface SkillGapRM {
 export interface SkillGapColumn {
   key: string;
   title: string;
+  threshold: number; // % below which an RM is flagged for this column
   rms: SkillGapRM[];
 }
 
@@ -123,7 +124,7 @@ export interface ModuleSkillGaps {
 
 // Each module's "needs practice" view = one or more columns. A column sums one or
 // more rubric sections, which may span several tasks of the module.
-interface ColumnDef { key: string; title: string; sections: string[] }
+interface ColumnDef { key: string; title: string; sections: string[]; threshold?: number }
 interface ModuleGroupDef { num: number; title: string; tasks: string[]; columns: ColumnDef[] }
 
 const MODULE_SKILL_GROUPS: Record<string, ModuleGroupDef> = {
@@ -141,8 +142,8 @@ const MODULE_SKILL_GROUPS: Record<string, ModuleGroupDef> = {
     title: 'Design Finalisation — Objection Handling',
     tasks: ['module_2_task1', 'module_2_task2'],
     columns: [
-      // reinforcement_tools (M2-T1) + reinforcement_proof (M2-T2)
-      { key: 'reinforcement', title: 'Reinforcement using Proof', sections: ['reinforcement_tools', 'reinforcement_proof'] },
+      // reinforcement_tools (M2-T1) + reinforcement_proof (M2-T2) — flagged below 80%
+      { key: 'reinforcement', title: 'Reinforcement using Proof', sections: ['reinforcement_tools', 'reinforcement_proof'], threshold: 80 },
       // discovery + expert recommendation + confidence building (all M2-T1)
       { key: 'design_finalisation', title: 'Design Finalisation', sections: ['discovery_leaning', 'expert_recommendation', 'confidence_building'] },
     ],
@@ -206,12 +207,13 @@ export async function getModuleSkillGaps(moduleKey: string): Promise<ModuleSkill
   const worstFirst = (a: SkillGapRM, b: SkillGapRM) => a.percentage - b.percentage || a.name.localeCompare(b.name);
 
   const columns: SkillGapColumn[] = cfg.columns.map(col => {
+    const threshold = col.threshold ?? SKILL_GAP_THRESHOLD;
     const rms: SkillGapRM[] = [];
     for (const [mobile, acc] of byRM) {
       const c = acc[col.key];
       if (c.max > 0) {
         const percentage = Math.round((c.score / c.max) * 100);
-        if (percentage < SKILL_GAP_THRESHOLD) {
+        if (percentage < threshold) {
           rms.push({
             mobile_number: mobile,
             name: nameByMobile.get(mobile) ?? mobile,
@@ -224,7 +226,7 @@ export async function getModuleSkillGaps(moduleKey: string): Promise<ModuleSkill
       }
     }
     rms.sort(worstFirst);
-    return { key: col.key, title: col.title, rms };
+    return { key: col.key, title: col.title, threshold, rms };
   });
 
   return { num: cfg.num, title: cfg.title, columns };

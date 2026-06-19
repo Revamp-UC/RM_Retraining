@@ -30,6 +30,9 @@ export default async function SkillGapModulePage({
     ? result.columns.map(c => ({ ...c, rms: c.rms.filter(rm => !ADMIN_MOBILES.has(rm.mobile_number)) }))
     : [];
   const distinct = new Set(columns.flatMap(c => c.rms.map(r => r.mobile_number))).size;
+  // Columns can have different cut-offs (e.g. Reinforcement at 80%); show a single % only if they all match.
+  const thresholds = [...new Set(columns.map(c => c.threshold))];
+  const cutoffLabel = thresholds.length === 1 ? `below ${thresholds[0]}%` : 'below each sub-skill’s cut-off';
 
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
@@ -72,14 +75,14 @@ export default async function SkillGapModulePage({
                 )}
               </div>
               <p className="text-sm text-[#9090a8]">
-                Module {result.num} · {result.title} — sub-skill mastery below 60% across all their Module {result.num} sessions
+                Module {result.num} · {result.title} — sub-skill mastery {cutoffLabel} across all their Module {result.num} sessions
               </p>
             </div>
 
             {/* One list per sub-skill column */}
             <div className="grid md:grid-cols-2 gap-5">
               {columns.map(c => (
-                <SkillGapList key={c.key} title={c.title} rms={c.rms} moduleLabel={`M${result.num}`} />
+                <SkillGapList key={c.key} title={c.title} rms={c.rms} moduleLabel={`M${result.num}`} threshold={c.threshold} />
               ))}
             </div>
           </>
