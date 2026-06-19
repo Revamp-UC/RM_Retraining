@@ -238,8 +238,22 @@ export interface TaskNonAttempt {
   rms: { mobile_number: string; name: string }[];
 }
 
-// Per task of a module, the active RMs who have no valid (completed / pending)
-// attempt for that task.
+// The "haven't attempted" view is restricted to this fixed cohort of RMs.
+// Matched to users by (case-insensitive, whitespace-normalised) name, since the
+// users table has no external RM id.
+const NON_ATTEMPT_RM_NAMES = [
+  'HARSH Kumar', 'Murtaza Jiwaaliwala', 'Akash Ashokbhai Patel', 'Rakesh Das', 'Abhyuday Kshatriya',
+  'Anany Shukla', 'Harsh Dubey', 'Shikhar Srivastava', 'Junaid Hussain', 'SUMAN KUMAR', 'Akash Ray',
+  'PANKAJ', 'Lovenesh Garg', 'Syed Khaibar Ali', 'Akshat Krishna Silakari', 'ADARSH YADAV',
+  'Abhishek Bamniya', 'Sonu Baghel', 'Abhrajit Halder', 'Anshuman Gupta', 'Aadarsh Thakur',
+  'Pankaj Chander Bachkheti', 'Ashish Kumar', 'Amaan Nawaz', 'Rajat Singh', 'Shubham Dhingra',
+];
+const normName = (s: string) => s.trim().toLowerCase().replace(/\s+/g, ' ');
+const NON_ATTEMPT_RM_SET = new Set(NON_ATTEMPT_RM_NAMES.map(normName));
+
+// Per task of a module, the cohort RMs who have no valid (completed / pending)
+// attempt for that task. Grouped by name so a person with duplicate accounts
+// appears once (and counts as "attempted" if any of their accounts did it).
 export async function getModuleTaskNonAttempts(moduleKey: string): Promise<TaskNonAttempt[] | null> {
   const cfg = MODULE_SKILL_GROUPS[moduleKey];
   if (!cfg) return null;
@@ -253,16 +267,26 @@ export async function getModuleTaskNonAttempts(moduleKey: string): Promise<TaskN
       .in('status', ['completed', 'evaluation_pending']),
   ]);
 
-  const users = (usersRes.data ?? []) as { mobile_number: string; name: string }[];
+  const users = ((usersRes.data ?? []) as { mobile_number: string; name: string }[])
+    .filter(u => NON_ATTEMPT_RM_SET.has(normName(u.name)));
   const consults = (consultsRes.data ?? []) as { mobile_number: string; module_attempted: string }[];
 
   const attempted = new Set(consults.map(c => `${c.mobile_number}|${c.module_attempted}`));
 
+  // Group cohort users by name to collapse duplicate accounts.
+  const byName = new Map<string, { name: string; mobiles: string[] }>();
+  for (const u of users) {
+    const k = normName(u.name);
+    if (!byName.has(k)) byName.set(k, { name: u.name, mobiles: [] });
+    byName.get(k)!.mobiles.push(u.mobile_number);
+  }
+  const people = [...byName.values()];
+
   return cfg.tasks.map((task, i) => ({
     task,
     label: `Task ${i + 1}`,
-    rms: users
-      .filter(u => !attempted.has(`${u.mobile_number}|${task}`))
-      .map(u => ({ mobile_number: u.mobile_number, name: u.name })),
+    rms: people
+      .filter(p => !p.mobiles.some(m => attempted.has(`${m}|${task}`)))
+      .map(p => ({ mobile_number: p.mobiles[0], name: p.name })),
   }));
 }
