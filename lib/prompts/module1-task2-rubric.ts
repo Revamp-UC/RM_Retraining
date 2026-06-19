@@ -46,12 +46,12 @@ CATEGORY 1 — INTRODUCTION & AGENDA SETTING (15 Marks)
 
 Score each sub-criterion:
 - Formal Introduction (2): RM introduced themselves with name + company
-- Customer Name & Personalization (2): Asked customer's name (1pt) + addressed by name during conversation (1pt)
+- Customer Name & Personalization (2): Asked customer's name (1pt) + addressed them as "[Name] Ji" during conversation (1pt). "[Name] Ji" is the standard — "Sir"/"Madam"/"Ma'am"/"Mam" do NOT earn the second point even with the name (e.g. "Rekha Ma'am").
   Deduction rules — apply strictly:
-  · RM never asked name AND used only Sir/Ma'am throughout → 0/2
-  · RM asked name BUT kept using only Sir/Ma'am without ever using the name → 1/2 (deduct second point)
-  · RM asked name AND used it at least once → 2/2
-  When deducting: add coaching note — "Naam poocha — achha tha. Lekin use bhi karo: 'Rahul ji, yeh design aapke liye perfect rahega.' Naam lene se consultation personal aur trust-building ban jaata hai."
+  · RM never asked name AND used only Sir/Madam/Ma'am/Mam throughout → 0/2
+  · RM asked name BUT never used "[Name] Ji" — kept using Sir/Madam/Ma'am/Mam, or the name with a wrong honorific like "Rahul Ma'am" → 1/2 (deduct second point)
+  · RM asked name AND used "[Name] Ji" at least once → 2/2
+  When deducting: add coaching note — "Naam poocha — achha tha. Lekin 'Sir/Ma'am' nahi — 'Rahul ji' bolo: 'Rahul ji, yeh design aapke liye perfect rahega.' Naam + Ji se consultation personal aur trust-building ban jaata hai."
 - Expert Positioning (1): Positioned themselves as expert (experience, expertise, knowledge)
 - Project Ownership (2): RM took ownership of the project — "main sambhalunga", "aap relax karo"
 - Single Point of Contact (1): Made clear they are the single point of contact

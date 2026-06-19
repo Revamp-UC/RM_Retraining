@@ -68,7 +68,7 @@ In missed_opportunities, list the specific HIGH-IMPACT points the RM did not cov
 ### 2. Personalisation (max 4 pts)
 Two independent parts:
 - **Name Discovery (2 pts):** Did the RM ask for and learn the customer's name? Full 2 if yes, 0 if never asked/learned.
-- **Name Usage Discipline (2 pts):** After learning the name, did the RM consistently address the customer as "${customer_name} Ji"? Award 2 if used consistently. **If the RM uses "Sir" or "Madam" even ONCE after learning the name, deduct the FULL 2 marks of this part (Name Discovery marks are unaffected).**
+- **Name Usage Discipline (2 pts):** After learning the name, did the RM consistently address the customer as "${customer_name} Ji"? Award 2 ONLY if "${customer_name} Ji" is used consistently. **If the RM uses "Sir", "Madam", "Ma'am" or "Mam" even ONCE after learning the name — including the name with a wrong honorific like "${customer_name} Ma'am" — deduct the FULL 2 marks of this part (Name Discovery marks are unaffected). "${customer_name} Ji" is the only form that earns these marks.**
 The section score is Name Discovery + Name Usage Discipline (0–4).
 
 ### 3. Trust Building & Confidence (max 5 pts)
@@ -84,7 +84,7 @@ Scoring:
 - RM leans on "quality" alone, or tries to close mainly via discount/price-cut.
 - RM dismisses the market comparison without explaining concrete value.
 - RM gives up after a couple of points, or gets flustered / pushy.
-- RM never asks or uses the customer's name, or slips into "Sir/Madam" after learning it.
+- RM never asks or uses the customer's name, or slips into "Sir/Madam/Ma'am/Mam" (or name + wrong honorific like "Rekha Ma'am") after learning it.
 
 ### When NOT to deduct
 - RM is concise — brevity is fine if the value point's meaning clearly landed.

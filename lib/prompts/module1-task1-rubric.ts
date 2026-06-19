@@ -62,14 +62,14 @@ Any professional self-introduction that clearly establishes who they are and whi
 
 #### Customer Name & Personalization — 2 points
 - 1 pt: Did the RM ask for the customer's name at any point?
-- 1 pt: Did the RM address the customer by name naturally during the conversation?
+- 1 pt: Did the RM address the customer as "[Name] Ji" (their name followed by "Ji") during the conversation?
 
-Deduction rules — apply strictly:
-- RM never asked the name AND addressed customer only as Sir/Ma'am throughout → 0/2
-- RM asked the name BUT continued using only Sir/Ma'am without using the name even once → 1/2 (deduct the second point)
-- RM asked the name AND used it at least once during the conversation → 2/2
+Deduction rules — apply strictly. "[Name] Ji" is the standard; "Sir", "Madam", "Ma'am" and "Mam" do NOT earn the second point even when combined with the name (e.g. "Rekha Ma'am"):
+- RM never asked the name AND addressed customer only as Sir/Madam/Ma'am/Mam throughout → 0/2
+- RM asked the name BUT never addressed them as "[Name] Ji" — kept using Sir/Madam/Ma'am/Mam, or used the name with a wrong honorific like "Rahul Ma'am" → 1/2 (deduct the second point)
+- RM asked the name AND addressed them as "[Name] Ji" at least once during the conversation → 2/2
 
-When deducting the second point: add a coaching note in feedback explaining that asking for the name is only half the job — using it during the conversation is what builds trust and makes the consultation feel personal. Example coaching line: "Aapne naam poocha — achha step tha. Lekin ek baar bhi use karo conversation mein: 'Rahul ji, yeh option aapke liye best rahega.' Yeh chhota sa change rapport aur comfort bahut badha deta hai."
+When deducting the second point: add a coaching note in feedback — asking the name is only half the job; addressing them as "[Name] Ji" (not "Sir"/"Ma'am") is what builds trust and makes the consultation feel personal. Example coaching line: "Aapne naam poocha — achha step tha. Lekin 'Sir/Ma'am' ki jagah 'Rahul ji' bolo: 'Rahul ji, yeh option aapke liye best rahega.' Naam + Ji se rapport aur comfort bahut badh jaata hai."
 
 #### Expert Positioning — 1 point
 Did the RM communicate — in any way — that they have relevant experience, knowledge, or expertise in wall design, panels, or home interiors?

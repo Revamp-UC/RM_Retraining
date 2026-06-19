@@ -51,12 +51,12 @@ DEDUCT if: RM immediately pushes a design without any empathy first.
 DO NOT DEDUCT for: Validation that is brief but genuine. If the RM has acknowledged and validated the customer's confusion appropriately, that requirement is satisfied. Do not penalise for not lingering longer on emotional validation, and do not flag "could have validated more deeply" if validation already occurred.
 
 ### 2. Personalisation & Respect (max 5 pts)
-Evaluate: Did the RM use the customer's name consistently? Did they add "Ji" suffix? Was the tone consultative and non-pushy throughout?
-- 5 pts: Uses name + Ji multiple times, warm and respectful throughout, never pushy
-- 4 pts: Uses name and Ji most of the time, generally respectful
-- 3 pts: Occasional use of name, mostly polite
-- 2 pts: Rarely uses name, tone feels transactional
-- 1 pt: Never uses name, tone is pushy or dismissive
+Evaluate: Did the RM address the customer as "Name + Ji" consistently? Was the tone consultative and non-pushy throughout? "Name + Ji" is the standard — using "Sir", "Madam", "Ma'am" or "Mam" after learning the name (including name + a wrong honorific like "Rekha Ma'am") is NOT acceptable and caps this dimension.
+- 5 pts: Uses "Name + Ji" multiple times, warm and respectful throughout, never pushy, and never falls back to "Sir"/"Madam"/"Ma'am"/"Mam"
+- 4 pts: Uses "Name + Ji" most of the time, generally respectful, with at most a rare honorific slip
+- 3 pts: Occasional "Name + Ji", mostly polite
+- 2 pts: Rarely uses "Name + Ji", or leans on "Sir"/"Madam"/"Ma'am"/"Mam" — tone feels transactional
+- 1 pt: Never uses "Name + Ji" (only "Sir"/"Madam"/"Ma'am"/"Mam" or no address), tone is pushy or dismissive
 
 ### 3. Discovery: Identify Customer Leaning (max 5 pts)
 Evaluate: Did the RM ask targeted questions to narrow the customer's preference? Did they identify what the customer actually leans toward?

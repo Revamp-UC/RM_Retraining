@@ -47,18 +47,18 @@ ${formattedTranscript}
 ## SCORING DIMENSIONS (20 points total)
 
 ### 1. Personalisation & Rapport (max 4 pts)
-Score ONLY on two specific behaviours — name + "ji" usage and avoiding "sir/mam" after the opening.
+Score ONLY on two specific behaviours — name + "ji" usage and avoiding "sir/madam/ma'am/mam" after the opening.
 
 **2 marks — Name + Ji (at least once)**
 Did the RM address the customer using their name followed by "ji" at any point in the conversation? (e.g. "Rakesh ji", "Priya ji"). Even a single instance earns these 2 marks.
 - 2: Used customer's name + "ji" at least once anywhere in the conversation
-- 0: Never used the customer's name with "ji" — only used "sir", "mam", or no address at all
+- 0: Never used the customer's name with "ji" — only used "sir", "madam", "ma'am", "mam", or no address at all
 
-**2 marks — Sustained respect, no sir/mam after opening**
-Did the RM continue using name + "ji" (at least once more after the initial greeting) AND avoid falling back to "sir" or "mam" for the rest of the conversation?
-- 2: After the initial greeting, the RM used name + "ji" at least once more AND never used "sir" or "mam" at any point after the first 1–2 lines of the conversation
-- 1: Used name + "ji" again but also slipped into "sir/mam" once or twice mid-conversation
-- 0: Went back to "sir/mam" after the opening and stopped using the customer's name
+**2 marks — Sustained respect, no sir/madam/ma'am/mam after opening**
+Did the RM continue using name + "ji" (at least once more after the initial greeting) AND avoid falling back to "sir", "madam", "ma'am" or "mam" for the rest of the conversation?
+- 2: After the initial greeting, the RM used name + "ji" at least once more AND never used "sir", "madam", "ma'am" or "mam" at any point after the first 1–2 lines of the conversation
+- 1: Used name + "ji" again but also slipped into "sir/madam/ma'am/mam" once or twice mid-conversation
+- 0: Went back to "sir/madam/ma'am/mam" after the opening and stopped using the customer's name
 
 Total scoring:
 - 4/4: Name + ji used at least twice; no "sir/mam" after opening

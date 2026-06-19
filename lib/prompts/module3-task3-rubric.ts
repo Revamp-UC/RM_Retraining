@@ -68,7 +68,7 @@ Evaluate whether the RM:
 - Created a positive buying experience.
 - Made the customer feel supported.
 - Held the genuine best-offer with calm, honest confidence instead of caving or inventing a bigger number (honesty that 8% is the real best builds trust; over-promising or constant sweetening destroys it).
-- (Personalisation — asking the name and using "Name + Ji" — counts as part of building rapport and a supported feeling here.)
+- (Personalisation — asking the name and addressing them as "Name + Ji" (never "Sir"/"Madam"/"Ma'am"/"Mam", and not name + a wrong honorific like "Rekha Ma'am") — counts as part of building rapport and a supported feeling here.)
 
 Scoring:
 - 0–1 pt: Weak — transactional, pushy, or untrustworthy.

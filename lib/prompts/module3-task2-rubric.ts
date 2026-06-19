@@ -78,12 +78,12 @@ Scoring:
 Evaluate whether the RM:
 - Asked the customer's name.
 - Used "Name + Ji" after learning the name.
-- Avoided "Sir"/"Madam" after learning the name.
+- Avoided "Sir", "Madam", "Ma'am" and "Mam" after learning the name.
 
 Scoring:
-- 0 pts: Poor personalization (never asked, or kept using Sir/Madam after learning the name).
-- 1 pt: Partial personalization (asked the name but used it inconsistently).
-- 2 pts: Consistent "Name + Ji" usage throughout after learning the name.
+- 0 pts: Never asked/learned the name, or only ever used "Sir"/"Madam"/"Ma'am"/"Mam" (or no address).
+- 1 pt: Asked the name but did not use "Name + Ji" consistently — used it inconsistently, OR addressed them with a wrong honorific like "Name + Ma'am"/"Name + Sir" instead of "Name + Ji".
+- 2 pts: Consistent "Name + Ji" usage throughout after learning the name, never falling back to "Sir"/"Madam"/"Ma'am"/"Mam".
 
 ## SCORING PHILOSOPHY
 
