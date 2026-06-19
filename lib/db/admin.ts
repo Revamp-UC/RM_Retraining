@@ -231,3 +231,38 @@ export async function getModuleSkillGaps(moduleKey: string): Promise<ModuleSkill
 
   return { num: cfg.num, title: cfg.title, columns };
 }
+
+export interface TaskNonAttempt {
+  task: string;   // module_attempted value
+  label: string;  // "Task 1", "Task 2", ...
+  rms: { mobile_number: string; name: string }[];
+}
+
+// Per task of a module, the active RMs who have no valid (completed / pending)
+// attempt for that task.
+export async function getModuleTaskNonAttempts(moduleKey: string): Promise<TaskNonAttempt[] | null> {
+  const cfg = MODULE_SKILL_GROUPS[moduleKey];
+  if (!cfg) return null;
+
+  const [usersRes, consultsRes] = await Promise.all([
+    db.from('users').select('mobile_number, name').eq('is_active', true).order('name'),
+    db
+      .from('consultation_history')
+      .select('mobile_number, module_attempted')
+      .in('module_attempted', cfg.tasks)
+      .in('status', ['completed', 'evaluation_pending']),
+  ]);
+
+  const users = (usersRes.data ?? []) as { mobile_number: string; name: string }[];
+  const consults = (consultsRes.data ?? []) as { mobile_number: string; module_attempted: string }[];
+
+  const attempted = new Set(consults.map(c => `${c.mobile_number}|${c.module_attempted}`));
+
+  return cfg.tasks.map((task, i) => ({
+    task,
+    label: `Task ${i + 1}`,
+    rms: users
+      .filter(u => !attempted.has(`${u.mobile_number}|${task}`))
+      .map(u => ({ mobile_number: u.mobile_number, name: u.name })),
+  }));
+}

@@ -2,8 +2,9 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { validateSession } from '@/lib/auth/session';
-import { getModuleSkillGaps } from '@/lib/db/admin';
+import { getModuleSkillGaps, getModuleTaskNonAttempts } from '@/lib/db/admin';
 import { SkillGapList } from '@/components/admin/SkillGapList';
+import { ModuleTaskNonAttempts } from '@/components/admin/ModuleTaskNonAttempts';
 import { ArrowLeft, TrendingDown, Lock } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -23,12 +24,19 @@ export default async function SkillGapModulePage({
   }
 
   const { moduleId } = await params;
-  const result = await getModuleSkillGaps(moduleId);
+  const [result, nonAttempts] = await Promise.all([
+    getModuleSkillGaps(moduleId),
+    getModuleTaskNonAttempts(moduleId),
+  ]);
 
   // Drop admin test runs from every column.
   const columns = result
     ? result.columns.map(c => ({ ...c, rms: c.rms.filter(rm => !ADMIN_MOBILES.has(rm.mobile_number)) }))
     : [];
+  const nonAttemptTasks = (nonAttempts ?? []).map(t => ({
+    ...t,
+    rms: t.rms.filter(rm => !ADMIN_MOBILES.has(rm.mobile_number)),
+  }));
   const distinct = new Set(columns.flatMap(c => c.rms.map(r => r.mobile_number))).size;
   // Columns can have different cut-offs (e.g. Reinforcement at 80%); show a single % only if they all match.
   const thresholds = [...new Set(columns.map(c => c.threshold))];
@@ -85,6 +93,9 @@ export default async function SkillGapModulePage({
                 <SkillGapList key={c.key} title={c.title} rms={c.rms} moduleLabel={`M${result.num}`} threshold={c.threshold} />
               ))}
             </div>
+
+            {/* Who hasn't attempted each task of this module */}
+            {nonAttemptTasks.length > 0 && <ModuleTaskNonAttempts tasks={nonAttemptTasks} />}
           </>
         )}
       </div>
