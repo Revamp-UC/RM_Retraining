@@ -17,7 +17,7 @@ function pctClasses(p: number) {
     : 'bg-amber-500/15 border-amber-500/35 text-amber-400';
 }
 
-export function SkillGapList({ title, rms }: { title: string; rms: SkillGapRM[] }) {
+export function SkillGapList({ title, rms, moduleLabel = 'M1' }: { title: string; rms: SkillGapRM[]; moduleLabel?: string }) {
   return (
     <div className="rounded-xl border border-[#1e1e28] bg-[#13131a] overflow-hidden">
       <div className="flex items-center gap-2.5 px-5 py-4 border-b border-[#1e1e28] bg-gradient-to-r from-red-500/5 to-transparent">
@@ -48,7 +48,7 @@ export function SkillGapList({ title, rms }: { title: string; rms: SkillGapRM[] 
                   {/* highlighted name */}
                   <p className="text-sm font-bold text-[#f1f1f5] truncate group-hover:text-white">{rm.name}</p>
                   <p className="text-[11px] text-[#60607a] mt-0.5">
-                    {rm.module_sessions} session{rm.module_sessions !== 1 ? 's' : ''} · M1
+                    {rm.module_sessions} session{rm.module_sessions !== 1 ? 's' : ''} · {moduleLabel}
                     <span className="text-[#3a3a4a]"> · {rm.score}/{rm.max} marks</span>
                   </p>
                 </div>

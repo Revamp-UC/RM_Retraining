@@ -96,52 +96,74 @@ export async function getRMName(mobile_number: string): Promise<string> {
 }
 
 // ── Module-wise sub-skill gap analysis ──────────────────────────────
-// An RM is flagged when their *cumulative* mastery of a sub-skill across all
-// their completed sessions in a module falls below this percentage.
+// An RM is flagged when their *cumulative* mastery of a sub-skill group across
+// all their completed sessions in a module falls below this percentage.
 export const SKILL_GAP_THRESHOLD = 60;
-
-const MODULE_1_TASKS = ['module_1_seepage', 'module_1_task2', 'module_1_task3'];
 
 export interface SkillGapRM {
   mobile_number: string;
   name: string;
-  module_sessions: number; // sessions in the module that scored this sub-skill
-  score: number;           // cumulative score earned in the sub-skill
-  max: number;             // cumulative max possible in the sub-skill
+  module_sessions: number; // sessions that contributed marks to this column
+  score: number;           // cumulative score earned in the column
+  max: number;             // cumulative max possible in the column
   percentage: number;      // round(score / max * 100)
 }
 
-export interface Module1SkillGaps {
-  introduction: SkillGapRM[];
-  budget_discovery: SkillGapRM[];
+export interface SkillGapColumn {
+  key: string;
+  title: string;
+  rms: SkillGapRM[];
 }
 
-type GapRow = {
-  mobile_number: string;
-  report_card_json: ReportCard | null;
-  introduction_score: number | null;
-  budget_score: number | null;
+export interface ModuleSkillGaps {
+  num: number;
+  title: string;
+  columns: SkillGapColumn[];
+}
+
+// Each module's "needs practice" view = one or more columns. A column sums one or
+// more rubric sections, which may span several tasks of the module.
+interface ColumnDef { key: string; title: string; sections: string[] }
+interface ModuleGroupDef { num: number; title: string; tasks: string[]; columns: ColumnDef[] }
+
+const MODULE_SKILL_GROUPS: Record<string, ModuleGroupDef> = {
+  'module-1': {
+    num: 1,
+    title: 'Know the Budget of Your Customer',
+    tasks: ['module_1_seepage', 'module_1_task2', 'module_1_task3'],
+    columns: [
+      { key: 'introduction', title: 'Introduction', sections: ['introduction'] },
+      { key: 'budget_discovery', title: 'Budget Discovery', sections: ['budget_discovery'] },
+    ],
+  },
+  'module-2': {
+    num: 2,
+    title: 'Design Finalisation — Objection Handling',
+    tasks: ['module_2_task1', 'module_2_task2'],
+    columns: [
+      // reinforcement_tools (M2-T1) + reinforcement_proof (M2-T2)
+      { key: 'reinforcement', title: 'Reinforcement using Proof', sections: ['reinforcement_tools', 'reinforcement_proof'] },
+      // discovery + expert recommendation + confidence building (all M2-T1)
+      { key: 'design_finalisation', title: 'Design Finalisation', sections: ['discovery_leaning', 'expert_recommendation', 'confidence_building'] },
+    ],
+  },
 };
 
-// Pull a section's {score, max} from the report card, falling back to the flat
-// column (every Module 1 task scores introduction & budget_discovery out of 15).
-function sectionScore(row: GapRow, key: 'introduction' | 'budget_discovery'): { score: number; max: number } | null {
-  const sec = row.report_card_json?.sections?.[key];
-  if (sec && typeof sec.score === 'number' && typeof sec.max_score === 'number' && sec.max_score > 0) {
-    return { score: sec.score, max: sec.max_score };
-  }
-  const col = key === 'introduction' ? row.introduction_score : row.budget_score;
-  if (typeof col === 'number') return { score: col, max: 15 };
-  return null;
+// Module keys that have a skill-gap view (e.g. ['module-1', 'module-2']).
+export function getSkillGapModuleKeys(): string[] {
+  return Object.keys(MODULE_SKILL_GROUPS);
 }
 
-export async function getModule1SkillGaps(): Promise<Module1SkillGaps> {
+export async function getModuleSkillGaps(moduleKey: string): Promise<ModuleSkillGaps | null> {
+  const cfg = MODULE_SKILL_GROUPS[moduleKey];
+  if (!cfg) return null;
+
   const [usersRes, consultsRes] = await Promise.all([
     db.from('users').select('mobile_number, name').eq('is_active', true),
     db
       .from('consultation_history')
-      .select('mobile_number, report_card_json, introduction_score, budget_score')
-      .in('module_attempted', MODULE_1_TASKS)
+      .select('mobile_number, report_card_json')
+      .in('module_attempted', cfg.tasks)
       .eq('status', 'completed'),
   ]);
 
@@ -150,48 +172,60 @@ export async function getModule1SkillGaps(): Promise<Module1SkillGaps> {
       (u: { mobile_number: string; name: string }) => [u.mobile_number, u.name] as [string, string],
     ),
   );
-  const rows = (consultsRes.data ?? []) as GapRow[];
+  const rows = (consultsRes.data ?? []) as { mobile_number: string; report_card_json: ReportCard | null }[];
 
-  interface Acc {
-    intro: { score: number; max: number; sessions: number };
-    budget: { score: number; max: number; sessions: number };
-  }
-  const byRM = new Map<string, Acc>();
+  // byRM -> per-column { score, max, sessions }
+  type ColAcc = { score: number; max: number; sessions: number };
+  const byRM = new Map<string, Record<string, ColAcc>>();
 
   for (const row of rows) {
+    const sections = row.report_card_json?.sections;
+    if (!sections) continue;
     let acc = byRM.get(row.mobile_number);
     if (!acc) {
-      acc = { intro: { score: 0, max: 0, sessions: 0 }, budget: { score: 0, max: 0, sessions: 0 } };
+      acc = {};
+      for (const col of cfg.columns) acc[col.key] = { score: 0, max: 0, sessions: 0 };
       byRM.set(row.mobile_number, acc);
     }
-    const intro = sectionScore(row, 'introduction');
-    if (intro) { acc.intro.score += intro.score; acc.intro.max += intro.max; acc.intro.sessions += 1; }
-    const budget = sectionScore(row, 'budget_discovery');
-    if (budget) { acc.budget.score += budget.score; acc.budget.max += budget.max; acc.budget.sessions += 1; }
-  }
-
-  const introduction: SkillGapRM[] = [];
-  const budget_discovery: SkillGapRM[] = [];
-
-  for (const [mobile, acc] of byRM) {
-    const name = nameByMobile.get(mobile) ?? mobile;
-    if (acc.intro.max > 0) {
-      const percentage = Math.round((acc.intro.score / acc.intro.max) * 100);
-      if (percentage < SKILL_GAP_THRESHOLD) {
-        introduction.push({ mobile_number: mobile, name, module_sessions: acc.intro.sessions, score: acc.intro.score, max: acc.intro.max, percentage });
+    for (const col of cfg.columns) {
+      let s = 0, m = 0, present = false;
+      for (const secKey of col.sections) {
+        const sec = sections[secKey];
+        if (sec && typeof sec.score === 'number' && typeof sec.max_score === 'number' && sec.max_score > 0) {
+          s += sec.score; m += sec.max_score; present = true;
+        }
       }
-    }
-    if (acc.budget.max > 0) {
-      const percentage = Math.round((acc.budget.score / acc.budget.max) * 100);
-      if (percentage < SKILL_GAP_THRESHOLD) {
-        budget_discovery.push({ mobile_number: mobile, name, module_sessions: acc.budget.sessions, score: acc.budget.score, max: acc.budget.max, percentage });
+      if (present) {
+        acc[col.key].score += s;
+        acc[col.key].max += m;
+        acc[col.key].sessions += 1;
       }
     }
   }
 
   const worstFirst = (a: SkillGapRM, b: SkillGapRM) => a.percentage - b.percentage || a.name.localeCompare(b.name);
-  introduction.sort(worstFirst);
-  budget_discovery.sort(worstFirst);
 
-  return { introduction, budget_discovery };
+  const columns: SkillGapColumn[] = cfg.columns.map(col => {
+    const rms: SkillGapRM[] = [];
+    for (const [mobile, acc] of byRM) {
+      const c = acc[col.key];
+      if (c.max > 0) {
+        const percentage = Math.round((c.score / c.max) * 100);
+        if (percentage < SKILL_GAP_THRESHOLD) {
+          rms.push({
+            mobile_number: mobile,
+            name: nameByMobile.get(mobile) ?? mobile,
+            module_sessions: c.sessions,
+            score: c.score,
+            max: c.max,
+            percentage,
+          });
+        }
+      }
+    }
+    rms.sort(worstFirst);
+    return { key: col.key, title: col.title, rms };
+  });
+
+  return { num: cfg.num, title: cfg.title, columns };
 }

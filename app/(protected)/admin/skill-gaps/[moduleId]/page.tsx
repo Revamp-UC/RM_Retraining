@@ -2,19 +2,13 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { validateSession } from '@/lib/auth/session';
-import { getModule1SkillGaps } from '@/lib/db/admin';
-import type { SkillGapRM } from '@/lib/db/admin';
+import { getModuleSkillGaps } from '@/lib/db/admin';
 import { SkillGapList } from '@/components/admin/SkillGapList';
 import { ArrowLeft, TrendingDown, Lock } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
 const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965', '8393005909', '9034002226']);
-
-// Only Module 1 is live for now; others render a "coming soon" state.
-const MODULE_META: Record<string, { num: number; title: string }> = {
-  'module-1': { num: 1, title: 'Know the Budget of Your Customer' },
-};
 
 export default async function SkillGapModulePage({
   params,
@@ -29,16 +23,13 @@ export default async function SkillGapModulePage({
   }
 
   const { moduleId } = await params;
-  const meta = MODULE_META[moduleId];
+  const result = await getModuleSkillGaps(moduleId);
 
-  let intro: SkillGapRM[] = [];
-  let budget: SkillGapRM[] = [];
-  if (moduleId === 'module-1') {
-    const gaps = await getModule1SkillGaps();
-    intro = gaps.introduction.filter(rm => !ADMIN_MOBILES.has(rm.mobile_number));
-    budget = gaps.budget_discovery.filter(rm => !ADMIN_MOBILES.has(rm.mobile_number));
-  }
-  const distinct = new Set([...intro, ...budget].map(rm => rm.mobile_number)).size;
+  // Drop admin test runs from every column.
+  const columns = result
+    ? result.columns.map(c => ({ ...c, rms: c.rms.filter(rm => !ADMIN_MOBILES.has(rm.mobile_number)) }))
+    : [];
+  const distinct = new Set(columns.flatMap(c => c.rms.map(r => r.mobile_number))).size;
 
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
@@ -48,7 +39,7 @@ export default async function SkillGapModulePage({
           <div className="flex items-center gap-3 min-w-0">
             <TrendingDown className="h-5 w-5 text-red-400 shrink-0" />
             <span className="text-sm font-bold text-[#f1f1f5] truncate">
-              {meta ? `Module ${meta.num} · Needs Practice` : 'Needs Practice'}
+              {result ? `Module ${result.num} · Needs Practice` : 'Needs Practice'}
             </span>
           </div>
           <Link
@@ -62,7 +53,7 @@ export default async function SkillGapModulePage({
       </div>
 
       <div className="max-w-6xl mx-auto px-6 py-8 space-y-6">
-        {!meta ? (
+        {!result ? (
           <div className="rounded-xl border border-[#1e1e28] bg-[#13131a] px-6 py-20 text-center">
             <Lock className="h-8 w-8 text-[#3a3a4a] mx-auto mb-3" />
             <h2 className="text-base font-bold text-[#f1f1f5]">Data will be visible soon</h2>
@@ -81,14 +72,15 @@ export default async function SkillGapModulePage({
                 )}
               </div>
               <p className="text-sm text-[#9090a8]">
-                Module {meta.num} · {meta.title} — sub-skill mastery below 60% across all their Module {meta.num} sessions
+                Module {result.num} · {result.title} — sub-skill mastery below 60% across all their Module {result.num} sessions
               </p>
             </div>
 
-            {/* Two sub-skills */}
+            {/* One list per sub-skill column */}
             <div className="grid md:grid-cols-2 gap-5">
-              <SkillGapList title="Introduction" rms={intro} />
-              <SkillGapList title="Budget Discovery" rms={budget} />
+              {columns.map(c => (
+                <SkillGapList key={c.key} title={c.title} rms={c.rms} moduleLabel={`M${result.num}`} />
+              ))}
             </div>
           </>
         )}

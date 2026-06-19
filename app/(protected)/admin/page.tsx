@@ -2,9 +2,9 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { validateSession } from '@/lib/auth/session';
-import { getAllRMPerformance, getModule1SkillGaps } from '@/lib/db/admin';
+import { getAllRMPerformance, getModuleSkillGaps } from '@/lib/db/admin';
 import { ArrowLeft, BarChart3, ChevronRight } from 'lucide-react';
-import type { RMPerformance } from '@/lib/db/admin';
+import type { RMPerformance, ModuleSkillGaps } from '@/lib/db/admin';
 import { BroadcastControl } from '@/components/admin/BroadcastControl';
 import { TopPerformers } from '@/components/admin/TopPerformers';
 import { ModuleGrid } from '@/components/admin/ModuleGrid';
@@ -123,15 +123,26 @@ export default async function AdminPage() {
     redirect('/dashboard');
   }
 
-  const [allRM, skillGaps] = await Promise.all([
+  const [allRM, m1Gaps, m2Gaps] = await Promise.all([
     getAllRMPerformance(),
-    getModule1SkillGaps(),
+    getModuleSkillGaps('module-1'),
+    getModuleSkillGaps('module-2'),
   ]);
 
-  // Distinct real RMs needing practice in Module 1 (union of both sub-skills) — drives the tile badge.
-  const m1Intro = skillGaps.introduction.filter(rm => !ADMIN_MOBILES.has(rm.mobile_number));
-  const m1Budget = skillGaps.budget_discovery.filter(rm => !ADMIN_MOBILES.has(rm.mobile_number));
-  const m1Count = new Set([...m1Intro, ...m1Budget].map(rm => rm.mobile_number)).size;
+  // Distinct real RMs needing practice in a module (union across its columns) — drives each tile badge.
+  const distinctNeedingPractice = (g: ModuleSkillGaps | null) =>
+    g
+      ? new Set(
+          g.columns
+            .flatMap(c => c.rms)
+            .filter(rm => !ADMIN_MOBILES.has(rm.mobile_number))
+            .map(rm => rm.mobile_number),
+        ).size
+      : 0;
+  const moduleCounts: Record<number, number> = {
+    1: distinctNeedingPractice(m1Gaps),
+    2: distinctNeedingPractice(m2Gaps),
+  };
 
   const attempted = allRM
     .filter(rm => rm.attempt_count > 0)
@@ -233,7 +244,7 @@ export default async function AdminPage() {
         <TopPerformers performers={topPerformers} />
 
         {/* ── These RMs Need Practice — module grid (click a module → detail page) ── */}
-        <ModuleGrid m1Count={m1Count} />
+        <ModuleGrid counts={moduleCounts} />
 
 
         {/* ── All RMs table ── */}

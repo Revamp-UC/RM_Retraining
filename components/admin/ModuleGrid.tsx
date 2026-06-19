@@ -3,14 +3,14 @@ import { ChevronRight, Lock, TrendingDown } from 'lucide-react';
 
 const MODULES: { num: number; title: string; live: boolean; href?: string }[] = [
   { num: 1, title: 'Know the Budget of Your Customer', live: true, href: '/admin/skill-gaps/module-1' },
-  { num: 2, title: 'Design Finalisation — Objection Handling', live: false },
+  { num: 2, title: 'Design Finalisation — Objection Handling', live: true, href: '/admin/skill-gaps/module-2' },
   { num: 3, title: 'Levers Used', live: false },
   { num: 4, title: 'Market Comparison', live: false },
   { num: 5, title: 'NIO Premium Panels', live: false },
   { num: 6, title: 'Coming Soon', live: false },
 ];
 
-export function ModuleGrid({ m1Count }: { m1Count: number }) {
+export function ModuleGrid({ counts }: { counts: Record<number, number> }) {
   return (
     <div className="rounded-xl border border-[#1e1e28] bg-[#13131a] overflow-hidden">
       {/* Section header */}
@@ -56,9 +56,9 @@ export function ModuleGrid({ m1Count }: { m1Count: number }) {
 
               <div className="mt-auto pt-3">
                 {mod.live ? (
-                  m1Count > 0 ? (
+                  (counts[mod.num] ?? 0) > 0 ? (
                     <span className="inline-block text-[10px] font-bold text-red-400 bg-red-500/10 border border-red-500/25 rounded-full px-2 py-0.5">
-                      {m1Count} need practice
+                      {counts[mod.num]} need practice
                     </span>
                   ) : (
                     <span className="inline-block text-[10px] font-bold text-green-400 bg-green-500/10 border border-green-500/25 rounded-full px-2 py-0.5">
