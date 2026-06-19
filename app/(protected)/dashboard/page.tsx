@@ -24,8 +24,8 @@ const MODULES = [
     task: 'Design Finalisation — Objection Handling',
     isActive: true,
   },
-  { id: 'module_3', number: 3, task: 'Levers Used', isActive: true, adminOnly: true },
-  { id: 'module_4', number: 4, task: 'Market Comparison', isActive: true, adminOnly: true },
+  { id: 'module_3', number: 3, task: 'Levers Used', isActive: true },
+  { id: 'module_4', number: 4, task: 'Market Comparison', isActive: true },
   { id: 'module_5', number: 5, task: 'NIO Premium Panels', isActive: true, adminOnly: true },
   { id: 'module_6', number: 6, name: 'Complete Room Makeover', isActive: false },
 ];
@@ -46,11 +46,11 @@ export default async function DashboardPage() {
     getModuleStats(user.mobile_number, 'module_1_task3'),
     getModuleStats(user.mobile_number, 'module_2_task1'),
     getModuleStats(user.mobile_number, 'module_2_task2'),
-    // Module 3, 4, 5 are admin-only — only fetch their stats for admins
-    isAdmin ? getModuleStats(user.mobile_number, 'module_3_task1') : Promise.resolve(null),
-    isAdmin ? getModuleStats(user.mobile_number, 'module_3_task2') : Promise.resolve(null),
-    isAdmin ? getModuleStats(user.mobile_number, 'module_3_task3') : Promise.resolve(null),
-    isAdmin ? getModuleStats(user.mobile_number, 'module_4_task1') : Promise.resolve(null),
+    // Modules 3 & 4 are live for all RMs; Module 5 stays admin-only
+    getModuleStats(user.mobile_number, 'module_3_task1'),
+    getModuleStats(user.mobile_number, 'module_3_task2'),
+    getModuleStats(user.mobile_number, 'module_3_task3'),
+    getModuleStats(user.mobile_number, 'module_4_task1'),
     isAdmin ? getModuleStats(user.mobile_number, 'module_5_task1') : Promise.resolve(null),
     isAdmin ? getModuleStats(user.mobile_number, 'module_5_task2') : Promise.resolve(null),
     getConsultationHistory(user.mobile_number),

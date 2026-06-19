@@ -24,7 +24,7 @@ export function ModuleTaskNonAttempts({ tasks }: { tasks: NonAttemptTask[] }) {
       </div>
 
       {/* One column per task — always shown */}
-      <div className={`p-3 sm:p-4 grid grid-cols-1 ${colsClass} gap-3`}>
+      <div className={`p-3 sm:p-4 grid grid-cols-1 ${colsClass} gap-3 items-start`}>
         {tasks.map(t => (
           <div key={t.task} className="rounded-lg border border-[#1e1e28] bg-[#0f0f16] overflow-hidden">
             <div className="flex items-center gap-2 px-4 py-3 border-b border-[#1e1e28]">
@@ -36,7 +36,7 @@ export function ModuleTaskNonAttempts({ tasks }: { tasks: NonAttemptTask[] }) {
             {t.rms.length === 0 ? (
               <div className="px-4 py-7 text-center text-xs text-[#60607a]">Everyone attempted this task. 🎉</div>
             ) : (
-              <ul className="divide-y divide-[#16161f] max-h-80 overflow-y-auto">
+              <ul className="divide-y divide-[#16161f]">
                 {t.rms.map((rm, i) => (
                   <li key={rm.mobile_number} className="flex items-center gap-3 px-4 py-2.5">
                     <span className="text-[10px] font-bold text-[#3a3a4a] w-5 text-right shrink-0">{i + 1}</span>

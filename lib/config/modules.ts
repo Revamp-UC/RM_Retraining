@@ -84,7 +84,6 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
     id: 'module_3',
     title: 'Levers Used',
     description: 'The introduction and full consultation are done and the design is finalised — only the booking decision is pending',
-    adminOnly: true, // live for admins only for now
     tasks: [
       {
         id: 'task_1',
@@ -113,7 +112,6 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
     id: 'module_4',
     title: 'Market Comparison',
     description: 'The design is selected, but the customer thinks the market is much cheaper and wants to know why you cost more',
-    adminOnly: true, // live for admins only for now
     tasks: [
       {
         id: 'task_1',
