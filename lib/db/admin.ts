@@ -1,6 +1,6 @@
 import { db } from './client';
 import type { ReportCard } from '@/types/consultation';
-import { normaliseScore } from '@/lib/config/modules';
+import { normaliseScore, MODULE_CONFIG } from '@/lib/config/modules';
 
 export interface RMPerformance {
   mobile_number: string;
@@ -289,4 +289,124 @@ export async function getModuleTaskNonAttempts(moduleKey: string): Promise<TaskN
       .filter(p => !p.mobiles.some(m => attempted.has(`${m}|${task}`)))
       .map(p => ({ mobile_number: p.mobiles[0], name: p.name })),
   }));
+}
+
+// ── Per-RM × per-task attempt tracking matrix (fixed 26-RM cohort) ──────
+// Rows = the NON_ATTEMPT cohort (grouped by name to collapse duplicate accounts).
+// Columns = every live, trackable task across all modules, in module order.
+// Each cell = how many times that RM attempted that task (0 ⇒ still pending).
+
+export interface MatrixColumn {
+  key: string;       // module_attempted value, e.g. 'module_3_task2'
+  moduleNum: number; // 1..5
+  label: string;     // 'T1', 'T2', 'Quiz' …
+  title: string;     // full task title, for the cell tooltip
+}
+
+export interface MatrixGroup {
+  num: number;     // module number
+  title: string;   // module title
+  colKeys: string[];
+}
+
+export interface MatrixRMRow {
+  name: string;
+  counts: Record<string, number>; // module_attempted -> attempt count
+  total: number;                  // total attempts across tracked tasks
+  pending: number;                // tracked tasks not yet attempted
+  lastAttempt: string | null;     // ISO timestamp of latest tracked attempt
+}
+
+export interface AttemptMatrix {
+  columns: MatrixColumn[];
+  groups: MatrixGroup[];
+  rms: MatrixRMRow[];
+  cohortSize: number;
+  generatedAt: string;
+}
+
+// Derive the ordered task columns from the single source of truth (MODULE_CONFIG).
+// A task is tracked only if it is active and writes a module_attempted value
+// (the NIO playbook has none, so it is excluded). Quiz tasks are labelled 'Quiz';
+// every other task is 'T{n}' by its position among that module's trackable tasks.
+function buildMatrixColumns(): { columns: MatrixColumn[]; groups: MatrixGroup[] } {
+  const columns: MatrixColumn[] = [];
+  const groups: MatrixGroup[] = [];
+
+  const modulesInOrder = Object.values(MODULE_CONFIG)
+    .map(m => ({ m, num: Number(m.id.replace('module_', '')) }))
+    .filter(({ num }) => Number.isFinite(num))
+    .sort((a, b) => a.num - b.num);
+
+  for (const { m, num } of modulesInOrder) {
+    const colKeys: string[] = [];
+    let taskIndex = 0;
+    for (const task of m.tasks) {
+      if (task.status !== 'active' || !task.moduleAttempted) continue;
+      const label = task.type === 'quiz' ? 'Quiz' : `T${++taskIndex}`;
+      columns.push({ key: task.moduleAttempted, moduleNum: num, label, title: task.title });
+      colKeys.push(task.moduleAttempted);
+    }
+    if (colKeys.length) groups.push({ num, title: m.title, colKeys });
+  }
+
+  return { columns, groups };
+}
+
+export async function getAttemptMatrix(): Promise<AttemptMatrix> {
+  const { columns, groups } = buildMatrixColumns();
+  const taskKeys = columns.map(c => c.key);
+
+  const [usersRes, consultsRes] = await Promise.all([
+    db.from('users').select('mobile_number, name').eq('is_active', true).order('name'),
+    db
+      .from('consultation_history')
+      .select('mobile_number, module_attempted, created_at')
+      .in('module_attempted', taskKeys)
+      .in('status', ['completed', 'evaluation_pending']),
+  ]);
+
+  // Restrict to the fixed cohort, matched by normalised name.
+  const cohort = ((usersRes.data ?? []) as { mobile_number: string; name: string }[])
+    .filter(u => NON_ATTEMPT_RM_SET.has(normName(u.name)));
+  const consults = (consultsRes.data ?? []) as {
+    mobile_number: string;
+    module_attempted: string;
+    created_at: string;
+  }[];
+
+  // One row per person; collapse duplicate accounts by normalised name.
+  const mobileToKey = new Map<string, string>();
+  const rowByKey = new Map<string, MatrixRMRow>();
+  for (const u of cohort) {
+    const k = normName(u.name);
+    mobileToKey.set(u.mobile_number, k);
+    if (!rowByKey.has(k)) {
+      rowByKey.set(k, { name: u.name, counts: {}, total: 0, pending: 0, lastAttempt: null });
+    }
+  }
+
+  for (const c of consults) {
+    const k = mobileToKey.get(c.mobile_number);
+    if (!k) continue; // not in cohort
+    const row = rowByKey.get(k)!;
+    row.counts[c.module_attempted] = (row.counts[c.module_attempted] ?? 0) + 1;
+    row.total += 1;
+    if (!row.lastAttempt || c.created_at > row.lastAttempt) row.lastAttempt = c.created_at;
+  }
+
+  const rms = [...rowByKey.values()];
+  for (const row of rms) {
+    row.pending = taskKeys.reduce((n, key) => n + ((row.counts[key] ?? 0) === 0 ? 1 : 0), 0);
+  }
+  // Stable roster order (name asc) — important so rows don't reshuffle on live refresh.
+  rms.sort((a, b) => a.name.localeCompare(b.name));
+
+  return {
+    columns,
+    groups,
+    rms,
+    cohortSize: rms.length,
+    generatedAt: new Date().toISOString(),
+  };
 }
