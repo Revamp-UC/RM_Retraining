@@ -127,7 +127,6 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
     id: 'module_5',
     title: 'NIO Premium Panels',
     description: 'The quality you always wanted at the price you never expected',
-    adminOnly: true,
     tasks: [
       {
         id: 'task_1',

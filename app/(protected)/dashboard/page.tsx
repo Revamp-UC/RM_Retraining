@@ -26,7 +26,7 @@ const MODULES = [
   },
   { id: 'module_3', number: 3, task: 'Levers Used', isActive: true },
   { id: 'module_4', number: 4, task: 'Market Comparison', isActive: true },
-  { id: 'module_5', number: 5, task: 'NIO Premium Panels', isActive: true, adminOnly: true },
+  { id: 'module_5', number: 5, task: 'NIO Premium Panels', isActive: true },
   { id: 'module_6', number: 6, name: 'Complete Room Makeover', isActive: false },
 ];
 
@@ -46,13 +46,13 @@ export default async function DashboardPage() {
     getModuleStats(user.mobile_number, 'module_1_task3'),
     getModuleStats(user.mobile_number, 'module_2_task1'),
     getModuleStats(user.mobile_number, 'module_2_task2'),
-    // Modules 3 & 4 are live for all RMs; Module 5 stays admin-only
+    // Modules 3, 4 & 5 are live for all RMs
     getModuleStats(user.mobile_number, 'module_3_task1'),
     getModuleStats(user.mobile_number, 'module_3_task2'),
     getModuleStats(user.mobile_number, 'module_3_task3'),
     getModuleStats(user.mobile_number, 'module_4_task1'),
-    isAdmin ? getModuleStats(user.mobile_number, 'module_5_task1') : Promise.resolve(null),
-    isAdmin ? getModuleStats(user.mobile_number, 'module_5_task2') : Promise.resolve(null),
+    getModuleStats(user.mobile_number, 'module_5_task1'),
+    getModuleStats(user.mobile_number, 'module_5_task2'),
     getConsultationHistory(user.mobile_number),
   ]);
 
