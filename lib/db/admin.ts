@@ -271,6 +271,11 @@ export interface TaskNonAttempt {
   rms: { mobile_number: string; name: string }[];
 }
 
+// Admin mobile numbers — used to separate admins from RMs in the matrix.
+const ADMIN_MOBILE_SET = new Set([
+  '7880320915', '9871531279', '9873696654', '8439197965', '8393005909', '9034002226',
+]);
+
 // The "haven't attempted" view is restricted to this fixed cohort of RMs.
 // Matched to users by (case-insensitive, whitespace-normalised) name, since the
 // users table has no external RM id.
@@ -354,7 +359,9 @@ export interface MatrixRMRow {
 export interface AttemptMatrix {
   columns: MatrixColumn[];
   groups: MatrixGroup[];
-  rms: MatrixRMRow[];
+  rms: MatrixRMRow[];       // 26-RM fixed cohort
+  otherRMs: MatrixRMRow[];  // non-cohort, non-admin; only those with ≥1 attempt
+  adminRMs: MatrixRMRow[];  // admins; only those with ≥1 attempt
   cohortSize: number;
   generatedAt: string;
 }
@@ -400,46 +407,73 @@ export async function getAttemptMatrix(): Promise<AttemptMatrix> {
       .in('status', ['completed', 'evaluation_pending']),
   ]);
 
-  // Restrict to the fixed cohort, matched by normalised name.
-  const cohort = ((usersRes.data ?? []) as { mobile_number: string; name: string }[])
-    .filter(u => NON_ATTEMPT_RM_SET.has(normName(u.name)));
+  const allUsers = (usersRes.data ?? []) as { mobile_number: string; name: string }[];
   const consults = (consultsRes.data ?? []) as {
     mobile_number: string;
     module_attempted: string;
     created_at: string;
   }[];
 
-  // One row per person; collapse duplicate accounts by normalised name.
-  const mobileToKey = new Map<string, string>();
-  const rowByKey = new Map<string, MatrixRMRow>();
-  for (const u of cohort) {
-    const k = normName(u.name);
-    mobileToKey.set(u.mobile_number, k);
-    if (!rowByKey.has(k)) {
-      rowByKey.set(k, { name: u.name, mobile_number: u.mobile_number, counts: {}, total: 0, pending: 0, lastAttempt: null });
+  // Split users into three mutually exclusive groups.
+  // Admin check takes precedence so an admin whose name matches the cohort list
+  // is always placed in the admin group.
+  const cohortUsers = allUsers.filter(u => !ADMIN_MOBILE_SET.has(u.mobile_number) && NON_ATTEMPT_RM_SET.has(normName(u.name)));
+  const adminUsers  = allUsers.filter(u => ADMIN_MOBILE_SET.has(u.mobile_number));
+  const otherUsers  = allUsers.filter(u => !ADMIN_MOBILE_SET.has(u.mobile_number) && !NON_ATTEMPT_RM_SET.has(normName(u.name)));
+
+  // Build a row-map for a list of users (dedup by normalised name).
+  function buildRowMap(users: typeof allUsers): { mobileToKey: Map<string, string>; rowByKey: Map<string, MatrixRMRow> } {
+    const mobileToKey = new Map<string, string>();
+    const rowByKey    = new Map<string, MatrixRMRow>();
+    for (const u of users) {
+      const k = normName(u.name);
+      mobileToKey.set(u.mobile_number, k);
+      if (!rowByKey.has(k)) {
+        rowByKey.set(k, { name: u.name, mobile_number: u.mobile_number, counts: {}, total: 0, pending: 0, lastAttempt: null });
+      }
+    }
+    return { mobileToKey, rowByKey };
+  }
+
+  const cohortMap = buildRowMap(cohortUsers);
+  const adminMap  = buildRowMap(adminUsers);
+  const otherMap  = buildRowMap(otherUsers);
+
+  // One combined mobile → row lookup so each consult hits the right group in O(1).
+  const mobileToRow = new Map<string, MatrixRMRow>();
+  for (const { mobileToKey, rowByKey } of [cohortMap, adminMap, otherMap]) {
+    for (const [mobile, key] of mobileToKey) {
+      mobileToRow.set(mobile, rowByKey.get(key)!);
     }
   }
 
   for (const c of consults) {
-    const k = mobileToKey.get(c.mobile_number);
-    if (!k) continue; // not in cohort
-    const row = rowByKey.get(k)!;
+    const row = mobileToRow.get(c.mobile_number);
+    if (!row) continue;
     row.counts[c.module_attempted] = (row.counts[c.module_attempted] ?? 0) + 1;
     row.total += 1;
     if (!row.lastAttempt || c.created_at > row.lastAttempt) row.lastAttempt = c.created_at;
   }
 
-  const rms = [...rowByKey.values()];
-  for (const row of rms) {
-    row.pending = taskKeys.reduce((n, key) => n + ((row.counts[key] ?? 0) === 0 ? 1 : 0), 0);
+  function finaliseRows(rowByKey: Map<string, MatrixRMRow>, requireAttempts = false): MatrixRMRow[] {
+    const rows = [...rowByKey.values()];
+    for (const row of rows) {
+      row.pending = taskKeys.reduce((n, key) => n + ((row.counts[key] ?? 0) === 0 ? 1 : 0), 0);
+    }
+    return (requireAttempts ? rows.filter(r => r.total > 0) : rows)
+      .sort((a, b) => a.name.localeCompare(b.name));
   }
-  // Stable roster order (name asc) — important so rows don't reshuffle on live refresh.
-  rms.sort((a, b) => a.name.localeCompare(b.name));
+
+  const rms      = finaliseRows(cohortMap.rowByKey);              // cohort: all 26 shown
+  const otherRMs = finaliseRows(otherMap.rowByKey,  true);        // others: ≥1 attempt only
+  const adminRMs = finaliseRows(adminMap.rowByKey,  true);        // admins: ≥1 attempt only
 
   return {
     columns,
     groups,
     rms,
+    otherRMs,
+    adminRMs,
     cohortSize: rms.length,
     generatedAt: new Date().toISOString(),
   };
