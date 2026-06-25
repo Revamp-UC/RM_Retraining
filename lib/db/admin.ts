@@ -148,6 +148,39 @@ const MODULE_SKILL_GROUPS: Record<string, ModuleGroupDef> = {
       { key: 'design_finalisation', title: 'Design Finalisation', sections: ['discovery_leaning', 'expert_recommendation', 'confidence_building'] },
     ],
   },
+  'module-3': {
+    num: 3,
+    title: 'Levers Used',
+    tasks: ['module_3_task1', 'module_3_task2', 'module_3_task3'],
+    columns: [
+      // lever_used (M3-T1, M3-T2) + discount_lever (M3-T3) — all sum into one "Levers" column
+      // threshold 70%: RM flagged only if their cumulative lever score is below 70%
+      { key: 'levers_used', title: 'Levers Used (Discount & Urgency)', sections: ['lever_used', 'discount_lever'], threshold: 70 },
+    ],
+  },
+  'module-4': {
+    num: 4,
+    title: 'Market Comparison',
+    tasks: ['module_4_task1'],
+    columns: [
+      // value_justification (M4-T1, max 21) — flagged below 60%
+      { key: 'value_justification', title: 'Value Justification', sections: ['value_justification'], threshold: 60 },
+    ],
+  },
+  'module-5': {
+    num: 5,
+    title: 'NIO Premium Panels',
+    tasks: ['module_5_task1'],
+    columns: [
+      // all 6 sections of M5-T1 roleplay (total max 20) — flagged below 60%
+      {
+        key: 'nio_overall',
+        title: 'NIO Premium Panels — Overall',
+        sections: ['personalisation_rapport', 'value_anchoring', 'tailored_differentiation', 'objection_handling', 'curated_design_value', 'conviction_no_discount'],
+        threshold: 60,
+      },
+    ],
+  },
 };
 
 // Module keys that have a skill-gap view (e.g. ['module-1', 'module-2']).

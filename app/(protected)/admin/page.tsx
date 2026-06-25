@@ -51,10 +51,13 @@ export default async function AdminPage() {
     redirect('/dashboard');
   }
 
-  const [allRM, m1Gaps, m2Gaps, attemptMatrix] = await Promise.all([
+  const [allRM, m1Gaps, m2Gaps, m3Gaps, m4Gaps, m5Gaps, attemptMatrix] = await Promise.all([
     getAllRMPerformance(),
     getModuleSkillGaps('module-1'),
     getModuleSkillGaps('module-2'),
+    getModuleSkillGaps('module-3'),
+    getModuleSkillGaps('module-4'),
+    getModuleSkillGaps('module-5'),
     getAttemptMatrix(),
   ]);
 
@@ -71,6 +74,9 @@ export default async function AdminPage() {
   const moduleCounts: Record<number, number> = {
     1: distinctNeedingPractice(m1Gaps),
     2: distinctNeedingPractice(m2Gaps),
+    3: distinctNeedingPractice(m3Gaps),
+    4: distinctNeedingPractice(m4Gaps),
+    5: distinctNeedingPractice(m5Gaps),
   };
 
   const attempted = allRM

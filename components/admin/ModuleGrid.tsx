@@ -4,9 +4,9 @@ import { ChevronRight, Lock, TrendingDown } from 'lucide-react';
 const MODULES: { num: number; title: string; live: boolean; href?: string }[] = [
   { num: 1, title: 'Know the Budget of Your Customer', live: true, href: '/admin/skill-gaps/module-1' },
   { num: 2, title: 'Design Finalisation — Objection Handling', live: true, href: '/admin/skill-gaps/module-2' },
-  { num: 3, title: 'Levers Used', live: false },
-  { num: 4, title: 'Market Comparison', live: false },
-  { num: 5, title: 'NIO Premium Panels', live: false },
+  { num: 3, title: 'Levers Used', live: true, href: '/admin/skill-gaps/module-3' },
+  { num: 4, title: 'Market Comparison', live: true, href: '/admin/skill-gaps/module-4' },
+  { num: 5, title: 'NIO Premium Panels', live: true, href: '/admin/skill-gaps/module-5' },
   { num: 6, title: 'Coming Soon', live: false },
 ];
 
