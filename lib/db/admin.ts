@@ -344,6 +344,7 @@ export interface MatrixGroup {
 
 export interface MatrixRMRow {
   name: string;
+  mobile_number: string;          // first mobile for this person (used for /admin/rm/ link)
   counts: Record<string, number>; // module_attempted -> attempt count
   total: number;                  // total attempts across tracked tasks
   pending: number;                // tracked tasks not yet attempted
@@ -415,7 +416,7 @@ export async function getAttemptMatrix(): Promise<AttemptMatrix> {
     const k = normName(u.name);
     mobileToKey.set(u.mobile_number, k);
     if (!rowByKey.has(k)) {
-      rowByKey.set(k, { name: u.name, counts: {}, total: 0, pending: 0, lastAttempt: null });
+      rowByKey.set(k, { name: u.name, mobile_number: u.mobile_number, counts: {}, total: 0, pending: 0, lastAttempt: null });
     }
   }
 

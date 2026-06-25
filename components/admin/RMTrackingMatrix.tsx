@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Activity } from 'lucide-react';
+import { Activity, ExternalLink } from 'lucide-react';
+import Link from 'next/link';
 import type { AttemptMatrix } from '@/lib/db/admin';
 
 const REFRESH_MS = 15_000;
@@ -58,6 +59,7 @@ export function RMTrackingMatrix({ initial }: { initial: AttemptMatrix }) {
   }, []);
 
   const { columns, groups, rms, cohortSize } = matrix;
+  const totalAllAttempts = rms.reduce((sum, rm) => sum + rm.total, 0);
   // How many of the cohort have attempted each task at least once (for the footer).
   const doneByTask: Record<string, number> = {};
   for (const col of columns) {
@@ -127,8 +129,18 @@ export function RMTrackingMatrix({ initial }: { initial: AttemptMatrix }) {
           <tbody>
             {rms.map(rm => (
               <tr key={rm.name} className="border-b border-[#1a1a24] hover:bg-[#16161f] transition-colors group">
-                <td className={`px-3 py-2.5 text-sm font-semibold text-[#f1f1f5] whitespace-nowrap ${stickyName} group-hover:bg-[#16161f]`}>
-                  {rm.name}
+                <td className={`px-3 py-2.5 whitespace-nowrap ${stickyName} group-hover:bg-[#16161f]`}>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold text-[#f1f1f5]">{rm.name}</span>
+                    <Link
+                      href={`/admin/rm/${rm.mobile_number}`}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1 text-[10px] font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 rounded px-1.5 py-0.5 hover:bg-indigo-500/20 shrink-0"
+                      title={`View all reports for ${rm.name}`}
+                    >
+                      <ExternalLink className="h-2.5 w-2.5" />
+                      View
+                    </Link>
+                  </div>
                 </td>
                 {columns.map((c, i) => {
                   const firstOfGroup = i === 0 || columns[i - 1].moduleNum !== c.moduleNum;
@@ -195,7 +207,9 @@ export function RMTrackingMatrix({ initial }: { initial: AttemptMatrix }) {
                     </td>
                   );
                 })}
-                <td className="border-l border-[#1a1a24]" />
+                <td className="px-3 py-2.5 text-center text-[11px] font-bold text-[#9090a8] border-l border-[#1a1a24]">
+                  {totalAllAttempts}
+                </td>
                 <td />
                 <td />
               </tr>
