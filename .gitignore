@@ -36,3 +36,6 @@ yarn-error.log*
 .vscode/
 *.swp
 *.swo
+
+# One-off seed scripts — contain plaintext PINs / PII, never commit
+scripts/seed-*.ts
