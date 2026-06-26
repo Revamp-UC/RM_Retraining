@@ -325,9 +325,9 @@ export function RMTrackingMatrix({ initial }: { initial: AttemptMatrix }) {
         </div>
       </div>
 
-      {/* ── Other RMs (non-cohort, non-admin, ≥1 attempt) ── */}
+      {/* ── Internal Team members (non-cohort, non-admin, ≥1 attempt) ── */}
       <SubMatrix
-        label="Other RMs"
+        label="Internal Team members"
         icon={<Users className="h-4 w-4 text-sky-400" />}
         accentDot="bg-sky-400"
         rms={otherRMs}
