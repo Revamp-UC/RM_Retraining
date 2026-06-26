@@ -4,7 +4,7 @@ import { db } from '@/lib/db/client';
 
 export const runtime = 'nodejs';
 
-const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965', '8393005909', '9034002226']);
+const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965', '8393005909', '9034002226', '9997506778']);
 
 async function getAdmin(req: NextRequest) {
   const token = req.cookies.get('rm_session')?.value;
