@@ -273,7 +273,7 @@ export interface TaskNonAttempt {
 
 // Admin mobile numbers — used to separate admins from RMs in the matrix.
 const ADMIN_MOBILE_SET = new Set([
-  '7880320915', '9871531279', '9873696654', '8439197965', '8393005909', '9034002226', '9997506778',
+  '7880320915', '9871531279', '9873696654', '8439197965', '8393005909', '9034002226', '9997506778', '9045321000', '9889083993',
 ]);
 
 // The "haven't attempted" view is restricted to this fixed cohort of RMs.

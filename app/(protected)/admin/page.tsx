@@ -12,7 +12,7 @@ import { RMTrackingMatrix } from '@/components/admin/RMTrackingMatrix';
 
 export const dynamic = 'force-dynamic';
 
-const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965', '8393005909', '9034002226', '9997506778']);
+const ADMIN_MOBILES = new Set(['7880320915', '9871531279', '9873696654', '8439197965', '8393005909', '9034002226', '9997506778', '9045321000', '9889083993']);
 
 function StatCard({
   label,
