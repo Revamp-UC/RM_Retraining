@@ -7,6 +7,7 @@ import Link from 'next/link';
 import type { AttemptMatrix, MatrixColumn, MatrixGroup, MatrixRMRow } from '@/lib/db/admin';
 
 const REFRESH_MS = 15_000;
+const RECENT_MS = 24 * 60 * 60 * 1000; // highlight attempts within the last 24h
 const STICKY = 'sticky left-0 z-10 bg-[#13131a]';
 const HEAD   = 'px-3 py-2 text-[10px] font-bold uppercase tracking-wider text-[#60607a]';
 
@@ -78,12 +79,13 @@ function MatrixHead({
 
 // ── Shared data rows ───────────────────────────────────────────────────────
 function RMBodyRows({
-  rms, columns, showPending, emptyLabel,
+  rms, columns, showPending, emptyLabel, now,
 }: {
   rms: MatrixRMRow[];
   columns: MatrixColumn[];
   showPending?: boolean;
   emptyLabel?: string;
+  now: number;
 }) {
   if (rms.length === 0) {
     return (
@@ -149,9 +151,28 @@ function RMBodyRows({
               )}
             </td>
           )}
-          <td className="px-3 py-2.5 text-center text-xs text-[#60607a] whitespace-nowrap">
-            {lastAttemptLabel(rm.lastAttempt)}
-          </td>
+          {(() => {
+            const lastMs = rm.lastAttempt ? new Date(rm.lastAttempt).getTime() : null;
+            const isRecent = lastMs !== null && now - lastMs >= 0 && now - lastMs < RECENT_MS;
+            return (
+              <td className="px-3 py-2.5 text-center whitespace-nowrap">
+                {isRecent ? (
+                  <span
+                    className="inline-flex items-center gap-1.5 rounded-md bg-emerald-500/12 px-2 py-0.5 text-xs font-semibold text-emerald-300"
+                    title="Attempted within the last 24 hours"
+                  >
+                    <span className="relative flex h-1.5 w-1.5">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/70" />
+                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                    </span>
+                    {lastAttemptLabel(rm.lastAttempt)}
+                  </span>
+                ) : (
+                  <span className="text-xs text-[#60607a]">{lastAttemptLabel(rm.lastAttempt)}</span>
+                )}
+              </td>
+            );
+          })()}
         </tr>
       ))}
     </>
@@ -161,7 +182,7 @@ function RMBodyRows({
 // ── Standalone card for Other RMs / Admins ────────────────────────────────
 function SubMatrix({
   label, icon, accentDot,
-  rms, columns, groups,
+  rms, columns, groups, now,
 }: {
   label: string;
   icon: ReactNode;
@@ -169,6 +190,7 @@ function SubMatrix({
   rms: MatrixRMRow[];
   columns: MatrixColumn[];
   groups: MatrixGroup[];
+  now: number;
 }) {
   if (rms.length === 0) return null;
   const total = rms.reduce((sum, rm) => sum + rm.total, 0);
@@ -187,7 +209,7 @@ function SubMatrix({
         <table className="w-full text-left border-collapse">
           <MatrixHead columns={columns} groups={groups} extraCols={['Done', 'Last']} />
           <tbody>
-            <RMBodyRows rms={rms} columns={columns} />
+            <RMBodyRows rms={rms} columns={columns} now={now} />
           </tbody>
           <tfoot>
             <tr className="border-t border-[#1e1e28] bg-[#0f0f16]">
@@ -293,6 +315,7 @@ export function RMTrackingMatrix({ initial }: { initial: AttemptMatrix }) {
                 columns={columns}
                 showPending
                 emptyLabel="No cohort RMs found."
+                now={now}
               />
             </tbody>
             {rms.length > 0 && (
@@ -333,6 +356,7 @@ export function RMTrackingMatrix({ initial }: { initial: AttemptMatrix }) {
         rms={otherRMs}
         columns={columns}
         groups={groups}
+        now={now}
       />
 
       {/* ── Admins (≥1 attempt) ── */}
@@ -343,6 +367,7 @@ export function RMTrackingMatrix({ initial }: { initial: AttemptMatrix }) {
         rms={adminRMs}
         columns={columns}
         groups={groups}
+        now={now}
       />
 
     </div>
