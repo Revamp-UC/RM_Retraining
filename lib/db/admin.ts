@@ -399,7 +399,8 @@ export async function getAttemptMatrix(): Promise<AttemptMatrix> {
   const taskKeys = columns.map(c => c.key);
 
   const [usersRes, consultsRes] = await Promise.all([
-    db.from('users').select('mobile_number, name').eq('is_active', true).order('name'),
+    // Reporting view includes inactive users: disabling blocks login but must keep history visible here.
+    db.from('users').select('mobile_number, name').order('name'),
     db
       .from('consultation_history')
       .select('mobile_number, module_attempted, created_at')
