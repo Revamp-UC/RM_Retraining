@@ -183,6 +183,27 @@ export async function saveQuizAttempt(params: {
   } catch { /* DB not configured */ }
 }
 
+// Returns attempt count + latest completed/pending id for Module 6 session-limit gate.
+// Only counts real attempts: completed, evaluation_pending, too_short.
+export async function getModule6AttemptInfo(
+  mobile_number: string,
+  module_attempted: string,
+): Promise<{ count: number; latestId: string | null }> {
+  try {
+    const { data, error } = await db
+      .from('consultation_history')
+      .select('id, status')
+      .eq('mobile_number', mobile_number)
+      .eq('module_attempted', module_attempted)
+      .in('status', ['completed', 'evaluation_pending', 'too_short'])
+      .order('created_at', { ascending: false });
+
+    if (error || !data) return { count: 0, latestId: null };
+    const latest = (data as { id: string; status: string }[])[0];
+    return { count: data.length, latestId: latest?.id ?? null };
+  } catch { return { count: 0, latestId: null }; }
+}
+
 export async function getConsultationHistory(mobile_number: string): Promise<ConsultationHistoryItem[]> {
   try {
     const { data, error } = await db

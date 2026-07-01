@@ -7,6 +7,8 @@ import { createWsToken } from '@/lib/auth/session';
 import { getTaskConfig, getModuleConfig } from '@/lib/config/modules';
 import { ConsultationClient } from '@/components/consultation/ConsultationClient';
 import { PreStartModal } from '@/components/consultation/PreStartModal';
+import { SessionLimitReached } from '@/components/consultation/SessionLimitReached';
+import { getModule6AttemptInfo } from '@/lib/db/consultations';
 import { NIOBrandPanel } from '@/components/consultation/NIOBrandPanel';
 import { QuizClient } from '@/components/quiz/QuizClient';
 import { PlaybookViewer } from '@/components/playbook/PlaybookViewer';
@@ -115,6 +117,33 @@ export default async function ConsultationPage({ params }: TaskPageProps) {
         </main>
       </div>
     );
+  }
+
+  // ─── Module 6 session limit — 1 attempt per task, admins bypass ──────────
+  if (moduleId === 'module_6' && taskConfig.moduleAttempted && !ADMIN_MOBILES.has(user.mobile_number)) {
+    const { count, latestId } = await getModule6AttemptInfo(user.mobile_number, taskConfig.moduleAttempted);
+    if (count >= 1) {
+      return (
+        <div className="h-screen bg-[#0a0a0f] flex flex-col overflow-hidden">
+          <header className="flex items-center justify-between px-4 lg:px-6 py-3 border-b border-[#2a2a38] bg-[#13131a] shrink-0">
+            <div className="flex items-center gap-3">
+              <Link href={`/module/${moduleId}`} className="p-2 rounded-lg text-[#9090a8] hover:text-[#f1f1f5] hover:bg-[#1c1c26] transition-colors">
+                <ArrowLeft className="h-4 w-4" />
+              </Link>
+              <div>
+                <p className="text-xs text-violet-400 font-medium">Module {moduleNumber} · Technical Training</p>
+                <h1 className="text-sm font-semibold text-[#f1f1f5]">{taskConfig.title}</h1>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-xs text-[#60607a]">RM Retraining</p>
+              <p className="text-xs text-[#9090a8] font-medium">{user.name}</p>
+            </div>
+          </header>
+          <SessionLimitReached moduleId={moduleId} taskTitle={taskConfig.title} latestId={latestId} />
+        </div>
+      );
+    }
   }
 
   // ─── Consultation task — existing flow ────────────────────────────────────

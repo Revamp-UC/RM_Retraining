@@ -59,6 +59,12 @@ export function PreStartModal({ rmName, moduleId }: PreStartModalProps) {
                     If you don&apos;t know, just say <span className="font-semibold text-violet-300">&ldquo;pata nahi&rdquo;</span> — AI trainer will move to the next question.
                   </span>
                 </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="mt-1 h-1.5 w-1.5 rounded-full shrink-0 bg-amber-400" />
+                  <span className="text-sm text-[#c0c0d8] leading-snug">
+                    <span className="font-semibold text-amber-300">Try your best in this attempt only</span> — you won&apos;t get another chance.
+                  </span>
+                </li>
               </>
             ) : (
               (moduleId === 'module_5'
