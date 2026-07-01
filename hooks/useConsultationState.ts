@@ -127,8 +127,10 @@ export function useConsultationState({
   }, [isEnding, stopMic, sendEndSignal, disconnect, stopPlayback, consultationId, moduleId, router]);
 
   // Per-scenario session limit: warn 1 min before, auto-end at the limit.
+  // limitMinutes === 0 means no forced limit (Module 6 quiz — ends when trainer finishes).
   useEffect(() => {
     if (status !== 'connected') return;
+    if (limitSeconds === 0) return;
     if (elapsedSeconds === warnSeconds) setTimeWarning(true);
     if (elapsedSeconds === limitSeconds) endConsultation();
   }, [elapsedSeconds, status, endConsultation, warnSeconds, limitSeconds]);

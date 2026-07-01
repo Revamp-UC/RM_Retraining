@@ -27,7 +27,7 @@ const MODULES = [
   { id: 'module_3', number: 3, task: 'Levers Used', isActive: true },
   { id: 'module_4', number: 4, task: 'Market Comparison', isActive: true },
   { id: 'module_5', number: 5, task: 'NIO Premium Panels', isActive: true },
-  { id: 'module_6', number: 6, task: 'Training Module', isActive: true },
+  { id: 'module_6', number: 6, task: 'Technical Training', isActive: true },
 ];
 
 export default async function DashboardPage() {

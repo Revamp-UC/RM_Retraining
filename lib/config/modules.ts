@@ -52,9 +52,12 @@ export function normaliseScore(score: number, moduleAttempted: string): number {
 // Per-scenario session time limit in minutes, keyed by `${moduleId}/${taskId}`.
 // Anything not listed uses DEFAULT_SESSION_MINUTES. The on-screen "1 minute left"
 // warning fires 1 minute before the limit, and the session auto-ends at the limit.
-export const DEFAULT_SESSION_MINUTES = 8;
+export const DEFAULT_SESSION_MINUTES = 6;
 export const SESSION_MINUTES: Record<string, number> = {
-  'module_4/task_1': 12,
+  'module_4/task_1': 7,
+  'module_6/task_1': 0, // 0 = no forced limit — quiz ends when trainer finishes
+  'module_6/task_2': 0,
+  'module_6/task_3': 0,
 };
 export function getSessionMinutes(moduleId: string, taskId: string): number {
   return SESSION_MINUTES[`${moduleId}/${taskId}`] ?? DEFAULT_SESSION_MINUTES;
@@ -158,27 +161,27 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
   },
   module_6: {
     id: 'module_6',
-    title: 'Training Module',
+    title: 'Technical Training',
     description: 'Build core product knowledge across fundamentals, technical application, and pricing',
     tasks: [
       {
         id: 'task_1',
         title: 'Product Fundamentals',
-        description: '16-question voice quiz on panel types, sheets, accessories, warranty, materials, and product range. An AI trainer asks questions one by one — answer in Hindi/Hinglish.',
+        description: 'An AI trainer will ask you questions — answer briefly in Hindi/Hinglish.',
         moduleAttempted: 'module_6_task1',
         status: 'active',
       },
       {
         id: 'task_2',
         title: 'Technical & Application Knowledge',
-        description: '17-question voice quiz on finishing components, installation methods, component selection logic, and applied judgment. AI trainer asks — answer in Hindi/Hinglish.',
+        description: 'An AI trainer will ask you questions — answer briefly in Hindi/Hinglish.',
         moduleAttempted: 'module_6_task2',
         status: 'active',
       },
       {
         id: 'task_3',
         title: 'Pricing, Quotation & Calculation',
-        description: '13-question voice quiz on unit prices, full quotations, and glue calculations. AI trainer asks — city pricing is looked up based on your city at the start.',
+        description: 'An AI trainer will ask you questions — answer briefly in Hindi/Hinglish.',
         moduleAttempted: 'module_6_task3',
         status: 'active',
       },

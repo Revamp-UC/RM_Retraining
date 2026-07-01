@@ -47,10 +47,10 @@ const CUSTOMER_PROFILE: Record<string, { age: string; home: string; scope?: stri
   module_4_task_1: { age: 'Homeowner', home: 'Design Selected', scope: 'Market Comparison · Price Objection' },
   // Module 5
   module_5_task_2: { age: 'Homeowner', home: 'Feature Wall · Living Room', scope: 'Exploring NIO Premium Panels' },
-  // Module 6 (quiz trainer — age field repurposed for question count)
-  module_6_task_1: { age: '16 Questions', home: 'Product Fundamentals', scope: 'Panels, Sheets, Accessories, Warranty' },
-  module_6_task_2: { age: '17 Questions', home: 'Technical & Application', scope: 'Components, Methods, Selection Logic' },
-  module_6_task_3: { age: '13 Questions', home: 'Pricing & Quotation', scope: 'Unit Prices, Quotations, Glue Calculations' },
+  // Module 6
+  module_6_task_1: { age: 'Technical Training', home: 'Task 1' },
+  module_6_task_2: { age: 'Technical Training', home: 'Task 2' },
+  module_6_task_3: { age: 'Technical Training', home: 'Task 3' },
 };
 
 function formatTime(seconds: number): string {
@@ -140,7 +140,7 @@ export function VoiceArea({
               <h2 className="font-semibold text-[#f1f1f5] text-lg leading-tight">
                 {isModule6 ? 'AI Trainer' : customerName}
               </h2>
-              <p className="text-xs text-[#60607a]">{isModule6 ? 'Training Module · UC Internal' : 'Simulated Customer'}</p>
+              <p className="text-xs text-[#60607a]">{isModule6 ? 'Technical Training · UC Internal' : 'Simulated Customer'}</p>
             </div>
           </div>
         </div>

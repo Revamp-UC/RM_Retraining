@@ -47,10 +47,8 @@ export function PreStartModal({ rmName, moduleId }: PreStartModalProps) {
             <ul className="space-y-2 mb-6">
               {(moduleId === 'module_6'
                 ? [
-                    'The AI trainer will ask one question at a time — wait for the full question before answering',
-                    'Speak clearly in Hindi or Hinglish — your voice is recorded and evaluated',
-                    'The trainer will never tell you if your answer is right or wrong — just answer and move on',
-                    "If you don't know an answer, say \"pata nahi\" — the trainer will move to the next question",
+                    'AI trainer will ask you questions — just answer briefly.',
+                    "If you don't know, just say \"pata nahi\" — AI trainer will move to the next question.",
                   ]
                 : moduleId === 'module_5'
                 ? ['The customer already knows PVC panels — your job is to make them understand why NIO is worth the price.']

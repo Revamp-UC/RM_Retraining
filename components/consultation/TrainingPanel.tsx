@@ -125,7 +125,7 @@ export function TrainingPanel({ className = '', taskId = 'task_1' }: TrainingPan
               <div className="flex items-center gap-1.5">
                 <GraduationCap className="h-4 w-4 text-violet-400" />
                 <span className="text-sm font-semibold text-[#f1f1f5]">
-                  Training Module · {cfg.label}
+                  Technical Training · {cfg.label}
                 </span>
               </div>
               <button
