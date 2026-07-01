@@ -27,7 +27,7 @@ const MODULES = [
   { id: 'module_3', number: 3, task: 'Levers Used', isActive: true },
   { id: 'module_4', number: 4, task: 'Market Comparison', isActive: true },
   { id: 'module_5', number: 5, task: 'NIO Premium Panels', isActive: true },
-  { id: 'module_6', number: 6, name: 'Complete Room Makeover', isActive: false },
+  { id: 'module_6', number: 6, task: 'Training Module', isActive: true },
 ];
 
 export default async function DashboardPage() {
@@ -40,19 +40,22 @@ export default async function DashboardPage() {
 
   const isAdmin = ADMIN_MOBILES.has(user.mobile_number);
 
-  const [task1Stats, task2Stats, task3Stats, m2task1Stats, m2task2Stats, m3task1Stats, m3task2Stats, m3task3Stats, m4task1Stats, m5task1Stats, m5task2Stats, history] = await Promise.all([
+  const [task1Stats, task2Stats, task3Stats, m2task1Stats, m2task2Stats, m3task1Stats, m3task2Stats, m3task3Stats, m4task1Stats, m5task1Stats, m5task2Stats, m6task1Stats, m6task2Stats, m6task3Stats, history] = await Promise.all([
     getModuleStats(user.mobile_number, 'module_1_seepage'),
     getModuleStats(user.mobile_number, 'module_1_task2'),
     getModuleStats(user.mobile_number, 'module_1_task3'),
     getModuleStats(user.mobile_number, 'module_2_task1'),
     getModuleStats(user.mobile_number, 'module_2_task2'),
-    // Modules 3, 4 & 5 are live for all RMs
+    // Modules 3, 4, 5 & 6 are live for all RMs
     getModuleStats(user.mobile_number, 'module_3_task1'),
     getModuleStats(user.mobile_number, 'module_3_task2'),
     getModuleStats(user.mobile_number, 'module_3_task3'),
     getModuleStats(user.mobile_number, 'module_4_task1'),
     getModuleStats(user.mobile_number, 'module_5_task1'),
     getModuleStats(user.mobile_number, 'module_5_task2'),
+    getModuleStats(user.mobile_number, 'module_6_task1'),
+    getModuleStats(user.mobile_number, 'module_6_task2'),
+    getModuleStats(user.mobile_number, 'module_6_task3'),
     getConsultationHistory(user.mobile_number),
   ]);
 
@@ -97,6 +100,7 @@ export default async function DashboardPage() {
     ...(m3task1Stats && m3task2Stats && m3task3Stats ? { module_3: aggregateTasks([m3task1Stats, m3task2Stats, m3task3Stats]) } : {}),
     ...(m4task1Stats ? { module_4: aggregateTasks([m4task1Stats]) } : {}),
     ...(m5task1Stats || m5task2Stats ? { module_5: aggregateTasks(([m5task1Stats, m5task2Stats] as (typeof task1Stats | null)[]).filter((s): s is typeof task1Stats => s !== null)) } : {}),
+    module_6: aggregateTasks([m6task1Stats, m6task2Stats, m6task3Stats]),
   };
 
   const completedHistory = history.filter(
@@ -146,7 +150,7 @@ export default async function DashboardPage() {
         {/* Modules section */}
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-sm font-semibold text-[#9090a8] uppercase tracking-widest">Training Modules</h2>
-          <span className="text-xs text-[#60607a]">{activeCount} of 6 active</span>
+          <span className="text-xs text-[#60607a]">{activeCount} of {MODULES.length} active</span>
         </div>
 
         <div className="space-y-3">
@@ -157,7 +161,7 @@ export default async function DashboardPage() {
                 key={mod.id}
                 id={mod.id}
                 number={mod.number}
-                name={'name' in mod ? mod.name : undefined}
+                name={undefined}
                 task={active && 'task' in mod ? mod.task : undefined}
                 isActive={active}
                 stats={active ? moduleCardStatsMap[mod.id] : undefined}

@@ -220,7 +220,7 @@ export async function getModuleStats(mobile_number: string, module_attempted: st
       .select('overall_score, attempt_date, status, report_card_json')
       .eq('mobile_number', mobile_number)
       .eq('module_attempted', module_attempted)
-      .eq('status', 'completed')
+      .in('status', ['completed', 'evaluation_pending'])
       .order('created_at', { ascending: false });
 
     if (error || !data || data.length === 0) return empty;

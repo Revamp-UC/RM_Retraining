@@ -39,6 +39,7 @@ export async function getAllRMPerformance(): Promise<RMPerformance[]> {
       .from('consultation_history')
       .select('mobile_number, overall_score, attempt_date, created_at, module_attempted, status, duration_seconds')
       .in('status', ['completed', 'evaluation_pending'])
+      .neq('module_attempted', 'module_5_task2') // quiz is not a consultation session
       .order('created_at', { ascending: false }),
   ]);
 
@@ -289,6 +290,36 @@ const NON_ATTEMPT_RM_NAMES = [
 const normName = (s: string) => s.trim().toLowerCase().replace(/\s+/g, ' ');
 const NON_ATTEMPT_RM_SET = new Set(NON_ATTEMPT_RM_NAMES.map(normName));
 
+// "Total Sessions" breakdown by group — active accounts, completed + evaluation_pending only.
+export interface SessionBreakdown { total: number; cohort: number; internal: number; admin: number }
+
+export async function getSessionBreakdown(): Promise<SessionBreakdown> {
+  const [usersRes, consultsRes] = await Promise.all([
+    db.from('users').select('mobile_number, name').eq('is_active', true),
+    db.from('consultation_history').select('mobile_number').in('status', ['completed', 'evaluation_pending']).neq('module_attempted', 'module_5_task2'),
+  ]);
+
+  const group = new Map<string, 'admin' | 'cohort' | 'internal'>();
+  for (const u of (usersRes.data ?? []) as { mobile_number: string; name: string }[]) {
+    group.set(
+      u.mobile_number,
+      ADMIN_MOBILE_SET.has(u.mobile_number) ? 'admin'
+        : NON_ATTEMPT_RM_SET.has(normName(u.name)) ? 'cohort'
+        : 'internal',
+    );
+  }
+
+  let cohort = 0, internal = 0, admin = 0;
+  for (const c of (consultsRes.data ?? []) as { mobile_number: string }[]) {
+    const g = group.get(c.mobile_number);
+    if (g === 'admin') admin++;
+    else if (g === 'cohort') cohort++;
+    else if (g === 'internal') internal++;
+  }
+
+  return { total: cohort + internal + admin, cohort, internal, admin };
+}
+
 // Per task of a module, the cohort RMs who have no valid (completed / pending)
 // attempt for that task. Grouped by name so a person with duplicate accounts
 // appears once (and counts as "attempted" if any of their accounts did it).
@@ -383,8 +414,9 @@ function buildMatrixColumns(): { columns: MatrixColumn[]; groups: MatrixGroup[] 
     const colKeys: string[] = [];
     let taskIndex = 0;
     for (const task of m.tasks) {
-      if (task.status !== 'active' || !task.moduleAttempted) continue;
-      const label = task.type === 'quiz' ? 'Quiz' : `T${++taskIndex}`;
+      // Quiz is not a consultation session — keep it out of the session-tracking matrix.
+      if (task.status !== 'active' || !task.moduleAttempted || task.type === 'quiz') continue;
+      const label = `T${++taskIndex}`;
       columns.push({ key: task.moduleAttempted, moduleNum: num, label, title: task.title });
       colKeys.push(task.moduleAttempted);
     }

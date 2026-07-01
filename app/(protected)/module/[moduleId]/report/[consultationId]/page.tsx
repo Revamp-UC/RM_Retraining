@@ -55,6 +55,21 @@ const SECTION_ICONS: Record<string, React.ReactNode> = {
   objection_handling: <span className="text-sm">🛡️</span>,
   curated_design_value: <span className="text-sm">✨</span>,
   conviction_no_discount: <span className="text-sm">💪</span>,
+  // Module 6 Task 1 (Product Fundamentals Quiz)
+  product_catalog: <span className="text-sm">📦</span>,
+  warranty_durability: <span className="text-sm">🛡️</span>,
+  materials_usage: <span className="text-sm">🔩</span>,
+  designs_woodwork: <span className="text-sm">🎨</span>,
+  // Module 6 Task 2 (Technical & Application)
+  finishing_basics: <span className="text-sm">✅</span>,
+  component_knowledge: <span className="text-sm">🧩</span>,
+  installation_methods: <span className="text-sm">🔧</span>,
+  selection_logic: <span className="text-sm">🧠</span>,
+  judgment_calc: <span className="text-sm">⚡</span>,
+  // Module 6 Task 3 (Pricing & Quotation)
+  unit_prices: <span className="text-sm">💰</span>,
+  quotations: <span className="text-sm">📋</span>,
+  glue_calculations: <span className="text-sm">🔢</span>,
 };
 
 const SECTION_TITLES: Record<string, string> = {
@@ -94,6 +109,21 @@ const SECTION_TITLES: Record<string, string> = {
   objection_handling: 'Objection Handling',
   curated_design_value: 'Curated Design Value',
   conviction_no_discount: 'Conviction & No Discount',
+  // Module 6 Task 1 (Product Fundamentals Quiz)
+  product_catalog: 'Product Catalog Knowledge',
+  warranty_durability: 'Warranty & Durability',
+  materials_usage: 'Materials & Accessories',
+  designs_woodwork: 'Designs & Woodwork',
+  // Module 6 Task 2 (Technical & Application)
+  finishing_basics: 'Finishing Check Points & Components',
+  component_knowledge: 'Component Knowledge',
+  installation_methods: 'Installation Methods',
+  selection_logic: 'Component Selection Logic',
+  judgment_calc: 'Applied Judgment & Calculation',
+  // Module 6 Task 3 (Pricing & Quotation)
+  unit_prices: 'Unit Pricing Knowledge',
+  quotations: 'Quotation Estimation',
+  glue_calculations: 'Glue Calculations',
 };
 
 export default async function ReportPage({ params }: ReportPageProps) {

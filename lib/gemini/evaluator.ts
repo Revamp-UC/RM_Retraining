@@ -31,6 +31,9 @@ const MODULE_SECTIONS: Record<string, { keys: string[]; hasIdealResponse: boolea
   'module_3_task3':   { keys: ['discovery_questions', 'discount_lever', 'trust_confidence'], hasIdealResponse: true },
   'module_4_task1':   { keys: ['value_justification', 'personalisation', 'trust_confidence'], hasIdealResponse: true },
   'module_5_task1':   { keys: ['discovery_diagnosis', 'value_anchoring', 'tailored_differentiation', 'objection_handling', 'curated_design_value', 'conviction_no_discount'], hasIdealResponse: true },
+  'module_6_task1':   { keys: ['product_catalog', 'warranty_durability', 'materials_usage', 'designs_woodwork'], hasIdealResponse: true },
+  'module_6_task2':   { keys: ['finishing_basics', 'component_knowledge', 'installation_methods', 'selection_logic', 'judgment_calc'], hasIdealResponse: true },
+  'module_6_task3':   { keys: ['unit_prices', 'quotations', 'glue_calculations'], hasIdealResponse: true },
 };
 
 function buildResponseSchema(module: string): unknown {

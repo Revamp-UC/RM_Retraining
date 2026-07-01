@@ -33,6 +33,9 @@ export const MODULE_MAX_SCORE: Record<string, number> = {
   module_4_task1: 30,
   module_5_task1: 20,
   module_5_task2: 15,
+  module_6_task1: 16,
+  module_6_task2: 20,
+  module_6_task3: 13,
 };
 
 // Common scale all scores are normalised onto for cross-task averaging.
@@ -149,6 +152,34 @@ export const MODULE_CONFIG: Record<string, ModuleConfig> = {
         description: 'The complete guide to selling NIO panels like a world-class RM — customer psychology, ideal Hinglish responses, emotional levers, and the winning path.',
         moduleAttempted: '',
         type: 'playbook',
+        status: 'active',
+      },
+    ],
+  },
+  module_6: {
+    id: 'module_6',
+    title: 'Training Module',
+    description: 'Build core product knowledge across fundamentals, technical application, and pricing',
+    tasks: [
+      {
+        id: 'task_1',
+        title: 'Product Fundamentals',
+        description: '16-question voice quiz on panel types, sheets, accessories, warranty, materials, and product range. An AI trainer asks questions one by one — answer in Hindi/Hinglish.',
+        moduleAttempted: 'module_6_task1',
+        status: 'active',
+      },
+      {
+        id: 'task_2',
+        title: 'Technical & Application Knowledge',
+        description: '17-question voice quiz on finishing components, installation methods, component selection logic, and applied judgment. AI trainer asks — answer in Hindi/Hinglish.',
+        moduleAttempted: 'module_6_task2',
+        status: 'active',
+      },
+      {
+        id: 'task_3',
+        title: 'Pricing, Quotation & Calculation',
+        description: '13-question voice quiz on unit prices, full quotations, and glue calculations. AI trainer asks — city pricing is looked up based on your city at the start.',
+        moduleAttempted: 'module_6_task3',
         status: 'active',
       },
     ],

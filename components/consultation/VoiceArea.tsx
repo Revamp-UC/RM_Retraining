@@ -47,6 +47,10 @@ const CUSTOMER_PROFILE: Record<string, { age: string; home: string; scope?: stri
   module_4_task_1: { age: 'Homeowner', home: 'Design Selected', scope: 'Market Comparison · Price Objection' },
   // Module 5
   module_5_task_2: { age: 'Homeowner', home: 'Feature Wall · Living Room', scope: 'Exploring NIO Premium Panels' },
+  // Module 6 (quiz trainer — age field repurposed for question count)
+  module_6_task_1: { age: '16 Questions', home: 'Product Fundamentals', scope: 'Panels, Sheets, Accessories, Warranty' },
+  module_6_task_2: { age: '17 Questions', home: 'Technical & Application', scope: 'Components, Methods, Selection Logic' },
+  module_6_task_3: { age: '13 Questions', home: 'Pricing & Quotation', scope: 'Unit Prices, Quotations, Glue Calculations' },
 };
 
 function formatTime(seconds: number): string {
@@ -70,7 +74,8 @@ export function VoiceArea({
 }: VoiceAreaProps) {
   const isIdle = status === 'idle';
   const isModule5 = moduleId === 'module_5';
-  // accent colours — emerald for Module 5, indigo for everything else
+  const isModule6 = moduleId === 'module_6';
+  // accent colours — emerald for Module 5, violet for Module 6, indigo for everything else
   const accent = isModule5
     ? {
         label:   'text-emerald-400',
@@ -82,6 +87,18 @@ export function VoiceArea({
         endIcon: 'text-emerald-400',
         endLabel: 'text-emerald-400/60',
         button:  'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-900/40',
+      }
+    : isModule6
+    ? {
+        label:   'text-violet-400',
+        avatar:  'from-violet-600 to-purple-700',
+        profile: 'border-violet-500/25 bg-violet-500/[0.06]',
+        profBadge: 'text-violet-400/60',
+        icon:    'text-violet-400',
+        ending:  'bg-violet-600/15 border-violet-500/25 shadow-violet-900/20',
+        endIcon: 'text-violet-400',
+        endLabel: 'text-violet-400/60',
+        button:  'bg-violet-600 hover:bg-violet-500 shadow-violet-900/40',
       }
     : {
         label:   'text-indigo-400',
@@ -112,14 +129,18 @@ export function VoiceArea({
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div>
-          <p className={`text-xs font-semibold ${accent.label} uppercase tracking-widest mb-1`}>Live Consultation</p>
+          <p className={`text-xs font-semibold ${accent.label} uppercase tracking-widest mb-1`}>
+            {isModule6 ? 'Voice Quiz' : 'Live Consultation'}
+          </p>
           <div className="flex items-center gap-2.5">
             <div className={`w-9 h-9 rounded-full bg-gradient-to-br ${accent.avatar} flex items-center justify-center shadow-lg`}>
               <User className="h-5 w-5 text-white" />
             </div>
             <div>
-              <h2 className="font-semibold text-[#f1f1f5] text-lg leading-tight">{customerName}</h2>
-              <p className="text-xs text-[#60607a]">Simulated Customer</p>
+              <h2 className="font-semibold text-[#f1f1f5] text-lg leading-tight">
+                {isModule6 ? 'AI Trainer' : customerName}
+              </h2>
+              <p className="text-xs text-[#60607a]">{isModule6 ? 'Training Module · UC Internal' : 'Simulated Customer'}</p>
             </div>
           </div>
         </div>
@@ -138,11 +159,16 @@ export function VoiceArea({
 
       {/* Customer overview */}
       <div className={`mb-4 rounded-lg border ${accent.profile} px-3.5 py-2.5`}>
-        <p className={`text-[9px] font-bold ${accent.profBadge} uppercase tracking-[0.16em] mb-2`}>Customer Profile</p>
+        <p className={`text-[9px] font-bold ${accent.profBadge} uppercase tracking-[0.16em] mb-2`}>
+          {isModule6 ? 'Quiz Session' : 'Customer Profile'}
+        </p>
         <div className="flex items-center gap-2 mb-1.5">
-          <User className={`h-3 w-3 ${accent.icon} shrink-0`} />
+          {isModule6
+            ? <Layers className={`h-3 w-3 ${accent.icon} shrink-0`} />
+            : <User className={`h-3 w-3 ${accent.icon} shrink-0`} />
+          }
           <span className="text-xs text-[#c8c8e0] font-medium">
-            {profile.age} {customerGender === 'female' ? 'Woman' : 'Man'}
+            {isModule6 ? profile.age : `${profile.age} ${customerGender === 'female' ? 'Woman' : 'Man'}`}
           </span>
         </div>
         <div className="flex items-center gap-2">
@@ -234,14 +260,14 @@ export function VoiceArea({
               <User className="h-9 w-9 text-[#60607a]" />
             </div>
             <div>
-              <p className="text-[#9090a8] text-sm">Ready to connect with</p>
-              <p className="text-[#f1f1f5] font-semibold text-xl mt-0.5">{customerName}</p>
+              <p className="text-[#9090a8] text-sm">{isModule6 ? 'Ready to begin with' : 'Ready to connect with'}</p>
+              <p className="text-[#f1f1f5] font-semibold text-xl mt-0.5">{isModule6 ? 'AI Trainer' : customerName}</p>
             </div>
             <button
               onClick={onStart}
               className={`mt-2 rounded-xl ${accent.button} active:scale-[0.98] text-white font-semibold text-base px-8 py-3.5 transition-all duration-200 shadow-xl`}
             >
-              Start Consultation
+              {isModule6 ? 'Start Quiz' : 'Start Consultation'}
             </button>
             <p className="text-xs text-[#60607a] mt-2">Allow microphone access when prompted</p>
           </motion.div>
@@ -274,7 +300,10 @@ export function VoiceArea({
           transition={{ delay: 0.5 }}
           className="text-center text-xs text-[#60607a] mt-3"
         >
-          Speak naturally — the customer will respond automatically
+          {isModule6
+            ? 'The AI trainer will ask one question at a time — answer clearly in Hindi or Hinglish'
+            : 'Speak naturally — the customer will respond automatically'
+          }
         </motion.p>
       )}
     </div>

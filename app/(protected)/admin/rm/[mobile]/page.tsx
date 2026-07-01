@@ -103,6 +103,9 @@ const MODULE_ID_MAP: Record<string, string> = {
   module_3_task3: 'module_3',
   module_4_task1: 'module_4',
   module_5_task1: 'module_5',
+  module_6_task1: 'module_6',
+  module_6_task2: 'module_6',
+  module_6_task3: 'module_6',
 };
 
 const MODULE_TASK_LABEL: Record<string, string> = {
@@ -117,6 +120,9 @@ const MODULE_TASK_LABEL: Record<string, string> = {
   module_4_task1: 'Module 4 · Task 1',
   module_5_task1: 'Module 5 · Roleplay',
   module_5_task2: 'Module 5 · Quiz',
+  module_6_task1: 'Module 6 · Product Fundamentals',
+  module_6_task2: 'Module 6 · Technical Knowledge',
+  module_6_task3: 'Module 6 · Pricing & Quotation',
 };
 
 const SECTION_LABELS: Record<string, string> = {
@@ -137,6 +143,19 @@ const SECTION_LABELS: Record<string, string> = {
   discovery_questions: 'Discovery Questions',
   discount_lever: 'Discount Lever Execution',
   trust_confidence: 'Trust Building & Confidence',
+  // Module 6 sections
+  product_catalog: 'Product Catalog',
+  warranty_durability: 'Warranty & Durability',
+  materials_usage: 'Materials & Accessories',
+  designs_woodwork: 'Designs & Woodwork',
+  finishing_basics: 'Finishing Check Points',
+  component_knowledge: 'Component Knowledge',
+  installation_methods: 'Installation Methods',
+  selection_logic: 'Selection Logic',
+  judgment_calc: 'Judgment & Calculation',
+  unit_prices: 'Unit Pricing',
+  quotations: 'Quotations',
+  glue_calculations: 'Glue Calculations',
 };
 
 function toModuleId(moduleAttempted: string): string {
@@ -238,11 +257,11 @@ export default async function RMDetailPage({
 
   // Only show sessions where a real conversation happened:
   // completed/evaluation_pending (any duration) OR in-progress with ≥60s of talk time
+  // Canonical "sessions" = completed + pending consultations, quiz excluded.
   const consultations = allConsultations.filter(
     c =>
-      c.status === 'completed' ||
-      c.status === 'evaluation_pending' ||
-      (c.duration_seconds !== null && c.duration_seconds >= 60),
+      (c.status === 'completed' || c.status === 'evaluation_pending') &&
+      c.module_attempted !== 'module_5_task2',
   );
 
   const completed = consultations.filter(c => c.status === 'completed' || c.status === 'evaluation_pending');

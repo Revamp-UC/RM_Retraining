@@ -49,11 +49,30 @@ import { buildEvaluationPrompt as m4t1Rubric } from './module4-task1-rubric';
 import { generateCustomerPersonaPrompt as m5t1Persona } from './module5-task1-persona';
 import { buildEvaluationPrompt as m5t1Rubric } from './module5-task1-rubric';
 
+// Module 6 · Task 1 (Voice Quiz — Product Fundamentals)
+import { generateCustomerPersonaPrompt as m6t1Persona } from './module6-task1-persona';
+import { buildEvaluationPrompt as m6t1Rubric } from './module6-task1-rubric';
+
+// Module 6 · Task 2 (Technical & Application Knowledge)
+import { generateCustomerPersonaPrompt as m6t2Persona } from './module6-task2-persona';
+import { buildEvaluationPrompt as m6t2Rubric } from './module6-task2-rubric';
+
+// Module 6 · Task 3 (Pricing, Quotation & Calculation)
+import { generateCustomerPersonaPrompt as m6t3Persona } from './module6-task3-persona';
+import { buildEvaluationPrompt as m6t3Rubric } from './module6-task3-rubric';
+
 // ─── Sanitizer helpers ────────────────────────────────────────────────────────
 
 function clamp(v: unknown, max: number): number {
   const n = typeof v === 'number' ? v : 0;
   return Math.min(Math.max(0, Math.round(n)), max);
+}
+
+// Half-step clamp for tasks with fractional section maxes (e.g. 3.5, 1.5).
+function clampHalf(v: unknown, max: number): number {
+  const n = typeof v === 'number' ? v : 0;
+  const rounded = Math.round(n * 2) / 2; // round to nearest 0.5
+  return Math.min(Math.max(0, rounded), max);
 }
 
 function section(
@@ -308,6 +327,100 @@ function sanitizeM5Task1(raw: unknown): ReportCard {
   };
 }
 
+// Module 6 Task 1 performance tier — out of 16
+function tierM6Task1(overall: number): ReportCard['performance_tier'] {
+  if (overall >= 13) return 'Excellent';
+  if (overall >= 9)  return 'Good';
+  if (overall >= 5)  return 'Average';
+  return 'Needs Improvement';
+}
+
+// Module 6 Task 1 sanitizer — 4 sections, max 16 (product quiz)
+function sanitizeM6Task1(raw: unknown): ReportCard {
+  const c = raw as Partial<ReportCard>;
+  const catalog  = clamp(c.sections?.product_catalog?.score, 2);
+  const warranty = clamp(c.sections?.warranty_durability?.score, 4);
+  const materials = clamp(c.sections?.materials_usage?.score, 6);
+  const designs  = clamp(c.sections?.designs_woodwork?.score, 4);
+  const overall  = catalog + warranty + materials + designs;
+  return {
+    overall_score: overall,
+    sections: {
+      product_catalog:     section(c.sections?.product_catalog, catalog, 2),
+      warranty_durability: section(c.sections?.warranty_durability, warranty, 4),
+      materials_usage:     section(c.sections?.materials_usage, materials, 6),
+      designs_woodwork:    section(c.sections?.designs_woodwork, designs, 4),
+    },
+    critical_mistakes: c.critical_mistakes ?? [],
+    coaching_feedback: c.coaching_feedback ?? '',
+    performance_tier: tierM6Task1(overall),
+    suggested_ideal_response: (c as Partial<ReportCard> & { suggested_ideal_response?: string }).suggested_ideal_response ?? '',
+  };
+}
+
+// Module 6 Task 2 performance tier — out of 20
+function tierM6Task2(overall: number): ReportCard['performance_tier'] {
+  if (overall >= 16) return 'Excellent';
+  if (overall >= 12) return 'Good';
+  if (overall >= 7)  return 'Average';
+  return 'Needs Improvement';
+}
+
+// Module 6 Task 2 sanitizer — 5 sections, max 20 (technical & application quiz)
+// Uses clampHalf (0.5 step) because sections have fractional maxes (3.5, 5.5).
+function sanitizeM6Task2(raw: unknown): ReportCard {
+  const c = raw as Partial<ReportCard> & { suggested_ideal_response?: string };
+  const finishing   = clampHalf(c.sections?.finishing_basics?.score,        3.5);
+  const components  = clampHalf(c.sections?.component_knowledge?.score,     5.5);
+  const install     = clampHalf(c.sections?.installation_methods?.score,    3);
+  const selection   = clampHalf(c.sections?.selection_logic?.score,         5);
+  const judgment    = clampHalf(c.sections?.judgment_calc?.score,           3);
+  const overall     = finishing + components + install + selection + judgment;
+  return {
+    overall_score: overall,
+    sections: {
+      finishing_basics:     section(c.sections?.finishing_basics,     finishing,  3.5),
+      component_knowledge:  section(c.sections?.component_knowledge,  components, 5.5),
+      installation_methods: section(c.sections?.installation_methods, install,    3),
+      selection_logic:      section(c.sections?.selection_logic,      selection,  5),
+      judgment_calc:        section(c.sections?.judgment_calc,        judgment,   3),
+    },
+    critical_mistakes: c.critical_mistakes ?? [],
+    coaching_feedback: c.coaching_feedback ?? '',
+    performance_tier: tierM6Task2(overall),
+    suggested_ideal_response: c.suggested_ideal_response ?? '',
+  };
+}
+
+// Module 6 Task 3 performance tier — out of 13
+function tierM6Task3(overall: number): ReportCard['performance_tier'] {
+  if (overall >= 11)  return 'Excellent';
+  if (overall >= 8)   return 'Good';
+  if (overall >= 4.5) return 'Average';
+  return 'Needs Improvement';
+}
+
+// Module 6 Task 3 sanitizer — 3 sections, max 13 (pricing, quotation & calculation quiz)
+function sanitizeM6Task3(raw: unknown): ReportCard {
+  const c = raw as Partial<ReportCard> & { suggested_ideal_response?: string };
+  const prices    = clamp(c.sections?.unit_prices?.score,       5);
+  const quotes    = clamp(c.sections?.quotations?.score,        5);
+  const glue      = clamp(c.sections?.glue_calculations?.score, 3);
+  const overall   = prices + quotes + glue;
+  return {
+    overall_score: overall,
+    sections: {
+      unit_prices:        section(c.sections?.unit_prices,        prices, 5),
+      quotations:         section(c.sections?.quotations,         quotes, 5),
+      glue_calculations:  section(c.sections?.glue_calculations,  glue,   3),
+    },
+    critical_mistakes: c.critical_mistakes ?? [],
+    coaching_feedback: c.coaching_feedback ?? '',
+    performance_tier: tierM6Task3(overall),
+    suggested_ideal_response: c.suggested_ideal_response ?? '',
+  };
+}
+
 // ─── Registry ─────────────────────────────────────────────────────────────────
 
 interface PromptHandlers {
@@ -366,6 +479,21 @@ const PROMPT_REGISTRY: Record<string, PromptHandlers> = {
     persona:  m5t1Persona,
     rubric:   (transcript, customerName) => m5t1Rubric(transcript, customerName),
     sanitize: sanitizeM5Task1,
+  },
+  'module_6_task1': {
+    persona:  m6t1Persona,
+    rubric:   (transcript, customerName) => m6t1Rubric(transcript, customerName),
+    sanitize: sanitizeM6Task1,
+  },
+  'module_6_task2': {
+    persona:  m6t2Persona,
+    rubric:   (transcript, customerName) => m6t2Rubric(transcript, customerName),
+    sanitize: sanitizeM6Task2,
+  },
+  'module_6_task3': {
+    persona:  m6t3Persona,
+    rubric:   (transcript, customerName) => m6t3Rubric(transcript, customerName),
+    sanitize: sanitizeM6Task3,
   },
 };
 

@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { validateSession } from '@/lib/auth/session';
-import { getAllRMPerformance, getModuleSkillGaps, getAttemptMatrix } from '@/lib/db/admin';
+import { getAllRMPerformance, getModuleSkillGaps, getAttemptMatrix, getSessionBreakdown } from '@/lib/db/admin';
 import { ArrowLeft, BarChart3 } from 'lucide-react';
 import type { ModuleSkillGaps } from '@/lib/db/admin';
 import { BroadcastControl } from '@/components/admin/BroadcastControl';
@@ -51,7 +51,7 @@ export default async function AdminPage() {
     redirect('/dashboard');
   }
 
-  const [allRM, m1Gaps, m2Gaps, m3Gaps, m4Gaps, m5Gaps, attemptMatrix] = await Promise.all([
+  const [allRM, m1Gaps, m2Gaps, m3Gaps, m4Gaps, m5Gaps, attemptMatrix, sessionBreakdown] = await Promise.all([
     getAllRMPerformance(),
     getModuleSkillGaps('module-1'),
     getModuleSkillGaps('module-2'),
@@ -59,6 +59,7 @@ export default async function AdminPage() {
     getModuleSkillGaps('module-4'),
     getModuleSkillGaps('module-5'),
     getAttemptMatrix(),
+    getSessionBreakdown(),
   ]);
 
   // Distinct real RMs needing practice in a module (union across its columns) — drives each tile badge.
@@ -89,14 +90,11 @@ export default async function AdminPage() {
     .filter(rm => !ADMIN_MOBILES.has(rm.mobile_number))
     .slice(0, 10);
 
-  // Split sessions into RM-only vs admin-only
-  const rmSessions = allRM
-    .filter(rm => !ADMIN_MOBILES.has(rm.mobile_number))
-    .reduce((sum, rm) => sum + rm.attempt_count, 0);
-  const adminSessions = allRM
-    .filter(rm => ADMIN_MOBILES.has(rm.mobile_number))
-    .reduce((sum, rm) => sum + rm.attempt_count, 0);
-  const totalSessions = rmSessions + adminSessions;
+  // Session counts split by group (cohort RM / internal team / admin) — quiz excluded.
+  const rmSessions = sessionBreakdown.cohort;
+  const internalSessions = sessionBreakdown.internal;
+  const adminSessions = sessionBreakdown.admin;
+  const totalSessions = sessionBreakdown.total;
 
   // Overall average is RM-only (admin test runs excluded)
   const avgScores = attempted
@@ -141,7 +139,7 @@ export default async function AdminPage() {
             sub="real RM attempts"
             highlight
           />
-          <StatCard label="Total RMs" value={allRM.length} sub="in the programme" />
+          <StatCard label="Total Accounts" value={allRM.length} sub="enrolled in the programme" />
           <StatCard
             label="Attempted"
             value={attempted.length}
@@ -151,7 +149,7 @@ export default async function AdminPage() {
           <StatCard
             label="Total Sessions"
             value={totalSessions}
-            sub={`incl. ${adminSessions} admin`}
+            sub={`incl. ${internalSessions} internal + ${adminSessions} admin`}
           />
           <StatCard
             label="Overall Avg"

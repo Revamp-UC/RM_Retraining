@@ -7,6 +7,7 @@ import { WallDisplay } from './WallDisplay';
 import { DesignGallery } from './DesignGallery';
 import { DesignDetail } from './DesignDetail';
 import { NIOBrandPanel } from './NIOBrandPanel';
+import { TrainingPanel } from './TrainingPanel';
 import { ScenarioModal } from './ScenarioModal';
 import { VoiceArea } from './VoiceArea';
 import { useConsultationState } from '@/hooks/useConsultationState';
@@ -32,6 +33,7 @@ export function ConsultationClient({
   const isModule3 = moduleId === 'module_3';
   const isModule4 = moduleId === 'module_4';
   const isModule5 = moduleId === 'module_5';
+  const isModule6 = moduleId === 'module_6';
   const showScenario = isModule2 || isModule3 || isModule4 || isModule5;
   const hasVisualPanel = true; // all modules show a left panel (Module 5 shows NIO brand panel)
   const [scenarioAcknowledged, setScenarioAcknowledged] = useState(false);
@@ -65,7 +67,9 @@ export function ConsultationClient({
         transition={{ duration: 0.3, delay: 0.05, ease: 'easeOut' }}
         className="w-full lg:w-1/2 h-[38vh] lg:h-full shrink-0"
       >
-        {isModule5 ? (
+        {isModule6 ? (
+          <TrainingPanel className="h-full" taskId={taskId} />
+        ) : isModule5 ? (
           <NIOBrandPanel className="h-full" />
         ) : isModule3 || isModule4 ? (
           <DesignDetail className="h-full" taskId={taskId} moduleId={moduleId} />
