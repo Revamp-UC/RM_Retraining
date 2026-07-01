@@ -45,12 +45,23 @@ export function PreStartModal({ rmName, moduleId }: PreStartModalProps) {
               Treat this like a real home visit — not a test.
             </p>
             <ul className="space-y-2 mb-6">
-              {(moduleId === 'module_6'
-                ? [
-                    'AI trainer will ask you questions — just answer briefly.',
-                    "If you don't know, just say \"pata nahi\" — AI trainer will move to the next question.",
-                  ]
-                : moduleId === 'module_5'
+              {moduleId === 'module_6' ? (
+              <>
+                <li className="flex items-start gap-2.5">
+                  <span className="mt-1 h-1.5 w-1.5 rounded-full shrink-0 bg-violet-400" />
+                  <span className="text-sm text-[#c0c0d8] leading-snug">
+                    AI trainer will ask you questions — just <span className="font-semibold text-violet-300">answer briefly.</span>
+                  </span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="mt-1 h-1.5 w-1.5 rounded-full shrink-0 bg-violet-400" />
+                  <span className="text-sm text-[#c0c0d8] leading-snug">
+                    If you don&apos;t know, just say <span className="font-semibold text-violet-300">&ldquo;pata nahi&rdquo;</span> — AI trainer will move to the next question.
+                  </span>
+                </li>
+              </>
+            ) : (
+              (moduleId === 'module_5'
                 ? ['The customer already knows PVC panels — your job is to make them understand why NIO is worth the price.']
                 : [
                     'Study the wall photo carefully before you speak',
@@ -60,10 +71,11 @@ export function PreStartModal({ rmName, moduleId }: PreStartModalProps) {
                   ]
               ).map((line, i) => (
                 <li key={i} className="flex items-start gap-2.5">
-                  <span className={`mt-1 h-1.5 w-1.5 rounded-full shrink-0 ${moduleId === 'module_5' ? 'bg-emerald-400' : moduleId === 'module_6' ? 'bg-violet-400' : 'bg-indigo-400'}`} />
+                  <span className={`mt-1 h-1.5 w-1.5 rounded-full shrink-0 ${moduleId === 'module_5' ? 'bg-emerald-400' : 'bg-indigo-400'}`} />
                   <span className="text-sm text-[#c0c0d8] leading-snug">{line}</span>
                 </li>
-              ))}
+              ))
+            )}
             </ul>
 
             {/* CTA */}

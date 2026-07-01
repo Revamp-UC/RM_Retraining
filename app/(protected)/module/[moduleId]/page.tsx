@@ -153,7 +153,14 @@ export default async function ModuleTaskListPage({ params }: ModulePageProps) {
                     ? <BookOpen className="h-3.5 w-3.5 text-emerald-400 shrink-0 mt-0.5" />
                     : <Target className="h-3.5 w-3.5 text-indigo-400 shrink-0 mt-0.5" />
                   }
-                  <p className="text-xs text-[#c8c8e0]">{task.description}</p>
+                  {moduleId === 'module_6' ? (
+                    <p className="text-xs text-[#c8c8e0]">
+                      An AI trainer will ask you questions —{' '}
+                      <span className="font-semibold text-violet-300">answer briefly.</span>
+                    </p>
+                  ) : (
+                    <p className="text-xs text-[#c8c8e0]">{task.description}</p>
+                  )}
                 </div>
 
                 <div className="pt-3.5 border-t border-[#2a2a38]">
