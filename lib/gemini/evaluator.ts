@@ -135,7 +135,7 @@ async function callModel(
       responseMimeType: 'application/json',
       responseSchema: schema as never,
       temperature: 0.3,
-      ...(useThinking ? { thinkingConfig: { thinkingBudget: 1024 } } : {}),
+      ...(useThinking ? { thinkingConfig: { thinkingBudget: 512 } } : {}),
     },
   });
 

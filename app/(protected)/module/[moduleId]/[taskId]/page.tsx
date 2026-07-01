@@ -1,9 +1,6 @@
 import { cookies } from 'next/headers';
 import { redirect, notFound } from 'next/navigation';
 import { validateSession } from '@/lib/auth/session';
-import { generateCustomer } from '@/lib/utils/name-generator';
-import { createConsultation } from '@/lib/db/consultations';
-import { createWsToken } from '@/lib/auth/session';
 import { getTaskConfig, getModuleConfig } from '@/lib/config/modules';
 import { ConsultationClient } from '@/components/consultation/ConsultationClient';
 import { PreStartModal } from '@/components/consultation/PreStartModal';
@@ -147,23 +144,6 @@ export default async function ConsultationPage({ params }: TaskPageProps) {
   }
 
   // ─── Consultation task — existing flow ────────────────────────────────────
-  const { name: customerName, gender: customerGender } = generateCustomer();
-
-  const consultation = await createConsultation({
-    mobile_number: user.mobile_number,
-    module_attempted: taskConfig.moduleAttempted,
-    customer_name: customerName,
-    customer_gender: customerGender,
-  });
-
-  const wsToken = createWsToken({
-    mobile_number: user.mobile_number,
-    consultation_id: consultation.id,
-    customer_name: customerName,
-    customer_gender: customerGender,
-    module_attempted: taskConfig.moduleAttempted,
-  });
-
   return (
     <div className="h-screen bg-[#0a0a0f] flex flex-col overflow-hidden">
       <PreStartModal rmName={user.name} moduleId={moduleId} />
@@ -190,10 +170,7 @@ export default async function ConsultationPage({ params }: TaskPageProps) {
       {/* Main content */}
       <main className="flex-1 overflow-y-auto lg:overflow-hidden">
         <ConsultationClient
-          consultationId={consultation.id}
-          wsToken={wsToken}
-          customerName={customerName}
-          customerGender={customerGender}
+          moduleAttempted={taskConfig.moduleAttempted}
           moduleId={moduleId}
           taskId={taskId}
         />

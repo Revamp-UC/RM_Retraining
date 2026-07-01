@@ -4,8 +4,6 @@ import { useRef, useCallback, useState } from 'react';
 import type { ConnectionStatus, WSMessage } from '@/types/gemini';
 
 interface UseConsultationSocketOptions {
-  consultationId: string;
-  wsToken: string;
   onStatusChange: (status: ConnectionStatus) => void;
   onAudioReceived: (data: ArrayBuffer) => void;
   onEvaluationComplete: () => void;
@@ -13,8 +11,6 @@ interface UseConsultationSocketOptions {
 }
 
 export function useConsultationSocket({
-  consultationId,
-  wsToken,
   onStatusChange,
   onAudioReceived,
   onEvaluationComplete,
@@ -24,7 +20,7 @@ export function useConsultationSocket({
   const heartbeatRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [isConnected, setIsConnected] = useState(false);
 
-  const connect = useCallback(() => {
+  const connect = useCallback((consultationId: string, wsToken: string) => {
     // Already open or connecting — do nothing
     const state = wsRef.current?.readyState;
     if (state === WebSocket.OPEN || state === WebSocket.CONNECTING) return;
@@ -104,7 +100,7 @@ export function useConsultationSocket({
         onStatusChange('error');
       }
     };
-  }, [consultationId, wsToken, onStatusChange, onAudioReceived, onEvaluationComplete, onError]);
+  }, [onStatusChange, onAudioReceived, onEvaluationComplete, onError]);
 
   const sendAudio = useCallback((pcmData: ArrayBuffer) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {

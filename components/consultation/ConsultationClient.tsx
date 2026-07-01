@@ -13,19 +13,13 @@ import { VoiceArea } from './VoiceArea';
 import { useConsultationState } from '@/hooks/useConsultationState';
 
 interface ConsultationClientProps {
-  consultationId: string;
-  wsToken: string;
-  customerName: string;
-  customerGender: 'male' | 'female';
+  moduleAttempted: string;
   moduleId: string;
   taskId: string;
 }
 
 export function ConsultationClient({
-  consultationId,
-  wsToken,
-  customerName,
-  customerGender,
+  moduleAttempted,
   moduleId,
   taskId,
 }: ConsultationClientProps) {
@@ -48,9 +42,11 @@ export function ConsultationClient({
     dismissNoiseWarning,
     timeWarning,
     limitMinutes,
+    customerName,
+    customerGender,
     startSession,
     endConsultation,
-  } = useConsultationState({ consultationId, wsToken, moduleId, taskId });
+  } = useConsultationState({ moduleAttempted, moduleId, taskId });
 
   return (
     <div className="flex flex-col lg:flex-row lg:h-full gap-4 lg:gap-6 p-4 lg:p-6 relative">

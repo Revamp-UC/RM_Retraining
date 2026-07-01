@@ -6,18 +6,18 @@ import { useConsultationSocket } from './useConsultationSocket';
 import { useAudioCapture } from './useAudioCapture';
 import { useAudioPlayback } from './useAudioPlayback';
 import { getSessionMinutes } from '@/lib/config/modules';
+import { generateCustomer } from '@/lib/utils/name-generator';
 import type { ConnectionStatus } from '@/types/gemini';
+import type { CustomerGender } from '@/types/consultation';
 
 interface UseConsultationStateOptions {
-  consultationId: string;
-  wsToken: string;
+  moduleAttempted: string;
   moduleId: string;
   taskId: string;
 }
 
 export function useConsultationState({
-  consultationId,
-  wsToken,
+  moduleAttempted,
   moduleId,
   taskId,
 }: UseConsultationStateOptions) {
@@ -34,11 +34,15 @@ export function useConsultationState({
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startedRef = useRef(false);
 
+  // Generated client-side on mount — sent to API on Start click
+  const [{ name: customerName, gender: customerGender }] = useState<{ name: string; gender: CustomerGender }>(generateCustomer);
+
+  // Set after the create API call succeeds
+  const consultationIdRef = useRef<string | null>(null);
+
   const { initialize, playBinaryChunk, stop: stopPlayback } = useAudioPlayback();
 
   const { connect, sendAudio, sendEndSignal, disconnect } = useConsultationSocket({
-    consultationId,
-    wsToken,
     onStatusChange: (s) => {
       setStatus(s);
       if (s === 'connected' && !startedRef.current) {
@@ -47,12 +51,10 @@ export function useConsultationState({
       }
     },
     onAudioReceived: (data) => {
-      initialize(); // Ensure AudioContext is resumed after user gesture
+      initialize();
       playBinaryChunk(data);
     },
-    onEvaluationComplete: () => {
-      // This path is not used — evaluation happens via HTTP after sendEnd
-    },
+    onEvaluationComplete: () => {},
     onError: (msg) => setErrorMessage(msg),
   });
 
@@ -78,11 +80,26 @@ export function useConsultationState({
     }
   }
 
-  // Auto-start: connect → wait for session_ready → start mic
+  // Start button → create DB record → then connect to Gemini Live
   const startSession = useCallback(async () => {
-    initialize();  // Must be called on user gesture
-    connect();
-  }, [connect, initialize]);
+    initialize(); // Must be called on user gesture
+    setStatus('connecting');
+
+    try {
+      const res = await fetch('/api/consultation/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ moduleAttempted, customerName, customerGender }),
+      });
+      if (!res.ok) throw new Error('create failed');
+      const data = await res.json() as { consultationId: string; wsToken: string };
+      consultationIdRef.current = data.consultationId;
+      connect(data.consultationId, data.wsToken);
+    } catch {
+      setErrorMessage('Could not start session. Please try again.');
+      setStatus('error');
+    }
+  }, [initialize, moduleAttempted, customerName, customerGender, connect]);
 
   // When connected, auto-start mic
   useEffect(() => {
@@ -93,6 +110,9 @@ export function useConsultationState({
 
   const endConsultation = useCallback(async () => {
     if (isEnding) return;
+    const consultationId = consultationIdRef.current;
+    if (!consultationId) return;
+
     setIsEnding(true);
     setStatus('ending');
 
@@ -124,7 +144,7 @@ export function useConsultationState({
       setIsEnding(false);
       setStatus('error');
     }
-  }, [isEnding, stopMic, sendEndSignal, disconnect, stopPlayback, consultationId, moduleId, router]);
+  }, [isEnding, stopMic, sendEndSignal, disconnect, stopPlayback, moduleId, router]);
 
   // Per-scenario session limit: warn 1 min before, auto-end at the limit.
   // limitMinutes === 0 means no forced limit (Module 6 quiz — ends when trainer finishes).
@@ -156,6 +176,8 @@ export function useConsultationState({
     dismissNoiseWarning,
     timeWarning,
     limitMinutes,
+    customerName,
+    customerGender,
     startSession,
     endConsultation,
   };
