@@ -248,6 +248,15 @@ function getKickOffText(moduleAttempted: string): string {
   if (moduleAttempted === 'module_5_task1') {
     return 'The conversation is already in progress — the RM has just finished examining your wall. Ask them what panel options they have — something like "aapke paas konse konse panels hain, kya kya options hain mere liye?" Do NOT mention Nio yourself. Do NOT greet. One short question only, then stop and wait for the RM to answer.';
   }
+  if (moduleAttempted === 'module_6_task1') {
+    return 'Start the quiz NOW. Give exactly ONE short greeting line — something like "Namaste ji — seedha kuch product knowledge ke sawaal shuru karte hain. Jo nahi pata, directly pata nahi ya next question bol sakte ho." Then immediately say the framing line and ask Q1. Do NOT ask about their day. Do NOT make small talk. Do NOT say koi time limit nahi hai or aaram se. One greeting line, then Q1.';
+  }
+  if (moduleAttempted === 'module_6_task2') {
+    return 'Start Section 2 NOW. Say ONE short transition line — something like "Achha — ab Section 2 shuru karte hain. Technical aur Application Knowledge." Then immediately ask Q17. No small talk, no comfort anchoring, no aaram se.';
+  }
+  if (moduleAttempted === 'module_6_task3') {
+    return 'Start Section 3 NOW. Say ONE short transition line — something like "Achha — ab Section 3 shuru karte hain. Pricing, Quotation aur Calculation." Then immediately ask the city capture question. No small talk, no comfort anchoring, no aaram se.';
+  }
   return 'Start the conversation. The RM has just arrived at your door for the scheduled home consultation. Greet them naturally and lead them inside.';
 }
 
